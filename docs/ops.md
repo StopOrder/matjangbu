@@ -45,11 +45,14 @@ tailscale funnel status                  # https://<이 노트북>.<테일넷>.t
 
 ```bash
 cd ~/Projects/03-personal/matjangbu
+cd ui && npm ci && npm run build && cd ..        # /try 화면(ui/)을 고쳤을 때만. 산출물(site/try/)을 커밋한다
 .venv/bin/python -m pytest -q
 git add -A && git commit -m "site: …" && git push
 git subtree push --prefix site origin gh-pages          # 1~2분 뒤 반영
 curl -sI https://stoporder.github.io/matjangbu/ | head -1
 ```
+
+확인 큐 카드의 직접 고르기 select 는 「다른 방법 ▾」(`[data-more]`)를 눌러야 보인다 — 검증 도구(`site_shots.cjs`·`verify_funnel.cjs`)는 이미 그렇게 한다.
 
 ## 기록(recorded.json) 다시 만들기
 

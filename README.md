@@ -24,6 +24,7 @@
 |---|---|
 | `engine/` | 엔진 — 명부·별칭·은행 CSV·3단 대조·확인 큐·기록·CLI. 파이썬 표준 라이브러리만 |
 | `web/` | 로컬 웹 UI 서버 — 정적 + API + SSE, 체험 샌드박스, 기록 생성기(`web.record`) |
+| `ui/` | `/try` 앱 화면의 React + shadcn 소스 — `npm run build` 가 `site/try/` 로 낸다. 실행 시점 의존은 없다(빌드 도구) |
 | `site/` | 제품 사이트 — 정적 HTML, 외부 자원 0. `try/`는 인스턴스 → `recorded.json` 삼중 폴백 |
 | `bench/` | 3단 실측(30건) — 노트북·갤럭시 A31 결과는 `bench/results/` |
 | `samples/` | 가공 명부 60명·입금 4주·봉투·벤치 줄 30건·정답 — `tools/make_samples.py`가 만든다 |
@@ -33,7 +34,7 @@
 
 ## 실행 방법
 
-요구: Python 3.10+, [llama.cpp](https://github.com/ggml-org/llama.cpp)의 `llama-server`, 모델 파일 Qwen2.5-1.5B-Instruct Q4_K_M(Apache-2.0). pip 패키지 0.
+요구: Python 3.10+, [llama.cpp](https://github.com/ggml-org/llama.cpp)의 `llama-server`, 모델 파일 Qwen2.5-1.5B-Instruct Q4_K_M(Apache-2.0). pip 패키지 0. (npm 은 `/try` 화면의 빌드 도구이고 실행 시점 의존이 아니다.)
 
 ```bash
 # 0) 모델 서버 — 가중치는 저장소에 없다
@@ -51,6 +52,11 @@ python3 -m engine report ~/맞장부 year --year 2026
 # 웹 화면 — 로컬 모드(설치된 PC) 또는 체험 모드(샘플 4주, 방문자별 샌드박스)
 python3 -m web --workspace ~/맞장부        # http://127.0.0.1:8108/try/
 python3 -m web --demo
+```
+
+```bash
+# 화면(/try)을 고쳤으면 다시 빌드해 site/try/ 에 넣는다 — 파이썬은 site/ 를 그대로 서빙한다
+cd ui && npm ci && npm run build      # Node 26 · 산출물(site/try/)은 커밋한다 · 개발 중엔 npm run dev(5173, API 는 8108 로 프록시)
 ```
 
 모델 없이 규칙만 시험하려면 `--no-model`. 로컬 모드는 인증이 없으니 `127.0.0.1`에만 연다.
@@ -83,3 +89,5 @@ python3 -m web.record --device "…" --model-name "…" --threads 4       # 체�
 
 코드·문서·샘플은 **Apache License 2.0** — `LICENSE`. Copyright 2026 정지명 (Jimyeong Jeong).
 모델 가중치는 저장소에 없으며 각 모델의 라이선스를 따른다(Qwen2.5-1.5B-Instruct: Apache-2.0). llama.cpp 는 MIT.
+
+Pretendard 글꼴은 SIL OFL-1.1(`site/assets/fonts/pretendard/LICENSE.txt`). `/try` 화면의 React·radix-ui·lucide-react·Tailwind 는 MIT — 빌드 산출물에 함께 들어간다.
