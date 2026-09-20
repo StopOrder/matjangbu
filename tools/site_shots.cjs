@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 // NODE_PATH=~/workspace/02-sandbox/mvp-agent/node_modules node tools/site_shots.cjs <출력폴더> [--base http://127.0.0.1:8108]
+// 확인 카드는 「다른 방법 ▾」([data-more])를 펼쳐야 직접 고르기 select 가 보인다(2026-09-21 React 화면).
 // 1600×900 — 01-landing · 02-queue(확인 큐) · 03-import-done(W11 맞추기 뒤) · 04-records · 05-dashboard · 06-drawer(줄 상세)
 const { chromium } = require('playwright');
 const fs = require('fs'); const path = require('path');
@@ -15,7 +16,7 @@ fs.mkdirSync(out, { recursive: true });
   await page.goto(base + '/try/#/queue', { waitUntil: 'networkidle' }); await page.waitForTimeout(800); await shot('02-queue');
   // 확인 큐에서 우리상사 → 김태섭 확정(후보에 없으면 새 이름 폼 대신 첫 후보)
   const card = page.locator('.qcard', { hasText: '우리상사' });
-  if (await card.count()) { await card.locator('select[data-any]').selectOption({ label: '김태섭 (4구역)' }); await card.locator('[data-pick-any]').click(); await page.waitForTimeout(800); }
+  if (await card.count()) { await card.locator('[data-more]').click(); await card.locator('select[data-any]').selectOption({ label: '김태섭 (4구역)' }); await card.locator('[data-pick-any]').click(); await page.waitForTimeout(800); }
   await page.goto(base + '/try/#/import', { waitUntil: 'networkidle' }); await page.waitForTimeout(500);
   const run = page.locator('#imp-run');
   if (await run.count() && await run.isEnabled()) { await run.click(); await page.waitForFunction(() => /끝|실패/.test((document.querySelector('#imp-progress') || {}).textContent || ''), null, { timeout: 120000 }); await page.waitForTimeout(600); }

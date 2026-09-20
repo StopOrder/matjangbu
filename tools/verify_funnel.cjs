@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // 공개 /try/ 가 Funnel 인스턴스에 붙어 끝까지 동작하는지 — 확인 큐에서 우리상사 → 김태섭 (4구역) 확정, W11 불러오기에서 별칭이 자동 적용되는지 단언하고 최종 화면을 찍는다. 0 = 전부 통과.
 // NODE_PATH=~/workspace/02-sandbox/mvp-agent/node_modules node tools/verify_funnel.cjs --base https://stoporder.github.io/matjangbu --api https://<Funnel 주소>/ --resolve <호스트>=<공개 IP> --out docs/shots/08-public-funnel-w11.png [--trace]
+// 확인 카드는 「다른 방법 ▾」([data-more])를 펼쳐야 직접 고르기 select 가 보인다(2026-09-21 React 화면).
 // 대기는 전부 조건 대기다. #imp-progress 의 「끝」과 토스트는 일시 표시(load()→render() 가 화면을 다시 그리고, 토스트는 3.2초 뒤 사라짐)라 기준으로 삼지 않는다.
 const { chromium } = require('playwright');
 const args = process.argv.slice(2);
@@ -36,6 +37,7 @@ const log = (...a) => { if (trace) console.log(ts(), ...a); };
 
   // 2) 우리상사 → 김태섭 (4구역) 확정 — 카드가 큐에서 빠질 때까지 조건 대기
   if (await card.count()) {
+    await card.locator('[data-more]').click();
     await card.locator('select[data-any]').selectOption({ label: '김태섭 (4구역)' });
     await card.locator('[data-pick-any]').click();
     const gone = await card.waitFor({ state: 'detached', timeout: 60000 }).then(() => true).catch(() => false);
