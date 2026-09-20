@@ -1,0 +1,2648 @@
+{
+ "meta": {
+  "device": "노트북 Intel Core i7-10750H @ 2.60GHz · 4스레드",
+  "model": "Qwen2.5-1.5B-Instruct Q4_K_M",
+  "threads": 4,
+  "url": "http://127.0.0.1:8107",
+  "ts": "2026-09-20T21:59:11",
+  "engine_git": "012d283"
+ },
+ "weeks": {
+  "2026-W10": {
+   "date": "2026-03-08",
+   "filename": "2026-W10.csv",
+   "rows": [
+    {
+     "id": "cc9aeee20cf3",
+     "week": "2026-W10",
+     "date": "2026-03-08",
+     "raw": "김정호",
+     "amount": 300000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p01",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:56:52"
+    },
+    {
+     "id": "fc6bc2ced7ea",
+     "week": "2026-W10",
+     "date": "2026-03-08",
+     "raw": "김 영 희",
+     "amount": 200000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p25",
+     "how": "띄어쓰기",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:56:52"
+    },
+    {
+     "id": "d619fb37f097",
+     "week": "2026-W10",
+     "date": "2026-03-08",
+     "raw": "이순자",
+     "amount": 150000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p02",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:56:52"
+    },
+    {
+     "id": "2f230cad5105",
+     "week": "2026-W10",
+     "date": "2026-03-08",
+     "raw": "박성우십일조",
+     "amount": 220000,
+     "kind": "십일조",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p07",
+     "how": "종류분리",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:56:52"
+    },
+    {
+     "id": "194ba994fa33",
+     "week": "2026-W10",
+     "date": "2026-03-08",
+     "raw": "최민준",
+     "amount": 200000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p08",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:56:52"
+    },
+    {
+     "id": "9ab902ef0f24",
+     "week": "2026-W10",
+     "date": "2026-03-08",
+     "raw": "李현우",
+     "amount": 170000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p20",
+     "how": "한자표기",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:56:52"
+    },
+    {
+     "id": "1a4cddeed0cd",
+     "week": "2026-W10",
+     "date": "2026-03-08",
+     "raw": "한수진",
+     "amount": 100000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p13",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:56:52"
+    },
+    {
+     "id": "415fccd23e81",
+     "week": "2026-W10",
+     "date": "2026-03-08",
+     "raw": "(주)한빛건설",
+     "amount": 400000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p22",
+     "how": "별칭사전",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:56:52"
+    },
+    {
+     "id": "f49d7163095e",
+     "week": "2026-W10",
+     "date": "2026-03-08",
+     "raw": "정미경",
+     "amount": 250000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p09",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:56:52"
+    },
+    {
+     "id": "69fa9a4bdd1c",
+     "week": "2026-W10",
+     "date": "2026-03-08",
+     "raw": "장동현감사",
+     "amount": 140000,
+     "kind": "감사",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p26",
+     "how": "종류분리",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:56:52"
+    },
+    {
+     "id": "e7ede80d055a",
+     "week": "2026-W10",
+     "date": "2026-03-08",
+     "raw": "오세훈",
+     "amount": 120000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p15",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:56:52"
+    },
+    {
+     "id": "bd88df4c0d08",
+     "week": "2026-W10",
+     "date": "2026-03-08",
+     "raw": "구본녕",
+     "amount": 95000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p17",
+     "how": "유사도 0.88",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:56:52"
+    },
+    {
+     "id": "a4db43cd1651",
+     "week": "2026-W10",
+     "date": "2026-03-08",
+     "raw": "윤서진",
+     "amount": 180000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p03",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:56:52"
+    },
+    {
+     "id": "694ec6a023fc",
+     "week": "2026-W10",
+     "date": "2026-03-08",
+     "raw": "김태섭선교",
+     "amount": 80000,
+     "kind": "선교",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p19",
+     "how": "종류분리",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:56:52"
+    },
+    {
+     "id": "20e18c8a6521",
+     "week": "2026-W10",
+     "date": "2026-03-08",
+     "raw": "강민철",
+     "amount": 500000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p21",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:56:52"
+    },
+    {
+     "id": "48daf25fbc29",
+     "week": "2026-W10",
+     "date": "2026-03-08",
+     "raw": "배정숙",
+     "amount": 90000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p10",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:56:52"
+    },
+    {
+     "id": "97a01b862d27",
+     "week": "2026-W10",
+     "date": "2026-03-08",
+     "raw": "홍기석",
+     "amount": 130000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p27",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:56:52"
+    },
+    {
+     "id": "98b3d10e6461",
+     "week": "2026-W10",
+     "date": "2026-03-08",
+     "raw": "서은미",
+     "amount": 160000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p04",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:56:52"
+    },
+    {
+     "id": "5b3f96d2c40b",
+     "week": "2026-W10",
+     "date": "2026-03-08",
+     "raw": "신영철",
+     "amount": 110000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p16",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:56:52"
+    },
+    {
+     "id": "46edd1a85e48",
+     "week": "2026-W10",
+     "date": "2026-03-08",
+     "raw": "임재현",
+     "amount": 210000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p11",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:56:52"
+    },
+    {
+     "id": "b865284c0b3d",
+     "week": "2026-W10",
+     "date": "2026-03-08",
+     "raw": "장동철",
+     "amount": 250000,
+     "kind": "",
+     "path": "csv",
+     "state": "held",
+     "person_id": null,
+     "how": "세대주",
+     "cands": [
+      {
+       "person_id": "p13",
+       "why": "세대주 「장동철」 세대 (3구역)"
+      }
+     ],
+     "reason": "family",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:56:52"
+    },
+    {
+     "id": "b63e0c88aa84",
+     "week": "2026-W10",
+     "date": "2026-03-08",
+     "raw": "박민수십일조",
+     "amount": 300000,
+     "kind": "십일조",
+     "path": "csv",
+     "state": "held",
+     "person_id": null,
+     "how": "동명이인",
+     "cands": [
+      {
+       "person_id": "p05",
+       "why": "명부에 등록된 이름 (1구역)"
+      },
+      {
+       "person_id": "p28",
+       "why": "명부에 등록된 이름 (5구역)"
+      }
+     ],
+     "reason": "dup",
+     "allow_new": false,
+     "model": null,
+     "ts": "2026-09-20T21:56:52"
+    },
+    {
+     "id": "f28285ba4d23",
+     "week": "2026-W10",
+     "date": "2026-03-08",
+     "raw": "우리상사",
+     "amount": 500000,
+     "kind": "",
+     "path": "csv",
+     "state": "held",
+     "person_id": null,
+     "how": "모델",
+     "cands": [
+      {
+       "person_id": "p29",
+       "why": "전상우와 같은 세대"
+      },
+      {
+       "person_id": "p42",
+       "why": "추소연과 같은 세대"
+      },
+      {
+       "person_id": "p43",
+       "why": "이재원과 같은 세대"
+      }
+     ],
+     "reason": "company",
+     "allow_new": true,
+     "model": {
+      "model": "/home/stoporder/models/qwen1.5b.gguf",
+      "wall_s": 17.21,
+      "prompt_n": 840,
+      "predicted_n": 124,
+      "pp_tps": 79.06466501289742,
+      "tg_tps": 18.70170910814286,
+      "raw": "{\n  \"name_part\": \"우리상사\",\n  \"kind\": \"\",\n  \"relation\": \"company\",\n  \"candidates\": [\n    {\n      \"id\": \"p29\",\n      \"why\": \"전상우와 같은 세대\"\n    },\n    {\n      \"id\": \"p42\",\n      \"why\": \"추소연과 같은 세대\"\n    },\n    {\n      \"id\": \"p43\",\n      \"why\": \"이재원과 같은 세대\"\n    }\n  ],\n  \"confidence\": 0.8\n}",
+      "note": "",
+      "pred": {
+       "name_part": "우리상사",
+       "kind": "",
+       "relation": "company",
+       "candidates": [
+        {
+         "id": "p29",
+         "why": "전상우와 같은 세대"
+        },
+        {
+         "id": "p42",
+         "why": "추소연과 같은 세대"
+        },
+        {
+         "id": "p43",
+         "why": "이재원과 같은 세대"
+        }
+       ],
+       "confidence": 0.8
+      }
+     },
+     "ts": "2026-09-20T21:57:10"
+    },
+    {
+     "id": "3e596046c1bf",
+     "week": "2026-W10",
+     "date": "2026-03-08",
+     "raw": "김보라",
+     "amount": 170000,
+     "kind": "",
+     "path": "csv",
+     "state": "held",
+     "person_id": null,
+     "how": "모델",
+     "cands": [
+      {
+       "person_id": "p01",
+       "why": "이름이 비슷함 (유사도 0.38)"
+      },
+      {
+       "person_id": "p14",
+       "why": "이름이 비슷함 (유사도 0.38)"
+      },
+      {
+       "person_id": "p19",
+       "why": "이름이 비슷함 (유사도 0.38)"
+      }
+     ],
+     "reason": "unknown",
+     "allow_new": true,
+     "model": {
+      "model": "/home/stoporder/models/qwen1.5b.gguf",
+      "wall_s": 12.94,
+      "prompt_n": 825,
+      "predicted_n": 43,
+      "pp_tps": 77.20467061118588,
+      "tg_tps": 18.704291387920765,
+      "raw": "{\n  \"name_part\": \"김보라\",\n  \"kind\": \"\",\n  \"relation\": \"unknown\",\n  \"candidates\": [],\n  \"confidence\": 0.2\n}",
+      "note": "",
+      "pred": {
+       "name_part": "김보라",
+       "kind": "",
+       "relation": "unknown",
+       "candidates": [],
+       "confidence": 0.2
+      }
+     },
+     "ts": "2026-09-20T21:57:23"
+    }
+   ],
+   "summary": {
+    "auto": 20,
+    "held": 4,
+    "n": 24,
+    "skipped": 1
+   }
+  },
+  "2026-W11": {
+   "date": "2026-03-15",
+   "filename": "2026-W11.csv",
+   "rows": [
+    {
+     "id": "720fc4e2c9e3",
+     "week": "2026-W11",
+     "date": "2026-03-15",
+     "raw": "김정호",
+     "amount": 300000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p01",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:57:23"
+    },
+    {
+     "id": "425e3baf42de",
+     "week": "2026-W11",
+     "date": "2026-03-15",
+     "raw": "이순자",
+     "amount": 150000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p02",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:57:23"
+    },
+    {
+     "id": "cac41bbb5bb0",
+     "week": "2026-W11",
+     "date": "2026-03-15",
+     "raw": "崔민준",
+     "amount": 200000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p08",
+     "how": "한자표기",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:57:23"
+    },
+    {
+     "id": "071085ce30d3",
+     "week": "2026-W11",
+     "date": "2026-03-15",
+     "raw": "박성우십일조",
+     "amount": 220000,
+     "kind": "십일조",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p07",
+     "how": "종류분리",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:57:23"
+    },
+    {
+     "id": "562c19488ad0",
+     "week": "2026-W11",
+     "date": "2026-03-15",
+     "raw": "우리상사",
+     "amount": 500000,
+     "kind": "",
+     "path": "csv",
+     "state": "held",
+     "person_id": null,
+     "how": "모델",
+     "cands": [
+      {
+       "person_id": "p29",
+       "why": "전상우와 같은 세대"
+      },
+      {
+       "person_id": "p42",
+       "why": "추소연과 같은 세대"
+      },
+      {
+       "person_id": "p43",
+       "why": "이재원과 같은 세대"
+      }
+     ],
+     "reason": "company",
+     "allow_new": true,
+     "model": {
+      "model": "/home/stoporder/models/qwen1.5b.gguf",
+      "wall_s": 17.27,
+      "prompt_n": 840,
+      "predicted_n": 124,
+      "pp_tps": 78.4840396632175,
+      "tg_tps": 18.766672586560134,
+      "raw": "{\n  \"name_part\": \"우리상사\",\n  \"kind\": \"\",\n  \"relation\": \"company\",\n  \"candidates\": [\n    {\n      \"id\": \"p29\",\n      \"why\": \"전상우와 같은 세대\"\n    },\n    {\n      \"id\": \"p42\",\n      \"why\": \"추소연과 같은 세대\"\n    },\n    {\n      \"id\": \"p43\",\n      \"why\": \"이재원과 같은 세대\"\n    }\n  ],\n  \"confidence\": 0.8\n}",
+      "note": "",
+      "pred": {
+       "name_part": "우리상사",
+       "kind": "",
+       "relation": "company",
+       "candidates": [
+        {
+         "id": "p29",
+         "why": "전상우와 같은 세대"
+        },
+        {
+         "id": "p42",
+         "why": "추소연과 같은 세대"
+        },
+        {
+         "id": "p43",
+         "why": "이재원과 같은 세대"
+        }
+       ],
+       "confidence": 0.8
+      }
+     },
+     "ts": "2026-09-20T21:57:40"
+    },
+    {
+     "id": "eb84a237be96",
+     "week": "2026-W11",
+     "date": "2026-03-15",
+     "raw": "유정숙",
+     "amount": 100000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p30",
+     "how": "옛이름",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:57:40"
+    },
+    {
+     "id": "3c0bb2e3d917",
+     "week": "2026-W11",
+     "date": "2026-03-15",
+     "raw": "정우짐",
+     "amount": 120000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p47",
+     "how": "유사도 0.88",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:57:40"
+    },
+    {
+     "id": "67333752ad0d",
+     "week": "2026-W11",
+     "date": "2026-03-15",
+     "raw": "박영수",
+     "amount": 80000,
+     "kind": "",
+     "path": "csv",
+     "state": "held",
+     "person_id": null,
+     "how": "세대주",
+     "cands": [
+      {
+       "person_id": "p49",
+       "why": "세대주 「박영수」 세대 (3구역)"
+      }
+     ],
+     "reason": "family",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:57:40"
+    },
+    {
+     "id": "c984844a51d3",
+     "week": "2026-W11",
+     "date": "2026-03-15",
+     "raw": "박서준감사헌금",
+     "amount": 50000,
+     "kind": "감사헌금",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p50",
+     "how": "종류분리",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:57:40"
+    },
+    {
+     "id": "03d3f51e40a6",
+     "week": "2026-W11",
+     "date": "2026-03-15",
+     "raw": "강민철",
+     "amount": 500000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p21",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:57:40"
+    },
+    {
+     "id": "f5c81832e822",
+     "week": "2026-W11",
+     "date": "2026-03-15",
+     "raw": "대성정밀",
+     "amount": 300000,
+     "kind": "",
+     "path": "csv",
+     "state": "held",
+     "person_id": null,
+     "how": "모델",
+     "cands": [
+      {
+       "person_id": "p06",
+       "why": "황선미와 같은 세대"
+      },
+      {
+       "person_id": "p30",
+       "why": "유정민과 같은 이름"
+      },
+      {
+       "person_id": "p10",
+       "why": "배정숙과 같은 이름"
+      }
+     ],
+     "reason": "company",
+     "allow_new": true,
+     "model": {
+      "model": "/home/stoporder/models/qwen1.5b.gguf",
+      "wall_s": 17.22,
+      "prompt_n": 828,
+      "predicted_n": 122,
+      "pp_tps": 77.02985530202169,
+      "tg_tps": 18.724340110151736,
+      "raw": "{\n  \"name_part\": \"대성정밀\",\n  \"kind\": \"\",\n  \"relation\": \"company\",\n  \"candidates\": [\n    {\n      \"id\": \"p06\",\n      \"why\": \"황선미와 같은 세대\"\n    },\n    {\n      \"id\": \"p30\",\n      \"why\": \"유정민과 같은 이름\"\n    },\n    {\n      \"id\": \"p10\",\n      \"why\": \"배정숙과 같은 이름\"\n    }\n  ],\n  \"confidence\": 0.8\n}",
+      "note": "",
+      "pred": {
+       "name_part": "대성정밀",
+       "kind": "",
+       "relation": "company",
+       "candidates": [
+        {
+         "id": "p06",
+         "why": "황선미와 같은 세대"
+        },
+        {
+         "id": "p30",
+         "why": "유정민과 같은 이름"
+        },
+        {
+         "id": "p10",
+         "why": "배정숙과 같은 이름"
+        }
+       ],
+       "confidence": 0.8
+      }
+     },
+     "ts": "2026-09-20T21:57:57"
+    },
+    {
+     "id": "023154bd0765",
+     "week": "2026-W11",
+     "date": "2026-03-15",
+     "raw": "김하늘",
+     "amount": 90000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p48",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:57:57"
+    },
+    {
+     "id": "a8d96e3200a9",
+     "week": "2026-W11",
+     "date": "2026-03-15",
+     "raw": "홍기석",
+     "amount": 130000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p27",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:57:57"
+    },
+    {
+     "id": "4b6a3f3ac1bf",
+     "week": "2026-W11",
+     "date": "2026-03-15",
+     "raw": "(주)한빛건설",
+     "amount": 400000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p22",
+     "how": "별칭사전",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:57:57"
+    },
+    {
+     "id": "c181bd47a682",
+     "week": "2026-W11",
+     "date": "2026-03-15",
+     "raw": "김보라",
+     "amount": 170000,
+     "kind": "",
+     "path": "csv",
+     "state": "held",
+     "person_id": null,
+     "how": "모델",
+     "cands": [
+      {
+       "person_id": "p01",
+       "why": "이름이 비슷함 (유사도 0.38)"
+      },
+      {
+       "person_id": "p14",
+       "why": "이름이 비슷함 (유사도 0.38)"
+      },
+      {
+       "person_id": "p19",
+       "why": "이름이 비슷함 (유사도 0.38)"
+      }
+     ],
+     "reason": "unknown",
+     "allow_new": true,
+     "model": {
+      "model": "/home/stoporder/models/qwen1.5b.gguf",
+      "wall_s": 13.21,
+      "prompt_n": 825,
+      "predicted_n": 43,
+      "pp_tps": 75.70973749277431,
+      "tg_tps": 18.233186831124222,
+      "raw": "{\n  \"name_part\": \"김보라\",\n  \"kind\": \"\",\n  \"relation\": \"unknown\",\n  \"candidates\": [],\n  \"confidence\": 0.2\n}",
+      "note": "",
+      "pred": {
+       "name_part": "김보라",
+       "kind": "",
+       "relation": "unknown",
+       "candidates": [],
+       "confidence": 0.2
+      }
+     },
+     "ts": "2026-09-20T21:58:10"
+    },
+    {
+     "id": "4a1290bd0ea0",
+     "week": "2026-W11",
+     "date": "2026-03-15",
+     "raw": "윤지원",
+     "amount": 60000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p55",
+     "how": "옛이름",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:10"
+    },
+    {
+     "id": "3312f36b32ac",
+     "week": "2026-W11",
+     "date": "2026-03-15",
+     "raw": "서지안",
+     "amount": 110000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p60",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:10"
+    },
+    {
+     "id": "0c0ba44f5c01",
+     "week": "2026-W11",
+     "date": "2026-03-15",
+     "raw": "오하람",
+     "amount": 70000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p59",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:10"
+    },
+    {
+     "id": "a92341ad6acc",
+     "week": "2026-W11",
+     "date": "2026-03-15",
+     "raw": "임채원",
+     "amount": 95000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p56",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:10"
+    },
+    {
+     "id": "7fcbf63a9bdd",
+     "week": "2026-W11",
+     "date": "2026-03-15",
+     "raw": "조민재",
+     "amount": 85000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p54",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:10"
+    },
+    {
+     "id": "18c065457d39",
+     "week": "2026-W11",
+     "date": "2026-03-15",
+     "raw": "배정숙",
+     "amount": 90000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p10",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:10"
+    },
+    {
+     "id": "3ff1a8ae3d21",
+     "week": "2026-W11",
+     "date": "2026-03-15",
+     "raw": "김수현",
+     "amount": 100000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p44",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:10"
+    }
+   ],
+   "summary": {
+    "auto": 18,
+    "held": 4,
+    "n": 22,
+    "skipped": 1
+   }
+  },
+  "2026-W12": {
+   "date": "2026-03-22",
+   "filename": "2026-W12.csv",
+   "rows": [
+    {
+     "id": "c59f9ed4c349",
+     "week": "2026-W12",
+     "date": "2026-03-22",
+     "raw": "김정호",
+     "amount": 300000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p01",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:10"
+    },
+    {
+     "id": "7ebb322e9ddb",
+     "week": "2026-W12",
+     "date": "2026-03-22",
+     "raw": "김 영 희",
+     "amount": 200000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p25",
+     "how": "띄어쓰기",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:10"
+    },
+    {
+     "id": "2b5f8b71992b",
+     "week": "2026-W12",
+     "date": "2026-03-22",
+     "raw": "최민준",
+     "amount": 200000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p08",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:10"
+    },
+    {
+     "id": "e08307a28615",
+     "week": "2026-W12",
+     "date": "2026-03-22",
+     "raw": "한수진",
+     "amount": 100000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p13",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:10"
+    },
+    {
+     "id": "5c9030e02055",
+     "week": "2026-W12",
+     "date": "2026-03-22",
+     "raw": "장동철",
+     "amount": 250000,
+     "kind": "",
+     "path": "csv",
+     "state": "held",
+     "person_id": null,
+     "how": "세대주",
+     "cands": [
+      {
+       "person_id": "p13",
+       "why": "세대주 「장동철」 세대 (3구역)"
+      }
+     ],
+     "reason": "family",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:10"
+    },
+    {
+     "id": "8fc267277b9b",
+     "week": "2026-W12",
+     "date": "2026-03-22",
+     "raw": "우리상사",
+     "amount": 500000,
+     "kind": "",
+     "path": "csv",
+     "state": "held",
+     "person_id": null,
+     "how": "모델",
+     "cands": [
+      {
+       "person_id": "p29",
+       "why": "전상우와 같은 세대"
+      },
+      {
+       "person_id": "p42",
+       "why": "추소연과 같은 세대"
+      },
+      {
+       "person_id": "p43",
+       "why": "이재원과 같은 세대"
+      }
+     ],
+     "reason": "company",
+     "allow_new": true,
+     "model": {
+      "model": "/home/stoporder/models/qwen1.5b.gguf",
+      "wall_s": 17.59,
+      "prompt_n": 840,
+      "predicted_n": 124,
+      "pp_tps": 76.31864305452649,
+      "tg_tps": 18.716595442159026,
+      "raw": "{\n  \"name_part\": \"우리상사\",\n  \"kind\": \"\",\n  \"relation\": \"company\",\n  \"candidates\": [\n    {\n      \"id\": \"p29\",\n      \"why\": \"전상우와 같은 세대\"\n    },\n    {\n      \"id\": \"p42\",\n      \"why\": \"추소연과 같은 세대\"\n    },\n    {\n      \"id\": \"p43\",\n      \"why\": \"이재원과 같은 세대\"\n    }\n  ],\n  \"confidence\": 0.8\n}",
+      "note": "",
+      "pred": {
+       "name_part": "우리상사",
+       "kind": "",
+       "relation": "company",
+       "candidates": [
+        {
+         "id": "p29",
+         "why": "전상우와 같은 세대"
+        },
+        {
+         "id": "p42",
+         "why": "추소연과 같은 세대"
+        },
+        {
+         "id": "p43",
+         "why": "이재원과 같은 세대"
+        }
+       ],
+       "confidence": 0.8
+      }
+     },
+     "ts": "2026-09-20T21:58:28"
+    },
+    {
+     "id": "1f99074ba6eb",
+     "week": "2026-W12",
+     "date": "2026-03-22",
+     "raw": "박민수",
+     "amount": 150000,
+     "kind": "",
+     "path": "csv",
+     "state": "held",
+     "person_id": null,
+     "how": "동명이인",
+     "cands": [
+      {
+       "person_id": "p05",
+       "why": "명부에 등록된 이름 (1구역)"
+      },
+      {
+       "person_id": "p28",
+       "why": "명부에 등록된 이름 (5구역)"
+      }
+     ],
+     "reason": "dup",
+     "allow_new": false,
+     "model": null,
+     "ts": "2026-09-20T21:58:28"
+    },
+    {
+     "id": "193525283a16",
+     "week": "2026-W12",
+     "date": "2026-03-22",
+     "raw": "문지훈",
+     "amount": 400000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p22",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:28"
+    },
+    {
+     "id": "595be96d59cf",
+     "week": "2026-W12",
+     "date": "2026-03-22",
+     "raw": "이재원십일조",
+     "amount": 200000,
+     "kind": "십일조",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p43",
+     "how": "종류분리",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:28"
+    },
+    {
+     "id": "9a963039d85e",
+     "week": "2026-W12",
+     "date": "2026-03-22",
+     "raw": "송민호",
+     "amount": 80000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p58",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:28"
+    },
+    {
+     "id": "a68646dccd0e",
+     "week": "2026-W12",
+     "date": "2026-03-22",
+     "raw": "최지우",
+     "amount": 60000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p51",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:28"
+    },
+    {
+     "id": "254ebb387170",
+     "week": "2026-W12",
+     "date": "2026-03-22",
+     "raw": "정예린",
+     "amount": 120000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p52",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:28"
+    },
+    {
+     "id": "cedfa5ce3cf7",
+     "week": "2026-W12",
+     "date": "2026-03-22",
+     "raw": "강하은감사",
+     "amount": 50000,
+     "kind": "감사",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p53",
+     "how": "종류분리",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:28"
+    },
+    {
+     "id": "13f31873a5fc",
+     "week": "2026-W12",
+     "date": "2026-03-22",
+     "raw": "김태섭",
+     "amount": 80000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p19",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:28"
+    },
+    {
+     "id": "72c73f2a9645",
+     "week": "2026-W12",
+     "date": "2026-03-22",
+     "raw": "천용석",
+     "amount": 90000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p41",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:28"
+    },
+    {
+     "id": "119ab1ed7248",
+     "week": "2026-W12",
+     "date": "2026-03-22",
+     "raw": "추소연",
+     "amount": 70000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p42",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:28"
+    },
+    {
+     "id": "cefda39e3af9",
+     "week": "2026-W12",
+     "date": "2026-03-22",
+     "raw": "남기훈",
+     "amount": 130000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p24",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:28"
+    },
+    {
+     "id": "f8762a1aa50a",
+     "week": "2026-W12",
+     "date": "2026-03-22",
+     "raw": "안미라",
+     "amount": 110000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p36",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:28"
+    },
+    {
+     "id": "1e341cb4f127",
+     "week": "2026-W12",
+     "date": "2026-03-22",
+     "raw": "신영철",
+     "amount": 110000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p16",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:28"
+    },
+    {
+     "id": "2c94f93241c3",
+     "week": "2026-W12",
+     "date": "2026-03-22",
+     "raw": "김보라",
+     "amount": 170000,
+     "kind": "",
+     "path": "csv",
+     "state": "held",
+     "person_id": null,
+     "how": "모델",
+     "cands": [
+      {
+       "person_id": "p01",
+       "why": "이름이 비슷함 (유사도 0.38)"
+      },
+      {
+       "person_id": "p14",
+       "why": "이름이 비슷함 (유사도 0.38)"
+      },
+      {
+       "person_id": "p19",
+       "why": "이름이 비슷함 (유사도 0.38)"
+      }
+     ],
+     "reason": "unknown",
+     "allow_new": true,
+     "model": {
+      "model": "/home/stoporder/models/qwen1.5b.gguf",
+      "wall_s": 13.1,
+      "prompt_n": 825,
+      "predicted_n": 43,
+      "pp_tps": 76.17524553820812,
+      "tg_tps": 18.5960924296636,
+      "raw": "{\n  \"name_part\": \"김보라\",\n  \"kind\": \"\",\n  \"relation\": \"unknown\",\n  \"candidates\": [],\n  \"confidence\": 0.2\n}",
+      "note": "",
+      "pred": {
+       "name_part": "김보라",
+       "kind": "",
+       "relation": "unknown",
+       "candidates": [],
+       "confidence": 0.2
+      }
+     },
+     "ts": "2026-09-20T21:58:41"
+    }
+   ],
+   "summary": {
+    "auto": 16,
+    "held": 4,
+    "n": 20,
+    "skipped": 1
+   }
+  },
+  "2026-W13": {
+   "date": "2026-03-29",
+   "filename": "2026-W13.csv",
+   "rows": [
+    {
+     "id": "39a83d1f80e9",
+     "week": "2026-W13",
+     "date": "2026-03-29",
+     "raw": "김정호",
+     "amount": 300000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p01",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:41"
+    },
+    {
+     "id": "0aad6627315c",
+     "week": "2026-W13",
+     "date": "2026-03-29",
+     "raw": "이순자",
+     "amount": 150000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p02",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:41"
+    },
+    {
+     "id": "0d0d1d6db44c",
+     "week": "2026-W13",
+     "date": "2026-03-29",
+     "raw": "李현우",
+     "amount": 170000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p20",
+     "how": "한자표기",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:41"
+    },
+    {
+     "id": "4d44a9dcd4e9",
+     "week": "2026-W13",
+     "date": "2026-03-29",
+     "raw": "(주)한빛건설",
+     "amount": 400000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p22",
+     "how": "별칭사전",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:58:41"
+    },
+    {
+     "id": "98f79edf45b8",
+     "week": "2026-W13",
+     "date": "2026-03-29",
+     "raw": "우리상사",
+     "amount": 500000,
+     "kind": "",
+     "path": "csv",
+     "state": "held",
+     "person_id": null,
+     "how": "모델",
+     "cands": [
+      {
+       "person_id": "p29",
+       "why": "전상우와 같은 세대"
+      },
+      {
+       "person_id": "p42",
+       "why": "추소연과 같은 세대"
+      },
+      {
+       "person_id": "p43",
+       "why": "이재원과 같은 세대"
+      }
+     ],
+     "reason": "company",
+     "allow_new": true,
+     "model": {
+      "model": "/home/stoporder/models/qwen1.5b.gguf",
+      "wall_s": 17.38,
+      "prompt_n": 840,
+      "predicted_n": 124,
+      "pp_tps": 77.91122238812366,
+      "tg_tps": 18.674703368278813,
+      "raw": "{\n  \"name_part\": \"우리상사\",\n  \"kind\": \"\",\n  \"relation\": \"company\",\n  \"candidates\": [\n    {\n      \"id\": \"p29\",\n      \"why\": \"전상우와 같은 세대\"\n    },\n    {\n      \"id\": \"p42\",\n      \"why\": \"추소연과 같은 세대\"\n    },\n    {\n      \"id\": \"p43\",\n      \"why\": \"이재원과 같은 세대\"\n    }\n  ],\n  \"confidence\": 0.8\n}",
+      "note": "",
+      "pred": {
+       "name_part": "우리상사",
+       "kind": "",
+       "relation": "company",
+       "candidates": [
+        {
+         "id": "p29",
+         "why": "전상우와 같은 세대"
+        },
+        {
+         "id": "p42",
+         "why": "추소연과 같은 세대"
+        },
+        {
+         "id": "p43",
+         "why": "이재원과 같은 세대"
+        }
+       ],
+       "confidence": 0.8
+      }
+     },
+     "ts": "2026-09-20T21:58:58"
+    },
+    {
+     "id": "5cc747002edf",
+     "week": "2026-W13",
+     "date": "2026-03-29",
+     "raw": "김보라",
+     "amount": 170000,
+     "kind": "",
+     "path": "csv",
+     "state": "held",
+     "person_id": null,
+     "how": "모델",
+     "cands": [
+      {
+       "person_id": "p01",
+       "why": "이름이 비슷함 (유사도 0.38)"
+      },
+      {
+       "person_id": "p14",
+       "why": "이름이 비슷함 (유사도 0.38)"
+      },
+      {
+       "person_id": "p19",
+       "why": "이름이 비슷함 (유사도 0.38)"
+      }
+     ],
+     "reason": "unknown",
+     "allow_new": true,
+     "model": {
+      "model": "/home/stoporder/models/qwen1.5b.gguf",
+      "wall_s": 12.91,
+      "prompt_n": 825,
+      "predicted_n": 43,
+      "pp_tps": 77.46746554247133,
+      "tg_tps": 18.659874472358727,
+      "raw": "{\n  \"name_part\": \"김보라\",\n  \"kind\": \"\",\n  \"relation\": \"unknown\",\n  \"candidates\": [],\n  \"confidence\": 0.2\n}",
+      "note": "",
+      "pred": {
+       "name_part": "김보라",
+       "kind": "",
+       "relation": "unknown",
+       "candidates": [],
+       "confidence": 0.2
+      }
+     },
+     "ts": "2026-09-20T21:59:11"
+    },
+    {
+     "id": "d79e17320259",
+     "week": "2026-W13",
+     "date": "2026-03-29",
+     "raw": "유정민",
+     "amount": 100000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p30",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:59:11"
+    },
+    {
+     "id": "628862c8982d",
+     "week": "2026-W13",
+     "date": "2026-03-29",
+     "raw": "윤서진",
+     "amount": 180000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p03",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:59:11"
+    },
+    {
+     "id": "be2a1c487bc8",
+     "week": "2026-W13",
+     "date": "2026-03-29",
+     "raw": "서은미",
+     "amount": 160000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p04",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:59:11"
+    },
+    {
+     "id": "adb62bb43d1b",
+     "week": "2026-W13",
+     "date": "2026-03-29",
+     "raw": "방은영",
+     "amount": 75000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p40",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:59:11"
+    },
+    {
+     "id": "30f336831d04",
+     "week": "2026-W13",
+     "date": "2026-03-29",
+     "raw": "표진우",
+     "amount": 85000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p37",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:59:11"
+    },
+    {
+     "id": "dea8a9a6a0c8",
+     "week": "2026-W13",
+     "date": "2026-03-29",
+     "raw": "소민경",
+     "amount": 95000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p38",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:59:11"
+    },
+    {
+     "id": "a1b04f4c2c82",
+     "week": "2026-W13",
+     "date": "2026-03-29",
+     "raw": "하재호",
+     "amount": 65000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p39",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:59:11"
+    },
+    {
+     "id": "bbf23ed0222a",
+     "week": "2026-W13",
+     "date": "2026-03-29",
+     "raw": "도현아",
+     "amount": 55000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p34",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:59:11"
+    },
+    {
+     "id": "21c7d32e5c95",
+     "week": "2026-W13",
+     "date": "2026-03-29",
+     "raw": "백승기",
+     "amount": 105000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p35",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:59:11"
+    },
+    {
+     "id": "632fe43befa5",
+     "week": "2026-W13",
+     "date": "2026-03-29",
+     "raw": "노경환",
+     "amount": 300000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p33",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:59:11"
+    },
+    {
+     "id": "7e3aa941dadf",
+     "week": "2026-W13",
+     "date": "2026-03-29",
+     "raw": "심수정",
+     "amount": 45000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p32",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:59:11"
+    },
+    {
+     "id": "390c5a7ceba2",
+     "week": "2026-W13",
+     "date": "2026-03-29",
+     "raw": "권태호",
+     "amount": 125000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p31",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:59:11"
+    },
+    {
+     "id": "0bb4abc05801",
+     "week": "2026-W13",
+     "date": "2026-03-29",
+     "raw": "구본영",
+     "amount": 95000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p17",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:59:11"
+    },
+    {
+     "id": "b9c1b83fe5ee",
+     "week": "2026-W13",
+     "date": "2026-03-29",
+     "raw": "오세훈",
+     "amount": 120000,
+     "kind": "",
+     "path": "csv",
+     "state": "auto",
+     "person_id": "p15",
+     "how": "완전일치",
+     "cands": [],
+     "reason": "",
+     "allow_new": true,
+     "model": null,
+     "ts": "2026-09-20T21:59:11"
+    }
+   ],
+   "summary": {
+    "auto": 18,
+    "held": 2,
+    "n": 20,
+    "skipped": 1
+   }
+  }
+ },
+ "model": {
+  "2026-W10|우리상사": {
+   "pred": {
+    "name_part": "우리상사",
+    "kind": "",
+    "relation": "company",
+    "candidates": [
+     {
+      "id": "p29",
+      "why": "전상우와 같은 세대"
+     },
+     {
+      "id": "p42",
+      "why": "추소연과 같은 세대"
+     },
+     {
+      "id": "p43",
+      "why": "이재원과 같은 세대"
+     }
+    ],
+    "confidence": 0.8
+   },
+   "meta": {
+    "model": "/home/stoporder/models/qwen1.5b.gguf",
+    "wall_s": 17.21,
+    "prompt_n": 840,
+    "predicted_n": 124,
+    "pp_tps": 79.06466501289742,
+    "tg_tps": 18.70170910814286,
+    "raw": "{\n  \"name_part\": \"우리상사\",\n  \"kind\": \"\",\n  \"relation\": \"company\",\n  \"candidates\": [\n    {\n      \"id\": \"p29\",\n      \"why\": \"전상우와 같은 세대\"\n    },\n    {\n      \"id\": \"p42\",\n      \"why\": \"추소연과 같은 세대\"\n    },\n    {\n      \"id\": \"p43\",\n      \"why\": \"이재원과 같은 세대\"\n    }\n  ],\n  \"confidence\": 0.8\n}",
+    "note": ""
+   }
+  },
+  "2026-W10|김보라": {
+   "pred": {
+    "name_part": "김보라",
+    "kind": "",
+    "relation": "unknown",
+    "candidates": [],
+    "confidence": 0.2
+   },
+   "meta": {
+    "model": "/home/stoporder/models/qwen1.5b.gguf",
+    "wall_s": 12.94,
+    "prompt_n": 825,
+    "predicted_n": 43,
+    "pp_tps": 77.20467061118588,
+    "tg_tps": 18.704291387920765,
+    "raw": "{\n  \"name_part\": \"김보라\",\n  \"kind\": \"\",\n  \"relation\": \"unknown\",\n  \"candidates\": [],\n  \"confidence\": 0.2\n}",
+    "note": ""
+   }
+  },
+  "2026-W11|우리상사": {
+   "pred": {
+    "name_part": "우리상사",
+    "kind": "",
+    "relation": "company",
+    "candidates": [
+     {
+      "id": "p29",
+      "why": "전상우와 같은 세대"
+     },
+     {
+      "id": "p42",
+      "why": "추소연과 같은 세대"
+     },
+     {
+      "id": "p43",
+      "why": "이재원과 같은 세대"
+     }
+    ],
+    "confidence": 0.8
+   },
+   "meta": {
+    "model": "/home/stoporder/models/qwen1.5b.gguf",
+    "wall_s": 17.27,
+    "prompt_n": 840,
+    "predicted_n": 124,
+    "pp_tps": 78.4840396632175,
+    "tg_tps": 18.766672586560134,
+    "raw": "{\n  \"name_part\": \"우리상사\",\n  \"kind\": \"\",\n  \"relation\": \"company\",\n  \"candidates\": [\n    {\n      \"id\": \"p29\",\n      \"why\": \"전상우와 같은 세대\"\n    },\n    {\n      \"id\": \"p42\",\n      \"why\": \"추소연과 같은 세대\"\n    },\n    {\n      \"id\": \"p43\",\n      \"why\": \"이재원과 같은 세대\"\n    }\n  ],\n  \"confidence\": 0.8\n}",
+    "note": ""
+   }
+  },
+  "2026-W11|대성정밀": {
+   "pred": {
+    "name_part": "대성정밀",
+    "kind": "",
+    "relation": "company",
+    "candidates": [
+     {
+      "id": "p06",
+      "why": "황선미와 같은 세대"
+     },
+     {
+      "id": "p30",
+      "why": "유정민과 같은 이름"
+     },
+     {
+      "id": "p10",
+      "why": "배정숙과 같은 이름"
+     }
+    ],
+    "confidence": 0.8
+   },
+   "meta": {
+    "model": "/home/stoporder/models/qwen1.5b.gguf",
+    "wall_s": 17.22,
+    "prompt_n": 828,
+    "predicted_n": 122,
+    "pp_tps": 77.02985530202169,
+    "tg_tps": 18.724340110151736,
+    "raw": "{\n  \"name_part\": \"대성정밀\",\n  \"kind\": \"\",\n  \"relation\": \"company\",\n  \"candidates\": [\n    {\n      \"id\": \"p06\",\n      \"why\": \"황선미와 같은 세대\"\n    },\n    {\n      \"id\": \"p30\",\n      \"why\": \"유정민과 같은 이름\"\n    },\n    {\n      \"id\": \"p10\",\n      \"why\": \"배정숙과 같은 이름\"\n    }\n  ],\n  \"confidence\": 0.8\n}",
+    "note": ""
+   }
+  },
+  "2026-W11|김보라": {
+   "pred": {
+    "name_part": "김보라",
+    "kind": "",
+    "relation": "unknown",
+    "candidates": [],
+    "confidence": 0.2
+   },
+   "meta": {
+    "model": "/home/stoporder/models/qwen1.5b.gguf",
+    "wall_s": 13.21,
+    "prompt_n": 825,
+    "predicted_n": 43,
+    "pp_tps": 75.70973749277431,
+    "tg_tps": 18.233186831124222,
+    "raw": "{\n  \"name_part\": \"김보라\",\n  \"kind\": \"\",\n  \"relation\": \"unknown\",\n  \"candidates\": [],\n  \"confidence\": 0.2\n}",
+    "note": ""
+   }
+  },
+  "2026-W12|우리상사": {
+   "pred": {
+    "name_part": "우리상사",
+    "kind": "",
+    "relation": "company",
+    "candidates": [
+     {
+      "id": "p29",
+      "why": "전상우와 같은 세대"
+     },
+     {
+      "id": "p42",
+      "why": "추소연과 같은 세대"
+     },
+     {
+      "id": "p43",
+      "why": "이재원과 같은 세대"
+     }
+    ],
+    "confidence": 0.8
+   },
+   "meta": {
+    "model": "/home/stoporder/models/qwen1.5b.gguf",
+    "wall_s": 17.59,
+    "prompt_n": 840,
+    "predicted_n": 124,
+    "pp_tps": 76.31864305452649,
+    "tg_tps": 18.716595442159026,
+    "raw": "{\n  \"name_part\": \"우리상사\",\n  \"kind\": \"\",\n  \"relation\": \"company\",\n  \"candidates\": [\n    {\n      \"id\": \"p29\",\n      \"why\": \"전상우와 같은 세대\"\n    },\n    {\n      \"id\": \"p42\",\n      \"why\": \"추소연과 같은 세대\"\n    },\n    {\n      \"id\": \"p43\",\n      \"why\": \"이재원과 같은 세대\"\n    }\n  ],\n  \"confidence\": 0.8\n}",
+    "note": ""
+   }
+  },
+  "2026-W12|김보라": {
+   "pred": {
+    "name_part": "김보라",
+    "kind": "",
+    "relation": "unknown",
+    "candidates": [],
+    "confidence": 0.2
+   },
+   "meta": {
+    "model": "/home/stoporder/models/qwen1.5b.gguf",
+    "wall_s": 13.1,
+    "prompt_n": 825,
+    "predicted_n": 43,
+    "pp_tps": 76.17524553820812,
+    "tg_tps": 18.5960924296636,
+    "raw": "{\n  \"name_part\": \"김보라\",\n  \"kind\": \"\",\n  \"relation\": \"unknown\",\n  \"candidates\": [],\n  \"confidence\": 0.2\n}",
+    "note": ""
+   }
+  },
+  "2026-W13|우리상사": {
+   "pred": {
+    "name_part": "우리상사",
+    "kind": "",
+    "relation": "company",
+    "candidates": [
+     {
+      "id": "p29",
+      "why": "전상우와 같은 세대"
+     },
+     {
+      "id": "p42",
+      "why": "추소연과 같은 세대"
+     },
+     {
+      "id": "p43",
+      "why": "이재원과 같은 세대"
+     }
+    ],
+    "confidence": 0.8
+   },
+   "meta": {
+    "model": "/home/stoporder/models/qwen1.5b.gguf",
+    "wall_s": 17.38,
+    "prompt_n": 840,
+    "predicted_n": 124,
+    "pp_tps": 77.91122238812366,
+    "tg_tps": 18.674703368278813,
+    "raw": "{\n  \"name_part\": \"우리상사\",\n  \"kind\": \"\",\n  \"relation\": \"company\",\n  \"candidates\": [\n    {\n      \"id\": \"p29\",\n      \"why\": \"전상우와 같은 세대\"\n    },\n    {\n      \"id\": \"p42\",\n      \"why\": \"추소연과 같은 세대\"\n    },\n    {\n      \"id\": \"p43\",\n      \"why\": \"이재원과 같은 세대\"\n    }\n  ],\n  \"confidence\": 0.8\n}",
+    "note": ""
+   }
+  },
+  "2026-W13|김보라": {
+   "pred": {
+    "name_part": "김보라",
+    "kind": "",
+    "relation": "unknown",
+    "candidates": [],
+    "confidence": 0.2
+   },
+   "meta": {
+    "model": "/home/stoporder/models/qwen1.5b.gguf",
+    "wall_s": 12.91,
+    "prompt_n": 825,
+    "predicted_n": 43,
+    "pp_tps": 77.46746554247133,
+    "tg_tps": 18.659874472358727,
+    "raw": "{\n  \"name_part\": \"김보라\",\n  \"kind\": \"\",\n  \"relation\": \"unknown\",\n  \"candidates\": [],\n  \"confidence\": 0.2\n}",
+    "note": ""
+   }
+  }
+ },
+ "roster": [
+  {
+   "id": "p01",
+   "name": "김정호",
+   "group": "1구역",
+   "household": "H01",
+   "old_names": []
+  },
+  {
+   "id": "p02",
+   "name": "이순자",
+   "group": "1구역",
+   "household": "H01",
+   "old_names": []
+  },
+  {
+   "id": "p03",
+   "name": "윤서진",
+   "group": "1구역",
+   "household": "H02",
+   "old_names": []
+  },
+  {
+   "id": "p04",
+   "name": "서은미",
+   "group": "1구역",
+   "household": "H02",
+   "old_names": []
+  },
+  {
+   "id": "p05",
+   "name": "박민수",
+   "group": "1구역",
+   "household": "H03",
+   "old_names": []
+  },
+  {
+   "id": "p06",
+   "name": "황선미",
+   "group": "1구역",
+   "household": "H03",
+   "old_names": []
+  },
+  {
+   "id": "p07",
+   "name": "박성우",
+   "group": "2구역",
+   "household": "",
+   "old_names": []
+  },
+  {
+   "id": "p08",
+   "name": "최민준",
+   "group": "2구역",
+   "household": "",
+   "old_names": []
+  },
+  {
+   "id": "p09",
+   "name": "정미경",
+   "group": "2구역",
+   "household": "",
+   "old_names": []
+  },
+  {
+   "id": "p10",
+   "name": "배정숙",
+   "group": "2구역",
+   "household": "",
+   "old_names": []
+  },
+  {
+   "id": "p11",
+   "name": "임재현",
+   "group": "2구역",
+   "household": "H04",
+   "old_names": []
+  },
+  {
+   "id": "p12",
+   "name": "하경아",
+   "group": "2구역",
+   "household": "H04",
+   "old_names": []
+  },
+  {
+   "id": "p13",
+   "name": "한수진",
+   "group": "3구역",
+   "household": "장동철",
+   "old_names": []
+  },
+  {
+   "id": "p14",
+   "name": "김미영",
+   "group": "3구역",
+   "household": "",
+   "old_names": []
+  },
+  {
+   "id": "p15",
+   "name": "오세훈",
+   "group": "3구역",
+   "household": "H05",
+   "old_names": []
+  },
+  {
+   "id": "p16",
+   "name": "신영철",
+   "group": "3구역",
+   "household": "",
+   "old_names": []
+  },
+  {
+   "id": "p17",
+   "name": "구본영",
+   "group": "3구역",
+   "household": "",
+   "old_names": []
+  },
+  {
+   "id": "p18",
+   "name": "양미숙",
+   "group": "3구역",
+   "household": "H05",
+   "old_names": []
+  },
+  {
+   "id": "p19",
+   "name": "김태섭",
+   "group": "4구역",
+   "household": "H06",
+   "old_names": []
+  },
+  {
+   "id": "p20",
+   "name": "이현우",
+   "group": "4구역",
+   "household": "",
+   "old_names": []
+  },
+  {
+   "id": "p21",
+   "name": "강민철",
+   "group": "4구역",
+   "household": "H08",
+   "old_names": []
+  },
+  {
+   "id": "p22",
+   "name": "문지훈",
+   "group": "4구역",
+   "household": "",
+   "old_names": []
+  },
+  {
+   "id": "p23",
+   "name": "조은숙",
+   "group": "4구역",
+   "household": "H06",
+   "old_names": []
+  },
+  {
+   "id": "p24",
+   "name": "남기훈",
+   "group": "4구역",
+   "household": "H08",
+   "old_names": []
+  },
+  {
+   "id": "p25",
+   "name": "김영희",
+   "group": "5구역",
+   "household": "",
+   "old_names": []
+  },
+  {
+   "id": "p26",
+   "name": "장동현",
+   "group": "5구역",
+   "household": "",
+   "old_names": []
+  },
+  {
+   "id": "p27",
+   "name": "홍기석",
+   "group": "5구역",
+   "household": "H09",
+   "old_names": []
+  },
+  {
+   "id": "p28",
+   "name": "박민수",
+   "group": "5구역",
+   "household": "H20",
+   "old_names": []
+  },
+  {
+   "id": "p29",
+   "name": "전상우",
+   "group": "5구역",
+   "household": "H09",
+   "old_names": []
+  },
+  {
+   "id": "p30",
+   "name": "유정민",
+   "group": "5구역",
+   "household": "",
+   "old_names": [
+    "유정숙"
+   ]
+  },
+  {
+   "id": "p31",
+   "name": "권태호",
+   "group": "6구역",
+   "household": "H10",
+   "old_names": []
+  },
+  {
+   "id": "p32",
+   "name": "심수정",
+   "group": "6구역",
+   "household": "H10",
+   "old_names": []
+  },
+  {
+   "id": "p33",
+   "name": "노경환",
+   "group": "6구역",
+   "household": "",
+   "old_names": []
+  },
+  {
+   "id": "p34",
+   "name": "도현아",
+   "group": "6구역",
+   "household": "",
+   "old_names": []
+  },
+  {
+   "id": "p35",
+   "name": "백승기",
+   "group": "6구역",
+   "household": "H11",
+   "old_names": []
+  },
+  {
+   "id": "p36",
+   "name": "안미라",
+   "group": "6구역",
+   "household": "H11",
+   "old_names": []
+  },
+  {
+   "id": "p37",
+   "name": "표진우",
+   "group": "7구역",
+   "household": "H12",
+   "old_names": []
+  },
+  {
+   "id": "p38",
+   "name": "소민경",
+   "group": "7구역",
+   "household": "H12",
+   "old_names": []
+  },
+  {
+   "id": "p39",
+   "name": "하재호",
+   "group": "7구역",
+   "household": "",
+   "old_names": []
+  },
+  {
+   "id": "p40",
+   "name": "방은영",
+   "group": "7구역",
+   "household": "",
+   "old_names": []
+  },
+  {
+   "id": "p41",
+   "name": "천용석",
+   "group": "7구역",
+   "household": "H13",
+   "old_names": []
+  },
+  {
+   "id": "p42",
+   "name": "추소연",
+   "group": "7구역",
+   "household": "H13",
+   "old_names": []
+  },
+  {
+   "id": "p43",
+   "name": "이재원",
+   "group": "1구역",
+   "household": "H31",
+   "old_names": []
+  },
+  {
+   "id": "p44",
+   "name": "김수현",
+   "group": "1구역",
+   "household": "H31",
+   "old_names": []
+  },
+  {
+   "id": "p45",
+   "name": "박지훈",
+   "group": "2구역",
+   "household": "",
+   "old_names": []
+  },
+  {
+   "id": "p46",
+   "name": "최서연",
+   "group": "2구역",
+   "household": "H32",
+   "old_names": []
+  },
+  {
+   "id": "p47",
+   "name": "정우진",
+   "group": "2구역",
+   "household": "H32",
+   "old_names": []
+  },
+  {
+   "id": "p48",
+   "name": "김하늘",
+   "group": "3구역",
+   "household": "",
+   "old_names": []
+  },
+  {
+   "id": "p49",
+   "name": "이도윤",
+   "group": "3구역",
+   "household": "박영수",
+   "old_names": []
+  },
+  {
+   "id": "p50",
+   "name": "박서준",
+   "group": "4구역",
+   "household": "",
+   "old_names": []
+  },
+  {
+   "id": "p51",
+   "name": "최지우",
+   "group": "4구역",
+   "household": "",
+   "old_names": []
+  },
+  {
+   "id": "p52",
+   "name": "정예린",
+   "group": "5구역",
+   "household": "H33",
+   "old_names": []
+  },
+  {
+   "id": "p53",
+   "name": "강하은",
+   "group": "5구역",
+   "household": "H33",
+   "old_names": []
+  },
+  {
+   "id": "p54",
+   "name": "조민재",
+   "group": "6구역",
+   "household": "",
+   "old_names": []
+  },
+  {
+   "id": "p55",
+   "name": "윤지호",
+   "group": "6구역",
+   "household": "",
+   "old_names": [
+    "윤지원"
+   ]
+  },
+  {
+   "id": "p56",
+   "name": "임채원",
+   "group": "7구역",
+   "household": "",
+   "old_names": []
+  },
+  {
+   "id": "p57",
+   "name": "한지민",
+   "group": "7구역",
+   "household": "",
+   "old_names": []
+  },
+  {
+   "id": "p58",
+   "name": "송민호",
+   "group": "1구역",
+   "household": "",
+   "old_names": []
+  },
+  {
+   "id": "p59",
+   "name": "오하람",
+   "group": "2구역",
+   "household": "",
+   "old_names": []
+  },
+  {
+   "id": "p60",
+   "name": "서지안",
+   "group": "3구역",
+   "household": "",
+   "old_names": []
+  }
+ ],
+ "aliases": {
+  "(주)한빛건설": {
+   "person_id": "p22",
+   "learned": "2026-02-01T10:00:00",
+   "from": "seed"
+  }
+ },
+ "answers": {
+  "2026-W10": {
+   "김정호": "p01",
+   "김 영 희": "p25",
+   "이순자": "p02",
+   "박성우십일조": "p07",
+   "최민준": "p08",
+   "李현우": "p20",
+   "한수진": "p13",
+   "(주)한빛건설": "p22",
+   "정미경": "p09",
+   "장동현감사": "p26",
+   "오세훈": "p15",
+   "구본녕": "p17",
+   "윤서진": "p03",
+   "김태섭선교": "p19",
+   "강민철": "p21",
+   "배정숙": "p10",
+   "홍기석": "p27",
+   "서은미": "p04",
+   "신영철": "p16",
+   "임재현": "p11",
+   "장동철": "p13",
+   "박민수십일조": "p05",
+   "우리상사": "p19",
+   "김보라": "p14"
+  },
+  "2026-W11": {
+   "김정호": "p01",
+   "이순자": "p02",
+   "崔민준": "p08",
+   "박성우십일조": "p07",
+   "우리상사": "p19",
+   "유정숙": "p30",
+   "정우짐": "p47",
+   "박영수": "p49",
+   "박서준감사헌금": "p50",
+   "강민철": "p21",
+   "대성정밀": "p33",
+   "김하늘": "p48",
+   "홍기석": "p27",
+   "(주)한빛건설": "p22",
+   "김보라": "p14",
+   "윤지원": "p55",
+   "서지안": "p60",
+   "오하람": "p59",
+   "임채원": "p56",
+   "조민재": "p54",
+   "배정숙": "p10",
+   "김수현": "p44"
+  },
+  "2026-W12": {
+   "김정호": "p01",
+   "김 영 희": "p25",
+   "최민준": "p08",
+   "한수진": "p13",
+   "장동철": "p13",
+   "우리상사": "p19",
+   "박민수": "p28",
+   "문지훈": "p22",
+   "이재원십일조": "p43",
+   "송민호": "p58",
+   "최지우": "p51",
+   "정예린": "p52",
+   "강하은감사": "p53",
+   "김태섭": "p19",
+   "천용석": "p41",
+   "추소연": "p42",
+   "남기훈": "p24",
+   "안미라": "p36",
+   "신영철": "p16",
+   "김보라": "p14"
+  },
+  "2026-W13": {
+   "김정호": "p01",
+   "이순자": "p02",
+   "李현우": "p20",
+   "(주)한빛건설": "p22",
+   "우리상사": "p19",
+   "김보라": "p14",
+   "유정민": "p30",
+   "윤서진": "p03",
+   "서은미": "p04",
+   "방은영": "p40",
+   "표진우": "p37",
+   "소민경": "p38",
+   "하재호": "p39",
+   "도현아": "p34",
+   "백승기": "p35",
+   "노경환": "p33",
+   "심수정": "p32",
+   "권태호": "p31",
+   "구본영": "p17",
+   "오세훈": "p15"
+  }
+ }
+}
