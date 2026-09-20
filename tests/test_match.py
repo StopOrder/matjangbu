@@ -56,6 +56,9 @@ def test_model_ranks_candidates_but_never_auto():
     assert m.state == "held" and m.how == "모델" and m.reason == "family"
     assert [c["person_id"] for c in m.cands] == ["p13", "p27"]           # p99 는 버린다
     assert m.model["model"] == "fake" and m.model["pred"]["relation"] == "family"
+    hallucinated = lambda **k: ModelResult({"name_part": "장동철", "kind": "감사", "relation": "unknown", "candidates": [], "confidence": 0.1}, {})
+    m = match_one("장동철", ROSTER, {}, model=hallucinated)
+    assert m.kind == "" and m.reason == "unknown" and m.cands[0]["person_id"] == "p27"   # 지어낸 종류는 버리고 규칙 후보는 남는다
 
 
 def test_model_failure_marks_reason_and_keeps_rule_candidates():

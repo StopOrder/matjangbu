@@ -145,7 +145,7 @@ def match_one(raw: str, roster: Roster, aliases: dict, model: Model | None = Non
     rel = pred.get("relation", "unknown")
     m.reason = rel if rel in ("family", "company", "typo", "renamed", "unknown") else "unknown"
     k = pred.get("kind") or ""
-    if k in KINDS and not m.kind:
+    if k in KINDS and not m.kind and k in norm(raw):     # 모델이 지어낸 종류는 받지 않는다 — 원문에 그 글자가 있을 때만
         m.kind = k
     m.how = "모델"
     m.model = {**res.meta, "pred": pred}

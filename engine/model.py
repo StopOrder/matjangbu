@@ -22,7 +22,7 @@ from .match import ModelResult
 from .roster import Person, Roster
 
 DEFAULT_URL = "http://127.0.0.1:8107"
-N_PREDICT = 160
+N_PREDICT = 320
 RELATIONS = ["family", "company", "typo", "renamed", "unknown"]
 
 SCHEMA = {
@@ -40,9 +40,18 @@ SCHEMA = {
     "required": ["name_part", "kind", "relation", "candidates", "confidence"],
 }
 
-SYSTEM = ("너는 종교단체 재정 담당자를 돕는 보조원이다. 은행 입금자명 한 줄이 신도 명부의 누구인지 "
-          "후보를 가능성 높은 순으로 고르고 근거를 한 줄씩 적는다. 명부에 없는 사람을 지어내지 않는다. "
-          "출력은 JSON 하나뿐이다.")
+SYSTEM = (
+    "너는 종교단체 재정 담당자를 돕는 보조원이다. 은행 입금자명 한 줄이 신도 명부의 누구인지 후보를 가능성 높은 순으로 고르고 "
+    "근거를 20자 안에 적는다. 명부에 없는 사람을 지어내지 않는다. 출력은 JSON 하나뿐이다.\n"
+    "판정 규칙:\n"
+    "1. 과거 확정 이력이 있으면 그 사람을 1순위 후보로 두고 relation 은 이력의 성격(가족 명의=family, 상호=company, 개명=renamed)으로 고른다.\n"
+    "2. 입금자명이 상호·회사·기관 이름(상사·정밀·건설·식당·(주)·학원 등)이면 relation=company. 이력이 없으면 confidence 0.2 이하.\n"
+    "3. 입금자명이 사람 이름인데 후보와 자모가 조금 다르면 relation=typo, 그 후보를 1순위로.\n"
+    "4. 사람 이름인데 후보와 성만 같거나 전혀 다르면 relation=unknown, confidence 0.2 이하. 성이 같다는 이유로 후보를 세우지 않는다.\n"
+    "5. kind 는 입금자명 안에 헌금 종류 글자가 그대로 들어 있을 때만 적고, 아니면 빈 문자열.\n"
+    "예시 1) 입금자명 「한빛식당」, 이력 없음 → {\"name_part\": \"한빛식당\", \"kind\": \"\", \"relation\": \"company\", \"candidates\": [], \"confidence\": 0.1}\n"
+    "예시 2) 입금자명 「감민출」, 후보에 강민철 → {\"name_part\": \"감민출\", \"kind\": \"\", \"relation\": \"typo\", \"candidates\": [{\"id\": \"p21\", \"why\": \"강민철과 자모 두 개 차이\"}], \"confidence\": 0.7}\n"
+    "예시 3) 입금자명 「우리상사」, 이력 「우리상사」→p19 김태섭 → {\"name_part\": \"우리상사\", \"kind\": \"\", \"relation\": \"company\", \"candidates\": [{\"id\": \"p19\", \"why\": \"지난주 같은 상호로 확정\"}], \"confidence\": 0.8}")
 
 
 def build_messages(raw: str, cands: list[Person], roster: Roster, history: list[dict]) -> list[dict]:
@@ -59,10 +68,8 @@ def build_messages(raw: str, cands: list[Person], roster: Roster, history: list[
             q = roster.by_id.get(h.get("person_id", ""))
             lines.append(f"- 「{h.get('raw', '')}」 → {h.get('person_id', '')} {q.name if q else ''} ({h.get('week', '')})")
     lines += ["",
-              "할 일: 입금자명에서 이름 부분(name_part)과 헌금 종류(kind, 목록에 없으면 빈 문자열)를 갈라내고, "
-              "relation 을 family(가족 명의)·company(회사 명의)·typo(오타·이표기)·renamed(개명)·unknown 중 하나로 고르고, "
-              "candidates 에 후보 id 를 가능성 높은 순으로 최대 3개 넣고 why 를 한 줄씩 적어라. "
-              "confidence 는 0~1. JSON 만 출력하라."]
+              "할 일: 위 판정 규칙대로 name_part·kind·relation·candidates(가능성 높은 순, 최대 3개, why 20자 안)·confidence(0~1)를 채운 JSON 만 출력하라. "
+              "후보가 하나도 그럴듯하지 않으면 candidates 를 빈 배열로 둔다."]
     return [{"role": "system", "content": SYSTEM}, {"role": "user", "content": "\n".join(lines)}]
 
 

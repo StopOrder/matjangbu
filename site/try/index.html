@@ -1,1 +1,499 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>맞장부 앱</title></head><body><h1>맞장부 앱</h1><p>임시 페이지</p></body></html>
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>맞장부 — 앱</title>
+<meta name="description" content="맞장부 앱 화면 — 불러오기 · 봉투 입력 · 확인 큐 · 기록 · 명부. 체험 인스턴스에서는 가공 샘플 4주를 규칙 2단 + 소형 언어모델로 맞춘 결과를 보여주고, 사람이 고른 답은 별칭 사전에 쌓여 다음 주부터 자동이 됩니다. 외부 API 호출 0.">
+<!-- 체험 인스턴스 주소(쉼표로 여러 개, 앞이 우선) — 같은 origin(./api)이 먼저, 안 되면 이 주소들을 차례로, 다 안 되면 recorded.json 읽기 전용 -->
+<meta name="matjangbu-api" content="">
+<link rel="stylesheet" href="../assets/app.css">
+<style>
+  .sec-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin:0 0 .9rem;flex-wrap:wrap}
+  .sec-head h2{font-size:1rem;margin:0}
+  .sec-head .sub{font-size:.84rem;color:var(--muted);margin:.15rem 0 0}
+  .kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.45rem 1.2rem;font-size:.9rem;margin:0}
+  .kv dt{color:var(--muted);white-space:nowrap}
+  .kv dd{margin:0;font-variant-numeric:tabular-nums}
+  .split{display:flex;align-items:baseline;gap:1rem;margin:0 0 1rem;flex-wrap:wrap}
+  .split .big{font-size:2.2rem;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+  .split .big.auto{color:var(--green)} .split .big.held{color:var(--amber)}
+  .split .arrow{color:var(--faint);font-size:1.4rem}
+  .qcard{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:1rem 1.15rem;display:grid;gap:.7rem}
+  .qcard .head{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+  .qcard .raw{font-size:1.05rem;font-weight:700}
+  .qcard .amt{font-variant-numeric:tabular-nums;color:var(--muted)}
+  .qcard .why{font-size:.86rem;color:var(--muted)}
+  .cands{display:grid;gap:.4rem}
+  .cands button{display:flex;align-items:center;gap:.6rem;text-align:left;width:100%;font:inherit;background:#fff;border:1px solid var(--line);
+                border-radius:var(--radius-sm);padding:.55rem .75rem;cursor:pointer}
+  .cands button:hover{border-color:var(--green);background:var(--green-bg)}
+  .cands button .nm{font-weight:600} .cands button .grp{color:var(--muted);font-size:.82rem} .cands button .wy{margin-left:auto;color:var(--muted);font-size:.8rem}
+  .cands button:disabled{opacity:.55;cursor:default}
+  .row-actions{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+  .newform{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:.5rem;align-items:end}
+  .progress{font-size:.86rem;color:var(--muted);min-height:1.3rem}
+  .progress.err{color:var(--red)}
+  .tabs{display:flex;gap:.4rem;margin:0 0 1rem;flex-wrap:wrap}
+  .tabs button{font:inherit;font-size:.86rem;font-weight:600;color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:999px;padding:.35rem .85rem;cursor:pointer}
+  .tabs button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .env-rows{display:grid;gap:.5rem}
+  .env-row{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1.4fr) minmax(0,1.2fr) auto;gap:.5rem;align-items:center}
+  .env-row input,.env-row select{width:100%}
+  .sum{display:flex;gap:1.5rem;flex-wrap:wrap;font-size:.9rem;margin:.8rem 0 0}
+  .sum b{font-variant-numeric:tabular-nums}
+  .form{display:grid;gap:.8rem;max-width:720px}
+  .form .two{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+  input[type=text],input[type=date],input[type=number],input[type=search],select{font:inherit;padding:.5rem .65rem;border:1px solid var(--line-2);border-radius:var(--radius-sm);background:#fff;color:var(--ink)}
+  input[type=file]{font:inherit;font-size:.9rem}
+  .foot{font-size:.8rem;color:var(--muted);margin:1.2rem 0 0;line-height:1.6}
+  .badge-how{font-size:.74rem;font-weight:600;padding:.15rem .5rem;border-radius:999px;background:var(--gray-bg);color:var(--muted);white-space:nowrap}
+  .badge-how.model{background:var(--blue-bg);color:var(--blue)} .badge-how.human{background:var(--green-bg);color:var(--green)}
+  .demo-answer{font-size:.78rem;color:var(--muted)} .demo-answer.ok{color:var(--green)} .demo-answer.bad{color:var(--red)}
+  .topbar select{margin-left:.5rem}
+  .toast-wrap{position:fixed;right:1.25rem;bottom:1.25rem;display:grid;gap:.5rem;z-index:50}
+</style>
+</head>
+<body class="app">
+
+<svg hidden xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-logo" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#15803d"/><path d="M8 9h16M8 15h16M8 21h10" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><path d="M21 19l2.5 2.5L28 17" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-dashboard" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></symbol>
+  <symbol id="i-import" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
+  <symbol id="i-envelope" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  <symbol id="i-records" viewBox="0 0 24 24"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5 5.5 5.5 0 0 1-5.5 5.5H11"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+</svg>
+
+<aside class="sidebar" aria-label="메뉴">
+  <a class="brand" href="../"><svg class="mark" aria-hidden="true"><use href="#i-logo"/></svg>맞장부 <span class="badge badge-gray" style="margin-left:.4rem">잠정명</span></a>
+  <nav id="nav">
+    <a href="#/dashboard" data-route="dashboard"><svg class="ico" aria-hidden="true"><use href="#i-dashboard"/></svg>대시보드</a>
+    <a href="#/import" data-route="import"><svg class="ico" aria-hidden="true"><use href="#i-import"/></svg>불러오기</a>
+    <a href="#/envelope" data-route="envelope"><svg class="ico" aria-hidden="true"><use href="#i-envelope"/></svg>봉투 입력</a>
+    <a href="#/queue" data-route="queue"><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg>확인 큐<span class="cnt badge badge-held" id="n-queue" hidden></span></a>
+    <a href="#/records" data-route="records"><svg class="ico" aria-hidden="true"><use href="#i-records"/></svg>기록</a>
+    <a href="#/roster" data-route="roster"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg>명부·별칭</a>
+    <a href="#/device" data-route="device"><svg class="ico" aria-hidden="true"><use href="#i-cpu"/></svg>기기</a>
+  </nav>
+  <div class="inst" id="inst"></div>
+</aside>
+
+<div class="app-banner banner banner-amber" id="banner" hidden><svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg><span id="banner-text"></span></div>
+
+<header class="topbar">
+  <h1 id="title">대시보드</h1>
+  <div class="search"><svg class="ico sm" aria-hidden="true"><use href="#i-search"/></svg><input type="search" id="q" placeholder="입금자명 · 이름" aria-label="검색"></div>
+  <select id="week" aria-label="주차"></select>
+  <div class="actions">
+    <button class="btn btn-secondary btn-sm" id="undo" disabled><svg class="ico sm" aria-hidden="true"><use href="#i-undo"/></svg>마지막 확정 되돌리기</button>
+  </div>
+</header>
+
+<main class="main" id="main"><div class="empty">불러오는 중…</div></main>
+
+<aside class="drawer" id="drawer" aria-label="줄 상세" aria-hidden="true"></aside>
+<div class="toast-wrap" id="toasts"></div>
+<datalist id="roster-list"></datalist>
+
+<script>
+(function(){
+  'use strict';
+  const $ = (s, el) => (el || document).querySelector(s);
+  const $$ = (s, el) => Array.from((el || document).querySelectorAll(s));
+  const BASE = location.pathname.endsWith('/') ? location.pathname : location.pathname.replace(/[^/]*$/, '');
+  const META_APIS = ((document.querySelector('meta[name="matjangbu-api"]') || {}).content || '').split(/[\s,]+/).filter(Boolean);
+  let apiBase = BASE;
+  const crossOrigin = () => apiBase !== BASE;
+  const skey = () => 'mj.session@' + apiBase;
+  function savedSession() { try { return localStorage.getItem(skey()) || ''; } catch (e) { return ''; } }
+  function remember(tok) { if (!tok) return; try { localStorage.setItem(skey(), tok); } catch (e) {} }
+
+  const TITLES = {dashboard: '대시보드', import: '불러오기', envelope: '봉투 입력', queue: '확인 큐', records: '기록', roster: '명부·별칭', device: '기기'};
+  const STATE = {auto: '자동 확정', held: '확인 필요', confirmed: '확정', excluded: '제외'};
+  const REASON = {dup: '동명이인', family: '가족 명의', company: '회사 명의', renamed: '개명', typo: '오타·이표기', unknown: '명부에 없음', model_failed: '모델 미실행', parse: '읽지 못함'};
+  const NO_KIND = '(종류 없음)';
+
+  let st = null, readonly = false, rec = null, route = 'dashboard', selected = null, query = '', tab = 'week', busy = false;
+  let envRows = [{name: '', kind: '', amount: ''}];
+  let recordsCache = {};
+
+  // ---------------------------------------------------------- 서버
+  async function api(path, opts) {
+    const o = Object.assign({credentials: crossOrigin() ? 'omit' : 'same-origin'}, opts || {});
+    const tok = savedSession();
+    o.headers = Object.assign({}, o.headers || {}, tok ? {'X-Matjangbu-Session': tok} : {});
+    const r = await fetch(apiBase + 'api' + path, o);
+    const t = r.headers.get('X-Matjangbu-Session'); if (t) remember(t);
+    const ct = r.headers.get('Content-Type') || '';
+    if (ct.startsWith('text/csv')) { if (!r.ok) throw new Error('HTTP ' + r.status); return await r.text(); }
+    let body = null; try { body = await r.json(); } catch (e) { body = null; }
+    if (!r.ok) { const e = new Error((body && body.error) || ('HTTP ' + r.status)); e.status = r.status; throw e; }
+    return body;
+  }
+  const post = (path, data) => api(path, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data || {})});
+
+  async function stream(path, onEvent) {                    // SSE 를 fetch 로 읽는다(헤더가 필요해 EventSource 를 못 쓴다)
+    const tok = savedSession();
+    const r = await fetch(apiBase + 'api' + path, {credentials: crossOrigin() ? 'omit' : 'same-origin', headers: tok ? {'X-Matjangbu-Session': tok} : {}});
+    if (!r.ok || !r.body) throw new Error('HTTP ' + r.status);
+    const reader = r.body.getReader(), dec = new TextDecoder(); let buf = '';
+    for (;;) {
+      const x = await reader.read(); if (x.done) break;
+      buf += dec.decode(x.value, {stream: true});
+      const parts = buf.split('\n\n'); buf = parts.pop();
+      for (const chunk of parts) { const m = /data: (.*)/.exec(chunk); if (m) { try { onEvent(JSON.parse(m[1])); } catch (e) {} } }
+    }
+  }
+
+  async function load(week) {
+    const here = new URL(BASE, location.href).href;
+    const bases = [BASE];
+    for (const m of META_APIS) { const u = new URL(m.endsWith('/') ? m : m + '/', location.href).href; if (u !== here && !bases.includes(u)) bases.push(u); }
+    let got = null;
+    for (const b of bases) { apiBase = b; try { got = await api('/state' + (week ? '?week=' + encodeURIComponent(week) : '')); break; } catch (e) { got = null; } }
+    window.matjangbuApiBase = got ? apiBase : null;
+    if (got) { st = got; readonly = false; $('#banner').hidden = true; }
+    else {
+      apiBase = BASE;
+      if (!rec) rec = await (await fetch(BASE + 'recorded.json', {cache: 'no-cache'})).json();
+      st = offline(rec, week); readonly = true;
+      $('#banner').hidden = false;
+      $('#banner-text').textContent = '체험 인스턴스가 응답하지 않습니다 — ' + (rec.meta.device || '기기') + '에서 ' + fmtTs(rec.meta.ts) + '에 미리 잰 기록을 읽기 전용으로 보여드립니다. 확정·불러오기·다시 재기는 지금 할 수 없습니다.';
+    }
+    recordsCache = {};
+    render();
+  }
+
+  function offline(r, week) {
+    const weeks = Object.keys(r.weeks).sort();
+    const cur = week && r.weeks[week] ? week : weeks[0];
+    const byId = {}; r.roster.forEach(p => byId[p.id] = p);
+    const view = row => Object.assign({}, row, {name: row.person_id && byId[row.person_id] ? byId[row.person_id].name : '', group: row.person_id && byId[row.person_id] ? byId[row.person_id].group : '',
+      cands: (row.cands || []).filter(c => byId[c.person_id]).map(c => Object.assign({}, c, {name: byId[c.person_id].name, group: byId[c.person_id].group}))});
+    return {mode: 'recorded', week: cur, weeks, weeks_available: [], lines: r.weeks[cur].rows.map(view), all_count: weeks.reduce((n, w) => n + r.weeks[w].rows.length, 0),
+            roster: r.roster, aliases: r.aliases, kinds: [], device: r.meta.device, model_alive: false, recorded: r.meta, answers: r.answers[cur] || {}, can_undo: false};
+  }
+
+  // ---------------------------------------------------------- 도우미
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+  const won = n => (Number(n) || 0).toLocaleString('ko-KR') + '원';
+  const fmtTs = ts => (ts || '').replace('T', ' ').slice(0, 16);
+  const byId = id => st.lines.find(x => x.id === id);
+  const personName = id => { const p = st.roster.find(x => x.id === id); return p ? p.name : id; };
+  function counts() { const c = {n: st.lines.length, auto: 0, held: 0, confirmed: 0, excluded: 0}; st.lines.forEach(l => c[l.state] = (c[l.state] || 0) + 1); return c; }
+  const matches = l => !query || [l.raw, l.name].some(v => v && String(v).toLowerCase().includes(query.toLowerCase()));
+  function howBadge(l) {
+    const h = l.how || (l.reason ? REASON[l.reason] : '');
+    const cls = l.how === '모델' ? ' model' : (l.how === '사람' ? ' human' : '');
+    const rep = l.model && l.model.replayed ? ' · 미리 잰 값' : '';
+    return h ? '<span class="badge-how' + cls + '">' + esc(h) + (l.how === '모델' ? rep : '') + '</span>' : '';
+  }
+  const stateBadge = s => '<span class="badge badge-' + ({auto: 'approved', held: 'held', confirmed: 'ready', excluded: 'rejected'}[s] || 'gray') + '">' + (STATE[s] || s) + '</span>';
+  function answerMark(l) {
+    if (!st.answers || !Object.keys(st.answers).length || l.state !== 'auto') return '';
+    const want = st.answers[l.raw]; if (!want) return '';
+    return want === l.person_id ? '<span class="demo-answer ok">정답</span>' : '<span class="demo-answer bad">정답: ' + esc(personName(want)) + '</span>';
+  }
+  function toast(msg, kind) {
+    const el = document.createElement('div'); el.className = 'toast' + (kind ? ' ' + kind : ''); el.textContent = msg;
+    $('#toasts').appendChild(el); setTimeout(() => el.remove(), 3200);
+  }
+  function fail(e) { toast(e && e.message ? e.message : String(e), 'err'); }
+
+  // ---------------------------------------------------------- 렌더
+  function render() {
+    const c = counts();
+    $('#title').textContent = TITLES[route] || route;
+    $$('#nav a').forEach(a => a.setAttribute('aria-current', a.dataset.route === route ? 'page' : 'false'));
+    const nq = $('#n-queue'); nq.hidden = !c.held; nq.textContent = c.held;
+    const sel = $('#week'); const weeks = (st.weeks || []);
+    sel.innerHTML = weeks.map(w => '<option' + (w === st.week ? ' selected' : '') + '>' + w + '</option>').join('') || '<option>-</option>';
+    $('#undo').disabled = readonly || !st.can_undo;
+    $('#roster-list').innerHTML = st.roster.map(p => '<option value="' + esc(p.name) + '">' + esc(p.group) + '</option>').join('');
+    renderInst();
+    const main = $('#main');
+    ({dashboard: renderDashboard, import: renderImport, envelope: renderEnvelope, queue: renderQueue, records: renderRecords, roster: renderRoster, device: renderDevice}[route] || renderDashboard)(main, c);
+    if (selected) renderDrawer();
+  }
+
+  function renderInst() {
+    const demo = st.mode !== 'local';
+    $('#inst').innerHTML = '<b>' + esc(st.device || '이 PC') + '</b>' +
+      '<div class="state"><span class="dot ' + (st.model_alive ? 'on' : 'off') + '"></span>' + (st.model_alive ? '모델 서버 응답' : (readonly ? '읽기 전용' : '모델 서버 없음')) + '</div>' +
+      (demo ? '<div class="demo"><span class="badge badge-held">예시 데이터</span><span>가공 샘플 · 실제 단체 자료 아님</span></div>' : '');
+  }
+
+  function tile(label, n, tone, sub) { return '<div class="stat tone-' + tone + '"><div class="l">' + label + '</div><div class="n">' + n + '</div><div class="s">' + (sub || '') + '</div></div>'; }
+
+  function renderDashboard(main, c) {
+    const reasons = {}; st.lines.filter(l => l.state === 'held').forEach(l => { const k = l.reason || 'unknown'; reasons[k] = (reasons[k] || 0) + 1; });
+    const rk = Object.keys(reasons).sort((a, b) => reasons[b] - reasons[a]); const mx = Math.max(1, ...rk.map(k => reasons[k]));
+    const walls = st.lines.map(l => l.model && l.model.wall_s).filter(v => typeof v === 'number');
+    const mean = walls.length ? (walls.reduce((a, b) => a + b, 0) / walls.length).toFixed(1) : null;
+    const acts = st.lines.filter(l => l.human || l.undo_of).sort((a, b) => (b.ts || '').localeCompare(a.ts || '')).slice(0, 8);
+    let ans = '';
+    if (st.answers && Object.keys(st.answers).length) {
+      const autos = st.lines.filter(l => l.state === 'auto'); const ok = autos.filter(l => st.answers[l.raw] === l.person_id).length;
+      ans = '<div class="card"><h3>샘플 정답 대조 <span class="badge badge-gray">체험 전용</span></h3><p class="muted small">자동 확정한 줄의 사람이 샘플 정답과 같은가(사람이 고친 줄은 제외). 규칙이 낸 답의 정확도이지 모델의 정확도가 아니다.</p>' +
+            '<div class="split"><span class="big auto">' + ok + '</span><span class="muted">/ ' + autos.length + ' 줄 일치</span></div></div>';
+    }
+    main.innerHTML = '<section><div class="stats">' +
+      tile('이번 주 줄', c.n, 'blue', st.week) + tile('자동 확정', c.auto, 'green', '규칙 1·2단') + tile('확인 필요', c.held, 'amber', '사람이 고른다') + tile('사람이 확정', c.confirmed, 'green', '별칭 사전에 쌓임') + '</div>' +
+      '<div class="grid grid-2">' +
+      '<div class="card"><h3>확인 사유 분포</h3>' + (rk.length ? '<div class="bars">' + rk.map(k => '<div class="b"><div><div class="t"><span>' + esc(REASON[k] || k) + '</span></div><div class="track"><div class="fill" style="width:' + Math.round(reasons[k] / mx * 100) + '%"></div></div></div><div class="v">' + reasons[k] + '</div></div>').join('') + '</div>' : '<div class="empty">확인 필요 줄이 없습니다</div>') + '</div>' +
+      '<div class="card"><h3>모델 처리 시간</h3>' + (walls.length ? '<dl class="kv"><dt>모델이 본 줄</dt><dd>' + walls.length + '</dd><dt>줄당 평균</dt><dd>' + mean + '초</dd><dt>최소 · 최대</dt><dd>' + Math.min(...walls).toFixed(1) + ' · ' + Math.max(...walls).toFixed(1) + '초</dd><dt>기기</dt><dd>' + esc((st.recorded && st.recorded.device) || st.device || '') + '</dd></dl>' + (st.recorded ? '<p class="note muted small" style="margin-top:.8rem">미리 잰 값 · ' + esc(st.recorded.model || '') + ' · ' + fmtTs(st.recorded.ts) + '</p>' : '') : '<div class="empty">이번 주에는 모델이 본 줄이 없습니다</div>') + '</div>' +
+      '<div class="card"><h3>최근 활동</h3>' + (acts.length ? '<ul class="feed">' + acts.map(l => '<li><span class="when">' + fmtTs(l.ts) + '</span><span class="f">' + esc(l.raw) + '</span><span class="muted">' + (l.undo_of ? '되돌림' : (l.note || STATE[l.state])) + (l.alias_learned ? ' · 별칭 저장' : '') + '</span></li>').join('') + '</ul>' : '<div class="empty">아직 사람 손이 닿은 줄이 없습니다</div>') + '</div>' +
+      ans + '</div>' + foot() + '</section>';
+  }
+
+  function foot() {
+    if (st.mode === 'local') return '';
+    return '<p class="foot">예시 데이터입니다 · 실제 단체 자료가 아닙니다 · 모델 판정은 ' + esc((st.recorded && st.recorded.device) || '') + '에서 미리 잰 값이고 「지금 다시 재기」만 실제로 돕니다 · 임계 유사도 0.85 · 동명이인은 자동 확정하지 않습니다</p>';
+  }
+
+  // ---------------------------------------------------------- 불러오기
+  function renderImport(main) {
+    const demo = st.mode !== 'local';
+    let form;
+    if (readonly) form = '<div class="empty">읽기 전용에서는 불러올 수 없습니다. 아래 표는 ' + st.week + ' 의 미리 잰 결과입니다.</div>';
+    else if (demo) form = '<div class="form"><div class="field"><label>샘플 주차</label><select id="imp-week">' + (st.weeks_available.length ? st.weeks_available.map(w => '<option>' + w + '</option>').join('') : '<option value="">(남은 샘플 주차 없음)</option>') + '</select></div>' +
+      '<div class="row-actions"><button class="btn btn-primary" id="imp-run"' + (st.weeks_available.length ? '' : ' disabled') + '><svg class="ico sm" aria-hidden="true"><use href="#i-zap"/></svg>맞추기</button><span class="muted small">샘플 은행 CSV 를 실제 규칙으로 맞춥니다. 모델 판정은 미리 잰 값을 재생합니다.</span></div></div>';
+    else form = '<div class="form"><div class="two"><div class="field"><label>주차</label><input type="text" id="imp-wk" placeholder="2026-W10" value="' + esc(guessWeek()) + '"></div><div class="field"><label>날짜</label><input type="date" id="imp-date" value="' + new Date().toISOString().slice(0, 10) + '"></div></div>' +
+      '<div class="field"><label>은행 CSV</label><input type="file" id="imp-file" accept=".csv,text/csv"></div><div id="imp-preview" class="muted small"></div>' +
+      '<div class="row-actions"><button class="btn btn-primary" id="imp-run" disabled><svg class="ico sm" aria-hidden="true"><use href="#i-zap"/></svg>맞추기</button><span class="muted small">파일은 이 PC 의 「들어옴」 폴더에 저장됩니다. 인터넷으로 나가지 않습니다.</span></div></div>';
+    main.innerHTML = '<section><div class="card" style="margin-bottom:1rem"><h3>불러오기</h3>' + form + '<div class="progress" id="imp-progress"></div></div>' +
+      '<div id="imp-result">' + resultTable(st.lines, st.week) + '</div>' + foot() + '</section>';
+    const run = $('#imp-run');
+    if (!run) return;
+    let csvText = '', fileName = '';
+    const fi = $('#imp-file');
+    if (fi) fi.addEventListener('change', async () => {
+      const f = fi.files[0]; if (!f) return; fileName = f.name;
+      const buf = await f.arrayBuffer(); csvText = new TextDecoder('utf-8', {fatal: false}).decode(buf);
+      if (csvText.includes('�')) { try { csvText = new TextDecoder('euc-kr').decode(buf); } catch (e) {} }
+      const lines = csvText.split(/\r?\n/).filter(Boolean);
+      $('#imp-preview').innerHTML = '<b>' + esc(f.name) + '</b> · ' + lines.length + '줄 미리보기<pre style="margin-top:.5rem">' + esc(lines.slice(0, 8).join('\n')) + '</pre>';
+      run.disabled = false;
+    });
+    run.addEventListener('click', async () => {
+      if (busy) return; busy = true; run.disabled = true;
+      const prog = $('#imp-progress'); prog.className = 'progress'; prog.textContent = '줄을 서는 중…';
+      const rows = []; let n = 0;
+      try {
+        const body = demo ? {sample_week: $('#imp-week').value} : {week: $('#imp-wk').value.trim(), date: $('#imp-date').value, filename: fileName, csv_text: csvText};
+        const job = await post('/import', body);
+        await stream('/jobs/' + job.job + '/events', ev => {
+          if (ev.event === 'start') { n = ev.n; prog.textContent = '0 / ' + n + ' 줄 · 파일에서 ' + ev.skipped + '줄 제외(출금·금액 0)'; }
+          else if (ev.event === 'line') { rows.push(ev.row); prog.textContent = (ev.i + 1) + ' / ' + (ev.n || n) + ' 줄' + (ev.row.how === '모델' ? ' · 모델이 본 줄: ' + ev.row.raw : ''); $('#imp-result').innerHTML = resultTable(rows, body.sample_week || body.week, true); }
+          else if (ev.state === 'failed') { prog.className = 'progress err'; prog.textContent = ev.error || '실패'; }
+          else if (ev.state === 'done') { prog.textContent = '끝'; }
+        });
+        await load(body.sample_week || body.week);
+        toast('자동 ' + counts().auto + ' / 확인 ' + counts().held, 'ok');
+      } catch (e) { prog.className = 'progress err'; prog.textContent = e.message; fail(e); }
+      busy = false;
+    });
+  }
+  function guessWeek() { const d = new Date(); const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())); const day = t.getUTCDay() || 7; t.setUTCDate(t.getUTCDate() + 4 - day); const y0 = new Date(Date.UTC(t.getUTCFullYear(), 0, 1)); return t.getUTCFullYear() + '-W' + String(Math.ceil((((t - y0) / 864e5) + 1) / 7)).padStart(2, '0'); }
+
+  function resultTable(rows, week, live) {
+    const c = {auto: 0, held: 0}; rows.forEach(r => c[r.state] = (c[r.state] || 0) + 1);
+    const ordered = rows.slice().sort((a, b) => (a.state === 'held' ? 0 : 1) - (b.state === 'held' ? 0 : 1));
+    return '<div class="card"><div class="sec-head"><div><h2>' + esc(week || '') + ' 맞추기 결과</h2><p class="sub">확인 필요 줄부터 보여줍니다. 줄을 누르면 근거와 후보가 열립니다.</p></div></div>' +
+      '<div class="split"><span class="big auto">' + (c.auto || 0) + '</span><span class="muted">자동</span><span class="arrow">/</span><span class="big held">' + (c.held || 0) + '</span><span class="muted">확인 필요</span>' + (c.confirmed ? '<span class="muted">· 확정 ' + c.confirmed + '</span>' : '') + '</div>' +
+      (rows.length ? '<div class="table-wrap"><table class="data"><thead><tr><th>상태</th><th>입금자명</th><th class="n">금액</th><th>종류</th><th>맞춘 사람</th><th>근거</th><th></th></tr></thead><tbody>' +
+      ordered.map(l => '<tr class="row" data-id="' + l.id + '"><td>' + stateBadge(l.state) + '</td><td class="file">' + esc(l.raw) + '</td><td class="n">' + won(l.amount) + '</td><td>' + esc(l.kind || '') + '</td><td>' + (l.name ? esc(l.name) + ' <span class="muted small">' + esc(l.group) + '</span>' : (l.cands && l.cands.length ? '<span class="muted">후보 ' + l.cands.length + '</span>' : '')) + '</td><td>' + howBadge(l) + '</td><td>' + answerMark(l) + '</td></tr>').join('') +
+      '</tbody></table></div>' : '<div class="empty">아직 줄이 없습니다</div>') + '</div>';
+  }
+
+  // ---------------------------------------------------------- 봉투 입력
+  function renderEnvelope(main) {
+    if (readonly) { main.innerHTML = '<section><div class="empty">읽기 전용에서는 봉투를 입력할 수 없습니다.</div>' + foot() + '</section>'; return; }
+    const kinds = st.kinds || [];
+    const rowHtml = (r, i) => '<div class="env-row"><input type="text" list="roster-list" data-i="' + i + '" data-k="name" placeholder="이름 (명부 자동완성)" value="' + esc(r.name) + '"><select data-i="' + i + '" data-k="kind"><option value="">' + NO_KIND + '</option>' + kinds.map(k => '<option' + (k === r.kind ? ' selected' : '') + '>' + k + '</option>').join('') + '</select><input type="number" data-i="' + i + '" data-k="amount" placeholder="금액" min="0" step="1000" value="' + esc(r.amount) + '"><button class="btn btn-ghost btn-sm" data-del="' + i + '" title="줄 삭제"><svg class="ico sm" aria-hidden="true"><use href="#i-x"/></svg></button></div>';
+    const total = envRows.reduce((a, r) => a + (Number(r.amount) || 0), 0);
+    main.innerHTML = '<section><div class="card" style="margin-bottom:1rem"><h3>봉투 입력</h3><p class="muted small">봉투에 적힌 이름·종류·금액을 줄줄이 넣습니다. 명부에 있는 이름은 곧바로 확정되고, 동명이인이거나 명부에 없으면 확인 큐로 갑니다. 모델은 쓰지 않습니다.</p>' +
+      '<div class="form"><div class="two"><div class="field"><label>주차</label><input type="text" id="env-wk" value="' + esc(st.week || guessWeek()) + '"></div><div class="field"><label>날짜</label><input type="date" id="env-date" value="' + esc((st.lines[0] && st.lines[0].date) || new Date().toISOString().slice(0, 10)) + '"></div></div>' +
+      '<div class="env-rows" id="env-rows">' + envRows.map(rowHtml).join('') + '</div>' +
+      '<div class="row-actions"><button class="btn btn-secondary btn-sm" id="env-add">줄 추가</button><button class="btn btn-secondary btn-sm" id="env-sample">샘플 12줄 채우기</button></div>' +
+      '<div class="sum"><span>입력 합계 <b id="env-total">' + won(total) + '</b></span><span>계수 총액 <input type="number" id="env-counted" step="1000" style="width:11rem" placeholder="세어 본 총액"></span><span id="env-diff" class="muted"></span></div>' +
+      '<div class="row-actions"><button class="btn btn-primary" id="env-save"><svg class="ico sm" aria-hidden="true"><use href="#i-check"/></svg>저장</button><span class="progress" id="env-progress"></span></div></div></div>' +
+      '<div id="env-result"></div>' + foot() + '</section>';
+    const wrap = $('#env-rows');
+    const refresh = () => { const t = envRows.reduce((a, r) => a + (Number(r.amount) || 0), 0); $('#env-total').textContent = won(t); const c = Number($('#env-counted').value); $('#env-diff').textContent = $('#env-counted').value ? ('차이 ' + (t - c >= 0 ? '+' : '') + (t - c).toLocaleString('ko-KR') + '원') : ''; };
+    wrap.addEventListener('input', e => { const i = +e.target.dataset.i, k = e.target.dataset.k; if (k) { envRows[i][k] = e.target.value; refresh(); } });
+    wrap.addEventListener('click', e => { const b = e.target.closest('[data-del]'); if (b) { envRows.splice(+b.dataset.del, 1); if (!envRows.length) envRows.push({name: '', kind: '', amount: ''}); render(); } });
+    $('#env-counted').addEventListener('input', refresh);
+    $('#env-add').addEventListener('click', () => { envRows.push({name: '', kind: '', amount: ''}); render(); setTimeout(() => { const ins = $$('#env-rows input[data-k=name]'); ins[ins.length - 1].focus(); }, 0); });
+    $('#env-sample').addEventListener('click', async () => {
+      try { const s = await (await fetch(BASE.replace(/try\/$/, '') + 'try/sample-envelopes.json', {cache: 'no-cache'})).json(); envRows = s.lines.map(l => ({name: l.name, kind: l.kind, amount: l.amount})); render(); $('#env-counted').value = s.counted_total; refresh(); }
+      catch (e) { envRows = [{name: '김정호', kind: '십일조', amount: 100000}, {name: '박민수', kind: '감사헌금', amount: 50000}, {name: '홍길동', kind: '', amount: 20000}]; render(); }
+    });
+    $('#env-save').addEventListener('click', async () => {
+      const lines = envRows.filter(r => r.name || r.amount).map(r => ({name: r.name, kind: r.kind, amount: Number(r.amount) || 0}));
+      if (!lines.length) { toast('입력한 줄이 없습니다', 'err'); return; }
+      const counted = $('#env-counted').value ? Number($('#env-counted').value) : null;
+      try {
+        const out = await post('/envelope', {week: $('#env-wk').value.trim(), date: $('#env-date').value, lines, counted_total: counted});
+        const held = out.rows.filter(r => r.state === 'held').length;
+        toast('봉투 ' + out.rows.length + '줄 저장 · 확인 필요 ' + held + (out.diff != null ? ' · 계수와 차이 ' + out.diff.toLocaleString('ko-KR') + '원' : ''), held ? '' : 'ok');
+        if (out.errors && out.errors.length) toast(out.errors.join(' / '), 'err');
+        envRows = [{name: '', kind: '', amount: ''}];
+        await load($('#env-wk').value.trim());
+        $('#env-result').innerHTML = resultTable(out.rows, out.rows[0] && out.rows[0].week);
+      } catch (e) { fail(e); }
+    });
+  }
+
+  // ---------------------------------------------------------- 확인 큐
+  function candButtons(l, disabled) {
+    return '<div class="cands">' + (l.cands || []).map(c => '<button data-pick="' + l.id + '" data-person="' + c.person_id + '"' + (disabled ? ' disabled' : '') + '><span class="nm">' + esc(c.name) + '</span><span class="grp">' + esc(c.group) + '</span><span class="wy">' + esc(c.why) + '</span></button>').join('') + '</div>' +
+      (l.allow_new !== false ? '<div class="newform"><div class="field"><label>새 이름으로 등록</label><input type="text" data-new-name="' + l.id + '" value="' + esc(l.raw.replace(/\s+/g, '')) + '"' + (disabled ? ' disabled' : '') + '></div><div class="field"><label>구역</label><input type="text" data-new-group="' + l.id + '" placeholder="5구역"' + (disabled ? ' disabled' : '') + '></div><button class="btn btn-secondary btn-sm" data-new="' + l.id + '"' + (disabled ? ' disabled' : '') + '>등록하고 확정</button></div>' : '<p class="muted small">동명이인은 새 이름 등록 없이 후보 중에서 고릅니다.</p>') +
+      '<div class="row-actions"><button class="btn btn-ghost btn-sm" data-hold="' + l.id + '"' + (disabled ? ' disabled' : '') + '>보류</button><button class="btn btn-ghost btn-sm" data-exclude="' + l.id + '"' + (disabled ? ' disabled' : '') + '>제외</button><button class="btn btn-secondary btn-sm" data-rematch="' + l.id + '"' + (disabled || st.mode === 'local' && !st.model_alive ? ' disabled' : '') + '><svg class="ico sm" aria-hidden="true"><use href="#i-refresh"/></svg>지금 다시 재기</button><span class="progress" data-progress="' + l.id + '"></span></div>';
+  }
+
+  function renderQueue(main, c) {
+    const held = st.lines.filter(l => l.state === 'held' && matches(l));
+    main.innerHTML = '<section><div class="sec-head"><div><h2>확인 필요 ' + held.length + '줄</h2><p class="sub">확신이 낮으면 맞추지 않고 묻습니다. 고른 답은 별칭 사전에 쌓여 다음 주 같은 줄은 자동이 됩니다.</p></div></div>' +
+      (held.length ? '<div class="grid">' + held.map(l => '<div class="qcard" id="q-' + l.id + '"><div class="head"><span class="raw">' + esc(l.raw) + '</span><span class="amt">' + won(l.amount) + '</span>' + (l.kind ? '<span class="badge badge-gray">' + esc(l.kind) + '</span>' : '') + '<span class="badge badge-held">' + esc(REASON[l.reason] || l.reason || '') + '</span>' + howBadge(l) + '</div>' +
+        '<div class="why">' + (l.model && l.model.pred && l.model.pred.relation ? '모델 판단: ' + esc(REASON[l.model.pred.relation] || l.model.pred.relation) + (l.model.pred.name_part ? ' · 이름 부분 「' + esc(l.model.pred.name_part) + '」' : '') : (l.reason === 'model_failed' ? '모델이 응답하지 않아 규칙이 세운 후보만 있습니다' : '규칙이 세운 후보')) + '</div>' + candButtons(l, readonly) + '</div>').join('') + '</div>'
+      : '<div class="empty">확인할 줄이 없습니다' + (query ? ' (검색: ' + esc(query) + ')' : '') + '</div>') + foot() + '</section>';
+  }
+
+  async function doPick(id, personId) { try { const out = await post('/lines/' + id + '/confirm', {person_id: personId}); toast(out.alias_learned ? '별칭 사전에 저장됨 · 다음부터 자동' : '확정', 'ok'); await load(st.week); } catch (e) { fail(e); } }
+  async function doNew(id, name, group) { try { const out = await post('/lines/' + id + '/confirm', {new_person: {name, group}}); toast('명부에 등록하고 확정: ' + (out.new_person ? out.new_person.name : name), 'ok'); await load(st.week); } catch (e) { fail(e); } }
+  async function doHold(id) { try { await post('/lines/' + id + '/hold', {}); toast('보류'); await load(st.week); } catch (e) { fail(e); } }
+  async function doExclude(id) { try { await post('/lines/' + id + '/exclude', {why: ''}); toast('제외했습니다'); await load(st.week); } catch (e) { fail(e); } }
+  async function doRematch(id) {
+    const p = $('[data-progress="' + id + '"]'); if (p) { p.className = 'progress'; p.textContent = '줄 서는 중…'; }
+    try {
+      const job = await post('/lines/' + id + '/rematch', {});
+      let t0 = Date.now(); const tick = setInterval(() => { if (p) p.textContent = '모델이 보는 중 · ' + Math.round((Date.now() - t0) / 1000) + '초'; }, 500);
+      await stream('/jobs/' + job.job + '/events', ev => { if (ev.state === 'queued' && ev.position) { if (p) p.textContent = '앞에 ' + ev.position + '건'; t0 = Date.now(); } if (ev.state === 'failed' && p) { p.className = 'progress err'; p.textContent = ev.error; } });
+      clearInterval(tick); toast('다시 쟀습니다', 'ok'); await load(st.week);
+    } catch (e) { if (p) { p.className = 'progress err'; p.textContent = e.message; } fail(e); }
+  }
+  async function doUndo() { try { const u = await post('/undo', {}); toast('되돌림: ' + (byId(u.id) ? byId(u.id).raw : u.id)); await load(st.week); } catch (e) { fail(e); } }
+
+  // ---------------------------------------------------------- 기록
+  function parseCsv(text) {
+    const rows = []; let row = [], cur = '', q = false; text = text.replace(/^﻿/, '');
+    for (let i = 0; i < text.length; i++) { const ch = text[i];
+      if (q) { if (ch === '"') { if (text[i + 1] === '"') { cur += '"'; i++; } else q = false; } else cur += ch; }
+      else if (ch === '"') q = true; else if (ch === ',') { row.push(cur); cur = ''; } else if (ch === '\n') { row.push(cur); rows.push(row); row = []; cur = ''; } else if (ch !== '\r') cur += ch; }
+    if (cur || row.length) { row.push(cur); rows.push(row); }
+    return rows.filter(r => r.length > 1 || r[0]);
+  }
+  function csvTable(text) {
+    const rows = parseCsv(text); if (!rows.length) return '<div class="empty">비어 있습니다</div>';
+    const head = rows[0], body = rows.slice(1);
+    return '<div class="table-wrap"><table class="data"><thead><tr>' + head.map((h, i) => '<th' + (i > 1 && /^[\d,]*$/.test((body[0] || [])[i] || '') ? ' class="n"' : '') + '>' + esc(h) + '</th>').join('') + '</tr></thead><tbody>' +
+      body.map(r => '<tr' + (/^(합계|미확정)$/.test(r[0]) ? ' style="font-weight:700;background:var(--surface)"' : '') + '>' + r.map((v, i) => '<td' + (/^-?\d+$/.test(v) && i > 1 ? ' class="n">' + Number(v).toLocaleString('ko-KR') : '>' + esc(v)) + '</td>').join('') + '</tr>').join('') + '</tbody></table></div>';
+  }
+  function localWeekCsv() {                                   // 읽기 전용: 현재 주차 줄에서 직접 만든다
+    const rows = st.lines.filter(l => l.state === 'confirmed').concat(st.lines.filter(l => l.state === 'auto'));
+    const out = [['이름', '구역', '종류', '금액', '경로', '근거', '원문']].concat(rows.map(l => [l.name, l.group, l.kind || NO_KIND, String(l.amount), l.path === 'envelope' ? '봉투' : '통장', l.how, l.raw]));
+    out.push(['합계', '', '', String(rows.reduce((a, l) => a + l.amount, 0)), '', '', '']);
+    return out.map(r => r.map(v => /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v).join(',')).join('\n');
+  }
+  function localYearCsv(which) {                              // 읽기 전용: 기록의 모든 주차에서 집계
+    const byId = {}; st.roster.forEach(p => byId[p.id] = p); const acc = {}, kinds = new Set(); let unc = 0, uncN = 0;
+    Object.values(rec.weeks).forEach(w => w.rows.forEach(l => { if (l.state === 'held') { unc += l.amount; uncN++; } if (!(l.state === 'auto' || l.state === 'confirmed') || !l.person_id) return; const k = l.kind || NO_KIND; kinds.add(k); const a = acc[l.person_id] = acc[l.person_id] || {total: 0, count: 0, k: {}}; a.total += l.amount; a.count++; a.k[k] = (a.k[k] || 0) + l.amount; }));
+    const ks = Array.from(kinds).sort((a, b) => (a === NO_KIND) - (b === NO_KIND) || a.localeCompare(b));
+    const rows = Object.keys(acc).map(id => ({id, ...acc[id]})).sort((a, b) => b.total - a.total);
+    const head = which === 'person' ? ['이름', '구역', ...ks, '합계', '건수'] : ['이름', '구역', '합계', '건수', ...ks];
+    const line = r => which === 'person' ? [byId[r.id].name, byId[r.id].group, ...ks.map(k => String(r.k[k] || 0)), String(r.total), String(r.count)] : [byId[r.id].name, byId[r.id].group, String(r.total), String(r.count), ...ks.map(k => String(r.k[k] || 0))];
+    const out = [head].concat(rows.map(line));
+    const tot = rows.reduce((a, r) => a + r.total, 0), cnt = rows.reduce((a, r) => a + r.count, 0);
+    out.push(which === 'person' ? ['합계', '', ...ks.map(() => ''), String(tot), String(cnt)] : ['합계', '', String(tot), String(cnt), ...ks.map(k => String(rows.reduce((a, r) => a + (r.k[k] || 0), 0)))]);
+    if (which === 'year') out.push(['미확정', '', String(unc), String(uncN)]);
+    return out.map(r => r.join(',')).join('\n');
+  }
+  async function recordsText(which) {
+    const year = (st.week || '2026').slice(0, 4);
+    const key = which + '|' + st.week;
+    if (recordsCache[key]) return recordsCache[key];
+    let text;
+    if (readonly) text = which === 'week' ? localWeekCsv() : localYearCsv(which);
+    else text = await api('/export/' + which + '.csv?' + (which === 'week' ? 'week=' + encodeURIComponent(st.week) : 'year=' + year));
+    recordsCache[key] = text; return text;
+  }
+  function renderRecords(main) {
+    const year = (st.week || '2026').slice(0, 4);
+    const held = st.lines.filter(l => l.state === 'held');
+    main.innerHTML = '<section><div class="tabs">' + [['week', '주간 명단 · ' + st.week], ['person', '개인별 누적 · ' + year], ['year', '연말 합산 · ' + year]].map(([k, t]) => '<button data-tab="' + k + '" aria-pressed="' + (tab === k) + '">' + esc(t) + '</button>').join('') +
+      '<span style="margin-left:auto"></span><button class="btn btn-secondary btn-sm" id="rec-dl"' + (readonly ? ' disabled' : '') + '><svg class="ico sm" aria-hidden="true"><use href="#i-download"/></svg>CSV 내보내기</button><a class="btn btn-ghost btn-sm" href="#/queue">확인 목록으로</a></div>' +
+      '<div class="card" id="rec-body"><div class="empty">불러오는 중…</div></div>' +
+      (tab === 'week' && held.length ? '<div class="card" style="margin-top:1rem"><h3>이 주에 아직 확인하지 않은 줄 ' + held.length + '</h3><p class="muted small">확정되기 전에는 합계에 들어가지 않습니다.</p><ul class="feed">' + held.map(l => '<li><span class="when">' + won(l.amount) + '</span><span class="f">' + esc(l.raw) + '</span><span class="muted">' + esc(REASON[l.reason] || '') + '</span></li>').join('') + '</ul></div>' : '') +
+      '<p class="foot">' + (tab === 'week' ? '주간 명단은 사람 손이 닿은 줄부터 보여줍니다. 통장 순서대로 두면 완전일치가 앞을 다 차지해 이 도구가 한 일이 안 보이기 때문입니다.' : '연말 합산은 기부금영수증 기초자료입니다. 미확정 줄은 따로 합계를 냅니다. 암호화 백업은 준비 중입니다.') + '</p>' + foot() + '</section>';
+    $$('[data-tab]').forEach(b => b.addEventListener('click', () => { tab = b.dataset.tab; render(); }));
+    recordsText(tab).then(text => { $('#rec-body').innerHTML = csvTable(text); }).catch(e => { $('#rec-body').innerHTML = '<div class="empty">' + esc(e.message) + '</div>'; });
+    $('#rec-dl').addEventListener('click', async () => { try { const text = await recordsText(tab); const name = {week: '주간명단-' + st.week, person: '개인별누적-' + year, year: '연말합산-' + year}[tab] + '.csv'; const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + text.replace(/^﻿/, '')], {type: 'text/csv;charset=utf-8'})); a.download = name; a.click(); } catch (e) { fail(e); } });
+  }
+
+  // ---------------------------------------------------------- 명부·별칭
+  function renderRoster(main) {
+    const al = Object.entries(st.aliases || {});
+    main.innerHTML = '<section><div class="grid grid-2">' +
+      '<div class="card"><div class="sec-head"><div><h2>명부 ' + st.roster.length + '명</h2><p class="sub">세대 칸에 세대주 이름을 적어 두면 가족 명의 이체가 규칙으로 후보에 걸립니다.</p></div></div>' +
+      (st.mode === 'local' && !readonly ? '<div class="field" style="margin-bottom:.8rem"><label>명부 CSV 교체 (id,이름,구역,세대,옛이름)</label><input type="file" id="ros-file" accept=".csv,text/csv"></div>' : '') +
+      '<div class="table-wrap" style="max-height:60vh;overflow:auto"><table class="data"><thead><tr><th>id</th><th>이름</th><th>구역</th><th>세대</th><th>옛이름</th></tr></thead><tbody>' + st.roster.filter(p => !query || p.name.includes(query)).map(p => '<tr><td class="mono">' + esc(p.id) + '</td><td>' + esc(p.name) + '</td><td>' + esc(p.group) + '</td><td>' + esc(p.household) + '</td><td>' + esc((p.old_names || []).join(', ')) + '</td></tr>').join('') + '</tbody></table></div></div>' +
+      '<div class="card"><div class="sec-head"><div><h2>별칭 사전 ' + al.length + '건</h2><p class="sub">확인 큐에서 고른 답이 여기 쌓입니다. 다음 주 같은 원문은 1단에서 끝납니다.</p></div></div>' +
+      (al.length ? '<div class="table-wrap"><table class="data"><thead><tr><th>원문</th><th>사람</th><th>배운 날</th></tr></thead><tbody>' + al.map(([k, v]) => '<tr><td class="file">' + esc(k) + '</td><td>' + esc(personName(v.person_id)) + ' <span class="mono muted small">' + esc(v.person_id) + '</span></td><td class="muted">' + fmtTs(v.learned) + '</td></tr>').join('') + '</tbody></table></div>' : '<div class="empty">아직 별칭이 없습니다</div>') + '</div></div>' + foot() + '</section>';
+    const rf = $('#ros-file');
+    if (rf) rf.addEventListener('change', async () => { const f = rf.files[0]; if (!f) return; try { const buf = await f.arrayBuffer(); let t = new TextDecoder('utf-8').decode(buf); if (t.includes('�')) t = new TextDecoder('euc-kr').decode(buf); const out = await post('/roster', {csv_text: t}); toast('명부 ' + out.count + '명으로 교체', 'ok'); await load(st.week); } catch (e) { fail(e); } });
+  }
+
+  // ---------------------------------------------------------- 기기
+  async function renderDevice(main) {
+    main.innerHTML = '<section><div class="grid grid-2"><div class="card"><h3>인스턴스</h3><dl class="kv" id="dev-kv"><dt>주소</dt><dd>' + esc(readonly ? '(없음 · 읽기 전용)' : apiBase) + '</dd></dl></div>' +
+      '<div class="card"><h3>미리 잰 기록</h3>' + (st.recorded ? '<dl class="kv"><dt>기기</dt><dd>' + esc(st.recorded.device) + '</dd><dt>모델</dt><dd>' + esc(st.recorded.model) + '</dd><dt>스레드</dt><dd>' + esc(st.recorded.threads) + '</dd><dt>시각</dt><dd>' + fmtTs(st.recorded.ts) + '</dd><dt>엔진</dt><dd class="mono">' + esc(st.recorded.engine_git || '') + '</dd></dl>' : '<div class="empty">로컬 모드</div>') + '<p class="note muted small" style="margin-top:.8rem"><a href="../phone/">지원 기기 · 갤럭시 A31 실측표 →</a></p></div></div>' + foot() + '</section>';
+    if (readonly) return;
+    try { const h = await api('/health'); $('#dev-kv').innerHTML = '<dt>주소</dt><dd>' + esc(apiBase) + '</dd><dt>모드</dt><dd>' + (h.mode === 'demo' ? '체험' : '로컬') + '</dd><dt>기기</dt><dd>' + esc(h.device) + '</dd><dt>모델 서버</dt><dd>' + (h.model_alive ? '응답' : '없음') + ' <span class="mono muted small">' + esc(h.model_url) + '</span></dd><dt>대기열</dt><dd>' + h.queued + '</dd><dt>세션</dt><dd>' + h.sessions + '</dd>'; } catch (e) {}
+  }
+
+  // ---------------------------------------------------------- 드로어
+  function openLine(id) { selected = id; document.body.classList.add('drawer-open'); $('#drawer').setAttribute('aria-hidden', 'false'); renderDrawer(); }
+  function closeDrawer() { selected = null; document.body.classList.remove('drawer-open'); $('#drawer').setAttribute('aria-hidden', 'true'); $('#drawer').innerHTML = ''; }
+  function renderDrawer() {
+    const l = byId(selected); if (!l) { closeDrawer(); return; }
+    const m = l.model || null;
+    $('#drawer').innerHTML = '<div class="d-head"><div><div class="file">' + esc(l.raw) + '</div><div class="kind">' + won(l.amount) + ' · ' + esc(l.week) + ' · ' + (l.path === 'envelope' ? '봉투' : '통장') + '</div></div><button class="btn btn-ghost btn-sm close" id="d-close" aria-label="닫기"><svg class="ico sm" aria-hidden="true"><use href="#i-x"/></svg></button></div>' +
+      '<div class="d-body"><h4>판정</h4><dl class="kv"><dt>상태</dt><dd>' + stateBadge(l.state) + '</dd><dt>맞춘 사람</dt><dd>' + (l.name ? esc(l.name) + ' <span class="muted">' + esc(l.group) + '</span>' : '<span class="muted">없음</span>') + '</dd><dt>근거</dt><dd>' + (howBadge(l) || '<span class="muted">-</span>') + '</dd><dt>종류</dt><dd>' + esc(l.kind || NO_KIND) + '</dd>' + (l.reason ? '<dt>사유</dt><dd>' + esc(REASON[l.reason] || l.reason) + '</dd>' : '') + (st.answers && st.answers[l.raw] ? '<dt>샘플 정답</dt><dd>' + esc(personName(st.answers[l.raw])) + '</dd>' : '') + '</dl>' +
+      (l.state === 'held' ? '<h4>후보</h4>' + candButtons(l, readonly) : '') +
+      (m ? '<h4>모델</h4><div class="meta">' + [m.model ? '모델 ' + esc(m.model) : '', typeof m.wall_s === 'number' ? m.wall_s + '초' : '', m.prompt_n ? '프롬프트 ' + m.prompt_n + ' 토큰' : '', m.pp_tps ? 'pp ' + Number(m.pp_tps).toFixed(1) + ' tok/s' : '', m.tg_tps ? 'tg ' + Number(m.tg_tps).toFixed(1) + ' tok/s' : '', m.replayed ? '미리 잰 값' : '', m.note ? esc(m.note) : '', m.error ? '오류 ' + esc(m.error) : ''].filter(Boolean).join(' · ') + '</div>' + (m.pred ? '<details><summary>모델 출력 JSON</summary><pre>' + esc(JSON.stringify(m.pred, null, 1)) + '</pre></details>' : '') : '') +
+      '</div>';
+    $('#d-close').addEventListener('click', closeDrawer);
+  }
+
+  // ---------------------------------------------------------- 이벤트
+  document.addEventListener('click', e => {
+    const tr = e.target.closest('tr.row[data-id]'); if (tr) { openLine(tr.dataset.id); return; }
+    const pick = e.target.closest('[data-pick]'); if (pick) { doPick(pick.dataset.pick, pick.dataset.person); return; }
+    const nw = e.target.closest('[data-new]'); if (nw) { const id = nw.dataset.new; doNew(id, $('[data-new-name="' + id + '"]').value.trim(), $('[data-new-group="' + id + '"]').value.trim()); return; }
+    const h = e.target.closest('[data-hold]'); if (h) { doHold(h.dataset.hold); return; }
+    const x = e.target.closest('[data-exclude]'); if (x) { doExclude(x.dataset.exclude); return; }
+    const r = e.target.closest('[data-rematch]'); if (r) { doRematch(r.dataset.rematch); return; }
+  });
+  $('#undo').addEventListener('click', doUndo);
+  $('#q').addEventListener('input', e => { query = e.target.value.trim(); render(); });
+  $('#week').addEventListener('change', e => { load(e.target.value); });
+  function onHash() { route = (location.hash || '#/dashboard').replace(/^#\/?/, '').split('/')[0] || 'dashboard'; if (!TITLES[route]) route = 'dashboard'; if (st) render(); }
+  window.addEventListener('hashchange', onHash);
+  onHash();
+  load().catch(e => { $('#main').innerHTML = '<div class="empty">화면을 시작하지 못했습니다: ' + esc(e.message) + '</div>'; });
+})();
+</script>
+</body>
+</html>
