@@ -32,7 +32,14 @@ tailscale funnel status                  # https://<이 노트북>.<테일넷>.t
 ```
 
 주소가 나오면 `site/try/index.html`의 `<meta name="matjangbu-api" content="https://…/">`에 넣고 재배포한다(아래).
-공개 사이트가 인스턴스에 붙는지: `node tools/verify_site.cjs --base https://stoporder.github.io/matjangbu --allow https://<주소>` (배너 없음 = 0).
+공개 사이트가 인스턴스에 붙는지: `node tools/verify_site.cjs --base https://stoporder.github.io/matjangbu --allow https://<주소> --resolve <호스트>=<공개 IP>` (배너 없음 = 0).
+- `--resolve`가 필요한 이유: 테일넷에 들어 있는 머신에서는 Funnel 호스트가 MagicDNS 로 100.x 로 풀리고, Chromium 은 공개 사이트가 「local 주소 공간」에 fetch 하는 것을 막는다(헤드리스는 그냥 거부, 일반 브라우저는 「로컬 네트워크 접근」 허용을 묻는다). 공개 IP 는 `curl -s 'https://dns.google/resolve?name=<호스트>&type=A'`로 본다(2026-09-20 현재 103.84.155.217 · 103.84.155.153).
+- 같은 이유로 **Tailscale 이 켜진 자기 기기**에서 공개 `/try/`를 열면 브라우저가 로컬 네트워크 접근 허용을 한 번 묻는다. 허용하지 않으면 읽기 전용 폴백(앰버 배너)으로 떨어진다. 외부 방문자·Tailscale 을 끈 기기는 해당 없음.
+
+끝까지 동작하는지(확인 큐 확정 → W11 불러오기에서 별칭 자동): `node tools/verify_funnel.cjs --base https://stoporder.github.io/matjangbu --api https://<주소>/ --resolve <호스트>=<공개 IP> --out docs/shots/08-public-funnel-w11.png` (0 = 통과, 최종 화면을 찍는다).
+- 이 스크립트의 대기는 전부 조건 대기다. 공개 인그레스 경유는 요청당 0.5~3초라 고정 시간 대기는 실패한다. `#imp-progress`의 「끝」과 토스트는 일시 표시(불러오기 뒤 `load()`가 화면을 다시 그림)라 기준으로 쓰지 않는다 — `tools/site_shots.cjs`는 아직 「끝」을 기다리므로 느린 경로에서는 시간 초과가 날 수 있다(로컬 8108 전용으로 둔다).
+
+폴백 확인: `systemctl --user stop matjangbu-web` → 위 `verify_site.cjs` 명령에 `--expect-banner`를 붙여 0 → `systemctl --user start matjangbu-web`.
 
 ## 사이트 재배포
 
