@@ -5,3 +5,4 @@ web/.sessions/
 bench/results/*.log
 .pytest_cache/
 *.gguf
+ui/node_modules/
