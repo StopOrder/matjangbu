@@ -1,0 +1,8 @@
+맞장부 (matjangbu)
+Copyright 2026 정지명 (Jimyeong Jeong)
+
+이 제품에는 나비(nabi-core, https://github.com/kingcheee/nabi-core)에서 유래한 코드가 들어 있다.
+Copyright 2026 Kim Jiwoo (김지우) · Apache License 2.0
+가져온 것: web/server.py 의 HTTP·세션·SSE·정적 서빙 뼈대, web/demo.py 샌드박스 구조,
+engine/model.py 의 llama-server 호출 방식, engine/store.py 의 append-only 대장 방식,
+site/assets/app.css 디자인 시스템, site/try/index.html 화면 골격.

@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+web/.sessions/
+bench/results/*.log
+.pytest_cache/
+*.gguf
