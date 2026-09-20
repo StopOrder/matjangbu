@@ -220,7 +220,10 @@ class App:
                 "kinds": KINDS, "device": self.cfg.device, "model_alive": self.model_alive(),
                 "recorded": self.cfg.recorded.get("meta") if demo else None,
                 "answers": self.cfg.recorded.get("answers", {}).get(cur, {}) if demo else {},
-                "can_undo": any(r.get("human") for r in lines)}
+                "can_undo": any(r.get("human") for r in lines),
+                "recent": [{"id": r["id"], "week": r.get("week"), "raw": r.get("raw"), "state": r.get("state"), "ts": r.get("ts"),
+                            "note": r.get("note"), "alias_learned": r.get("alias_learned"), "undo_of": r.get("undo_of"), "human": r.get("human")}
+                           for r in sorted((x for x in lines if x.get("human") or x.get("undo_of")), key=lambda x: x.get("ts", ""), reverse=True)[:8]]}
 
     # ---------------- 작업(모델)
     def submit_import(self, ws: Workspace, token: str | None, body: dict) -> Job:

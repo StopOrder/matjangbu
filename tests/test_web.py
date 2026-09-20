@@ -80,6 +80,7 @@ def test_confirm_then_import_next_week_uses_alias(srv):
     assert "event: state" in ev and '"done"' in ev
     _, s, _ = api(srv, "GET", "/api/state?week=2026-W11", token=tok)
     nxt = next(r for r in s["lines"] if r["raw"] == "우리상사")
+    assert s["recent"][0]["raw"] == "우리상사" and s["recent"][0]["week"] == "2026-W10"     # 다른 주차의 활동도 보인다
     assert (nxt["state"], nxt["how"]) == ("auto", "별칭사전")
     st, _, _ = api(srv, "POST", f"/api/lines/{company['id']}/confirm", {"person_id": "p19"}, tok)
     assert st == 409
