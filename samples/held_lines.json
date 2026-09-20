@@ -1,0 +1,367 @@
+[
+ {
+  "category": "family",
+  "raw": "장동철",
+  "history": [
+   {
+    "raw": "장동철",
+    "person_id": "p13",
+    "week": "2026-W05"
+   }
+  ],
+  "expect": {
+   "person_id": "p13",
+   "relation": "family"
+  }
+ },
+ {
+  "category": "family",
+  "raw": "박영수",
+  "history": [
+   {
+    "raw": "박영수",
+    "person_id": "p49",
+    "week": "2026-W06"
+   }
+  ],
+  "expect": {
+   "person_id": "p49",
+   "relation": "family"
+  }
+ },
+ {
+  "category": "family",
+  "raw": "김상철",
+  "history": [
+   {
+    "raw": "김상철",
+    "person_id": "p57",
+    "week": "2026-W07"
+   }
+  ],
+  "expect": {
+   "person_id": "p57",
+   "relation": "family"
+  }
+ },
+ {
+  "category": "family",
+  "raw": "이명자",
+  "history": [
+   {
+    "raw": "이명자",
+    "person_id": "p15",
+    "week": "2026-W04"
+   }
+  ],
+  "expect": {
+   "person_id": "p15",
+   "relation": "family"
+  }
+ },
+ {
+  "category": "family",
+  "raw": "최병호",
+  "history": [
+   {
+    "raw": "최병호",
+    "person_id": "p46",
+    "week": "2026-W03"
+   }
+  ],
+  "expect": {
+   "person_id": "p46",
+   "relation": "family"
+  }
+ },
+ {
+  "category": "company",
+  "raw": "우리상사",
+  "history": [
+   {
+    "raw": "우리상사",
+    "person_id": "p19",
+    "week": "2026-W08"
+   },
+   {
+    "raw": "우리상사",
+    "person_id": "p19",
+    "week": "2026-W09"
+   }
+  ],
+  "expect": {
+   "person_id": "p19",
+   "relation": "company"
+  }
+ },
+ {
+  "category": "company",
+  "raw": "대성정밀",
+  "history": [
+   {
+    "raw": "대성정밀",
+    "person_id": "p33",
+    "week": "2026-W07"
+   }
+  ],
+  "expect": {
+   "person_id": "p33",
+   "relation": "company"
+  }
+ },
+ {
+  "category": "company",
+  "raw": "한빛식당",
+  "history": [
+   {
+    "raw": "한빛식당",
+    "person_id": "p43",
+    "week": "2026-W06"
+   }
+  ],
+  "expect": {
+   "person_id": "p43",
+   "relation": "company"
+  }
+ },
+ {
+  "category": "company",
+  "raw": "(주)서진유통",
+  "history": [
+   {
+    "raw": "(주)서진유통",
+    "person_id": "p60",
+    "week": "2026-W05"
+   }
+  ],
+  "expect": {
+   "person_id": "p60",
+   "relation": "company"
+  }
+ },
+ {
+  "category": "company",
+  "raw": "푸른솔학원",
+  "history": [
+   {
+    "raw": "푸른솔학원",
+    "person_id": "p36",
+    "week": "2026-W04"
+   }
+  ],
+  "expect": {
+   "person_id": "p36",
+   "relation": "company"
+  }
+ },
+ {
+  "category": "typo",
+  "raw": "구봉형",
+  "history": [],
+  "expect": {
+   "person_id": "p17",
+   "relation": "typo"
+  }
+ },
+ {
+  "category": "typo",
+  "raw": "감민출",
+  "history": [],
+  "expect": {
+   "person_id": "p21",
+   "relation": "typo"
+  }
+ },
+ {
+  "category": "typo",
+  "raw": "오새운",
+  "history": [],
+  "expect": {
+   "person_id": "p15",
+   "relation": "typo"
+  }
+ },
+ {
+  "category": "typo",
+  "raw": "심영출",
+  "history": [],
+  "expect": {
+   "person_id": "p16",
+   "relation": "typo"
+  }
+ },
+ {
+  "category": "typo",
+  "raw": "난기헌",
+  "history": [],
+  "expect": {
+   "person_id": "p24",
+   "relation": "typo"
+  }
+ },
+ {
+  "category": "renamed",
+  "raw": "유정숙",
+  "history": [
+   {
+    "raw": "유정숙",
+    "person_id": "p30",
+    "week": "2026-W02"
+   }
+  ],
+  "expect": {
+   "person_id": "p30",
+   "relation": "renamed"
+  }
+ },
+ {
+  "category": "renamed",
+  "raw": "윤지원",
+  "history": [
+   {
+    "raw": "윤지원",
+    "person_id": "p55",
+    "week": "2026-W03"
+   }
+  ],
+  "expect": {
+   "person_id": "p55",
+   "relation": "renamed"
+  }
+ },
+ {
+  "category": "renamed",
+  "raw": "김미숙",
+  "history": [
+   {
+    "raw": "김미숙",
+    "person_id": "p14",
+    "week": "2026-W01"
+   }
+  ],
+  "expect": {
+   "person_id": "p14",
+   "relation": "renamed"
+  }
+ },
+ {
+  "category": "renamed",
+  "raw": "정미자",
+  "history": [
+   {
+    "raw": "정미자",
+    "person_id": "p09",
+    "week": "2026-W02"
+   }
+  ],
+  "expect": {
+   "person_id": "p09",
+   "relation": "renamed"
+  }
+ },
+ {
+  "category": "renamed",
+  "raw": "한수영",
+  "history": [
+   {
+    "raw": "한수영",
+    "person_id": "p13",
+    "week": "2026-W03"
+   }
+  ],
+  "expect": {
+   "person_id": "p13",
+   "relation": "renamed"
+  }
+ },
+ {
+  "category": "kind_typo",
+  "raw": "구봉형십일조",
+  "history": [],
+  "expect": {
+   "person_id": "p17",
+   "relation": "typo"
+  }
+ },
+ {
+  "category": "kind_typo",
+  "raw": "감민출감사헌금",
+  "history": [],
+  "expect": {
+   "person_id": "p21",
+   "relation": "typo"
+  }
+ },
+ {
+  "category": "kind_typo",
+  "raw": "오새운선교",
+  "history": [],
+  "expect": {
+   "person_id": "p15",
+   "relation": "typo"
+  }
+ },
+ {
+  "category": "kind_typo",
+  "raw": "심영출주정",
+  "history": [],
+  "expect": {
+   "person_id": "p16",
+   "relation": "typo"
+  }
+ },
+ {
+  "category": "kind_typo",
+  "raw": "난기헌건축",
+  "history": [],
+  "expect": {
+   "person_id": "p24",
+   "relation": "typo"
+  }
+ },
+ {
+  "category": "unknown",
+  "raw": "홍길동",
+  "history": [],
+  "expect": {
+   "person_id": null,
+   "relation": "unknown"
+  }
+ },
+ {
+  "category": "unknown",
+  "raw": "이몽룡",
+  "history": [],
+  "expect": {
+   "person_id": null,
+   "relation": "unknown"
+  }
+ },
+ {
+  "category": "unknown",
+  "raw": "성춘향",
+  "history": [],
+  "expect": {
+   "person_id": null,
+   "relation": "unknown"
+  }
+ },
+ {
+  "category": "unknown",
+  "raw": "변학도",
+  "history": [],
+  "expect": {
+   "person_id": null,
+   "relation": "unknown"
+  }
+ },
+ {
+  "category": "unknown",
+  "raw": "임꺽정",
+  "history": [],
+  "expect": {
+   "person_id": null,
+   "relation": "unknown"
+  }
+ }
+]
