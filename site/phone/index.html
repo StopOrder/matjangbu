@@ -72,7 +72,7 @@
     <p class="eyebrow">기기</p>
     <h2>재는 기기 둘, 잴 기기 하나</h2>
     <div class="grid grid-3">
-      <div class="card dev"><h3><svg class="ico" aria-hidden="true"><use href="#i-smartphone"/></svg>갤럭시 A31 <span class="badge badge-soon" id="a31-badge">측정 예정</span></h3><p>SM-A315N · 2020년 · RAM 4GB · MediaTek Helio P65(Cortex-A55×6 + A75×2) · Android 12(One UI 4.1, 지원 종료) · Termux + <code>pkg install llama-cpp python</code>.</p><div class="m" id="a31-m">가용 메모리 약 1.5GB. 1GB 급 모델까지가 안전선이고 1.4GB 모델은 메모리 관리자에 죽습니다(2026-09-20 실측).</div></div>
+      <div class="card dev"><h3><svg class="ico" aria-hidden="true"><use href="#i-smartphone"/></svg>갤럭시 A31 <span class="badge badge-ready" id="a31-badge">실측</span></h3><p>SM-A315N · 2020년 · RAM 4GB · MediaTek Helio P65(Cortex-A55×6 + A75×2) · Android 12(One UI 4.1, 지원 종료) · Termux + <code>pkg install llama-cpp python</code>.</p><div class="m" id="a31-m">가용 메모리 약 1.5GB. 1GB 급 모델까지가 안전선이고 1.4GB 모델은 메모리 관리자에 죽습니다(2026-09-20 실측).</div></div>
       <div class="card dev"><h3><svg class="ico" aria-hidden="true"><use href="#i-monitor"/></svg>노트북 <span class="badge badge-ready">체험 인스턴스</span></h3><p>Intel Core i7-10750H · 4스레드. 체험 사이트의 인스턴스와 미리 잰 기록이 이 기기 값입니다.</p><div class="m">모델 한 줄 12.9~17.6초 · pp 약 80 · tg 약 20 tok/s(체험 기록 9건, 2026-09-20)</div></div>
       <div class="card dev"><h3><svg class="ico" aria-hidden="true"><use href="#i-cpu"/></svg>2013년 이전 PC <span class="badge badge-soon">측정 예정</span></h3><p>AVX 만 있는 구형 데스크톱. 실제로 쓰는 연식의 PC 를 구해 어느 연식까지 실용 속도가 나오는지 표로 만듭니다.</p><div class="m">실측 전</div></div>
     </div>
@@ -87,6 +87,7 @@
         <thead><tr><th>기기</th><th>모델</th><th class="n">스레드</th><th class="n">줄당 초</th><th class="n">pp tok/s</th><th class="n">tg tok/s</th><th class="n">후보 1위 정답</th><th class="n">후보 3 안</th><th class="n">relation 정답</th><th class="n">JSON 성공</th></tr></thead>
         <tbody>
           <!-- bench:rows -->
+            <tr><td>갤럭시 A31 (4GB)</td><td>Qwen2.5-1.5B-Instruct Q4_K_M</td><td class="n">8</td><td class="n">111.5<span class="muted"> (97.3~135.6)</span></td><td class="n">8.9</td><td class="n">4.5</td><td class="n">12/25 (48%)</td><td class="n">13/25 (52%)</td><td class="n">11/30 (37%)</td><td class="n">30/30 (100%)</td></tr>
             <tr><td>노트북 i7-10750H</td><td>Qwen2.5-1.5B-Instruct Q4_K_M</td><td class="n">4</td><td class="n">14.7<span class="muted"> (12.7~21.3)</span></td><td class="n">77.4</td><td class="n">18.8</td><td class="n">13/25 (52%)</td><td class="n">13/25 (52%)</td><td class="n">12/30 (40%)</td><td class="n">30/30 (100%)</td></tr>
           <!-- /bench:rows -->
         </tbody>

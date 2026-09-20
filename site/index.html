@@ -330,6 +330,7 @@
           <thead><tr><th>기기</th><th>모델</th><th class="n">스레드</th><th class="n">줄당 초</th><th class="n">pp tok/s</th><th class="n">tg tok/s</th><th class="n">후보 1위 정답</th><th class="n">후보 3 안</th><th class="n">JSON 성공</th></tr></thead>
           <tbody>
             <!-- bench:rows -->
+            <tr><td>갤럭시 A31 (4GB)</td><td>Qwen2.5-1.5B-Instruct Q4_K_M</td><td class="n">8</td><td class="n">111.5<span class="muted"> (97.3~135.6)</span></td><td class="n">8.9</td><td class="n">4.5</td><td class="n">12/25 (48%)</td><td class="n">13/25 (52%)</td><td class="n">30/30 (100%)</td></tr>
             <tr><td>노트북 i7-10750H</td><td>Qwen2.5-1.5B-Instruct Q4_K_M</td><td class="n">4</td><td class="n">14.7<span class="muted"> (12.7~21.3)</span></td><td class="n">77.4</td><td class="n">18.8</td><td class="n">13/25 (52%)</td><td class="n">13/25 (52%)</td><td class="n">30/30 (100%)</td></tr>
             <!-- /bench:rows -->
           </tbody>
@@ -347,7 +348,7 @@
         <p>모델은 1GB 남짓, 이름 한 줄은 서류 한 장보다 훨씬 짧습니다. 사무실 구석의 낡은 PC 나 서랍 속 폐폰이면 됩니다.</p>
       </div>
       <div class="grid grid-3">
-        <div class="card dev"><svg class="ico" aria-hidden="true"><use href="#i-smartphone"/></svg><h3>폐폰 — 갤럭시 A31 <span class="badge badge-soon" id="dev-a31-badge">측정 예정</span></h3><p>SM-A315N · 4GB · Helio P65(A55×6 + A75×2) · Android 12 · Termux. 실측 기기이지 서버가 아닙니다.</p><div class="m" id="dev-a31-m">실측표는 <a href="phone/">지원 기기 페이지</a>에.</div></div>
+        <div class="card dev"><svg class="ico" aria-hidden="true"><use href="#i-smartphone"/></svg><h3>폐폰 — 갤럭시 A31 <span class="badge badge-ready" id="dev-a31-badge">실측</span></h3><p>SM-A315N · 4GB · Helio P65(A55×6 + A75×2) · Android 12 · Termux. 실측 기기이지 서버가 아닙니다.</p><div class="m" id="dev-a31-m">실측표는 <a href="phone/">지원 기기 페이지</a>에.</div></div>
         <div class="card dev"><svg class="ico" aria-hidden="true"><use href="#i-monitor"/></svg><h3>노트북 — Intel Core i7-10750H <span class="badge badge-ready">체험 인스턴스</span></h3><p>체험 사이트의 인스턴스가 이 노트북에서 돕니다. 4스레드. 기록의 모델 값은 이 기기에서 잰 것입니다.</p><div class="m">모델 한 줄 <b>12.9~17.6초</b> · pp <b>약 80</b> · tg <b>약 20 tok/s</b></div></div>
         <div class="card dev"><svg class="ico" aria-hidden="true"><use href="#i-cpu"/></svg><h3>2013년 이전 PC <span class="badge badge-soon">측정 예정</span></h3><p>AVX 만 있는 구형 데스크톱. 어느 연식까지 실용 속도가 나오는지 표로 만드는 것이 1라운드 계획입니다.</p><div class="m">실측 전</div></div>
       </div>
