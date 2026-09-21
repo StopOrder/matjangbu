@@ -90,4 +90,4 @@ python3 -m web.record --device "…" --model-name "…" --threads 4       # 체�
 코드·문서·샘플은 **Apache License 2.0** — `LICENSE`. Copyright 2026 정지명 (Jimyeong Jeong).
 모델 가중치는 저장소에 없으며 각 모델의 라이선스를 따른다(Qwen2.5-1.5B-Instruct: Apache-2.0). llama.cpp 는 MIT.
 
-Pretendard 글꼴은 SIL OFL-1.1(`site/assets/fonts/pretendard/LICENSE.txt`). `/try` 화면의 React 와 Tailwind 는 MIT — 빌드 산출물에 함께 들어간다. (`ui/src/components/ui/` 의 shadcn 컴포넌트 셋은 2026-09-21 재설계 뒤 화면이 쓰지 않아 산출물에 들어가지 않는다.)
+Pretendard 글꼴은 SIL OFL-1.1(`site/assets/fonts/pretendard/LICENSE.txt`). `/try` 화면의 React 와 Tailwind 는 MIT — 빌드 산출물에 함께 들어간다. 2026-09-21 재설계로 shadcn·radix-ui·lucide-react 는 전부 빠졌다.

@@ -29,7 +29,7 @@
 3. **랜딩 GNB 의 찾기 아이콘 제거** — 사이트 검색 기능이 없어 눌러도 아무 일이 없었다. 앱의 찾기는 실제로 줄을 거르므로 그대로 둔다.
 4. **시안 버그 둘을 고쳤다** — `.links h3` 가 검은 배경에 검은 글씨(시안 파일에도 반영) · 스티키 GNB 아래로 앵커가 숨던 것(`scroll-padding-top:64px`).
 5. **봉투 저장 요청 형태** — 계획의 `{rows:[…]}` 가 아니라 실제 API 인 `{week,date,lines:[…],counted_total}`.
-6. **겉모습을 Tailwind 유틸이 아니라 `ui/src/ui/app.css` 의 이름 있는 클래스로** 썼다 — 시안 CSS 를 옮기는 쪽이 어긋날 자리가 없다. 그 결과 `ui/src/components/ui/{button,input,collapsible}.tsx` 와 `lib/utils.ts` 는 **아무도 쓰지 않는 파일이 됐다**(번들에도 안 들어간다). 계획이 「손대지 않는 것」으로 묶어 둬서 지우지 않았다 — **사용자가 지우라면 지운다.**
+6. **겉모습을 Tailwind 유틸이 아니라 `ui/src/ui/app.css` 의 이름 있는 클래스로** 썼다 — 시안 CSS 를 옮기는 쪽이 어긋날 자리가 없다. 그 결과 shadcn 컴포넌트 셋과 그 의존을 쓰는 곳이 하나도 남지 않아 **사용자 지시로 전부 지웠다**(`components/ui/` 3개 · `lib/utils.ts` · `components.json` · 의존 radix-ui·lucide-react·class-variance-authority·cn·shadcn·tw-animate-css). Tailwind 는 리셋과 유틸리티용으로 남겼다 — 지금은 유틸리티를 쓰는 곳이 없어 preflight 만 나간다.
 7. **`site_shots.cjs` 산출물이 7장 → 9장**으로 바뀌었다. 옛 파일명(02-queue 등)은 없어진 화면이라 지웠다.
 
 
@@ -116,7 +116,7 @@ git push && git subtree push --prefix site origin gh-pages
 - [ ] **사용자에게 보인다** — `http://127.0.0.1:8108/`(랜딩) · `/install/` · `/try/`(장부 4장). 8108 은 작업 트리의 `site/` 를 그대로 서빙하므로 지금 상태가 그대로 뜬다.
 - [ ] 승인이 나면 배포: `git push && git subtree push --prefix site origin gh-pages` → 1~2분 뒤 `curl -sI https://stoporder.github.io/matjangbu/`
 - [ ] 배포 뒤 공개 주소로 검증 한 번 더: `node tools/verify_site.cjs --base https://stoporder.github.io/matjangbu --allow https://<Funnel 주소> --resolve <호스트>=<공개 IP>` · `verify_funnel.cjs` 같은 인자
-- [ ] (사용자 판단) 안 쓰는 `ui/src/components/ui/{button,input,collapsible}.tsx`·`lib/utils.ts` 와 `package.json` 의 radix-ui·lucide-react·cva 정리
+- [x] 안 쓰는 shadcn 정리 (2026-09-21, 사용자 지시) — 파일 5개 + 의존 6개 + 락파일 5,114줄. 빌드 CSS 27.6→19.9KB
 - [x] 시안 2장 사용자 승인 (2026-09-21)
 - [x] 구현 계획 작성·커밋 (2026-09-21, `56ceb78`)
 - [x] 구현 Task 1~6 실행·커밋 (2026-09-21, `db5dac1`~`eb6dfe4`)

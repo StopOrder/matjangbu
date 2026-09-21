@@ -6,7 +6,9 @@
 
 **Architecture:** 파이썬(`engine/`·`web/`)과 HTTP API 는 한 줄도 바꾸지 않는다. `ui/` 의 순수 모듈(`api.ts`·`load.ts`·`fallback.ts`·`route.ts`·`lines.ts`·`types.ts`·`store.tsx`)도 유지한다. 바뀌는 것은 **화면 계층뿐**이다 — `ui/src/components/`·`ui/src/views/`·`ui/src/index.css` 는 파일째 지우고 새로 짓고, `ui/src/labels.ts` 의 라우트 목록은 7개에서 4개로 줄인다. 정적 페이지는 `site/index.html`·`site/install/index.html` 두 장이며 **각자 CSS 를 인라인으로 품는다** — 체험 인스턴스가 죽어도 살아야 하므로 같은 출처의 폰트 파일 외에는 아무것도 `<link>` 하지 않는다(`docs/superpowers/specs/2026-09-21-ui-toss-redesign-design.md:131`). 약 10KB 중복은 감수한다. 쓰이지 않게 된 `site/assets/app.css` 는 지운다.
 
-**Tech Stack:** React 19 + Vite + TypeScript + Tailwind v4 + shadcn(button·input·collapsible 만) · Vitest · 순수 정적 HTML/CSS · Playwright(검증 도구) · pytest
+**Tech Stack:** React 19 + Vite + TypeScript + Vitest · 순수 정적 HTML/CSS · Playwright(검증 도구) · pytest
+
+> **구현 뒤 개정** — 겉모습을 시안 CSS 그대로(`ui/src/ui/app.css` 의 이름 있는 클래스)로 옮기고 나니 shadcn 컴포넌트(button·input·collapsible)와 그 의존(radix-ui·lucide-react·cva·cn)을 쓰는 곳이 하나도 남지 않았다. 2026-09-21 밤에 전부 지웠다. Tailwind 는 리셋(preflight)과 유틸리티를 위해 남긴다.
 
 ## Global Constraints
 
