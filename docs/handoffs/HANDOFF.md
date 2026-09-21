@@ -1,4 +1,4 @@
-# HANDOFF — 시안 승인 완료, 이제 site/·ui/ 에 실제 반영 (updated 2026-09-21 저녁)
+# HANDOFF — 구현 Task 1~6 완료, 사용자 승인·배포만 남음 (updated 2026-09-21 밤)
 
 ## 목표
 
@@ -6,26 +6,39 @@
 
 **완료 판정**: 새 화면이 로컬 8108 에서 돌고, 사용자가 그 화면을 직접 보고 승인하고, 검증 도구·pytest 가 통과한 뒤 공개 배포까지 끝난 상태.
 
-**지금 위치**: 시안 2장을 사용자가 보고 **승인했다.** 구현 계획도 써서 커밋했다. **구현은 아직 한 줄도 시작하지 않았다.** 다음 세션의 일은 계획 Task 1 부터 실행하는 것이다.
+**지금 위치**: 계획 Task 1~6 을 **전부 실행하고 커밋했다.** 검사도 전부 통과했다(아래). 남은 것은 둘뿐 — ① 사용자가 `http://127.0.0.1:8108/try/` 와 `http://127.0.0.1:8108/` 를 직접 보고 승인, ② 승인 뒤 `git push && git subtree push --prefix site origin gh-pages`. **승인 전 배포 금지.**
 
 ## 현재 상태
 
-- [x] **결정 기록 확정** — 결정 16개 + 토스(TDS) 개정 7개 + PyTorch 배치 개정 4개. 정본 `docs/superpowers/specs/2026-09-21-ledger-redesign-decisions.md`. 커밋됨.
-- [x] **토스 TDS 조사 완료** — `~/Projects/00-research/2026-09/w4/2026-09-21-toss-tdk/FINDINGS.md`(각주 46개). 색·타이포·간격·반경·그림자 토큰과 컴포넌트 규격 실측치가 전부 여기 있다. **구현할 때 이 파일을 편다.**
-- [x] **주간 장 시안** `docs/mockups/2026-09-21-weekly-ledger.html` — TDS 리스트형. 데스크톱 1400×900 · 모바일 390px 가로 넘침 0 · 콘솔 에러 0 확인.
-- [x] **랜딩 시안** `docs/mockups/2026-09-21-landing.html` — pytorch.org 배치 + TDS 색. JS 0 · 모바일 390px 가로 넘침 0 · 콘솔 에러 0 확인.
-- [x] **사용자 검수 통과** — 사용자가 랜딩 화면을 캡처해 보이며 「맘에 들어 전부 다 반영해줘. 일단」이라고 했다(2026-09-21). 문장이 「일단」에서 끊겼지만 승인과 반영 지시는 분명했다. **시안을 다시 고치라는 지시는 없었다.**
-- [x] **구현 계획 작성·커밋** — `docs/superpowers/plans/2026-09-21-pytorch-tds-implementation.md`, 과제 6개. 커밋 `56ceb78`.
-- [~] **계획 Task 1 착수 직전에 멈춤** — 착수 전 사전 조사에서 계획과 저장소 현실이 어긋나는 것을 하나 찾았다(아래 「계획 수정이 필요한 곳」). 파일은 하나도 고치지 않았다. 작업 트리는 깨끗하다.
-- [ ] Task 1~6 전부 미착수. `site/` 와 `ui/` 는 어제 새벽 토스풍 React 그대로다.
-- [ ] 공개 사이트(gh-pages)는 **어제 새벽 배포본**이 그대로 떠 있다. 이번 재설계는 아직 배포하지 않았다.
+- [x] **결정 기록 확정** — 결정 16개 + 토스(TDS) 개정 7개 + PyTorch 배치 개정 4개. 정본 `docs/superpowers/specs/2026-09-21-ledger-redesign-decisions.md`.
+- [x] **토스 TDS 조사 완료** — `~/Projects/00-research/2026-09/w4/2026-09-21-toss-tdk/FINDINGS.md`(각주 46개).
+- [x] **시안 2장 사용자 승인** — `docs/mockups/2026-09-21-landing.html` · `2026-09-21-weekly-ledger.html`.
+- [x] **Task 1 — 정적 사이트 세 장** (`db5dac1`). 랜딩 교체 · `/install/` 신설 · `/download/`·`/phone/`·`assets/app.css`·`dashboard.jpg` 폐지 · `tests/test_web.py` 페이지 목록 · `NOTICE`·`README` 정리.
+- [x] **Task 2 — 앱 껍데기** (`bf08fa4`). 라우트 4개 · `ui/src/ui/{tokens,app}.css` · `Shell`·`Icons`·`Badge`·`Toasts` · 옛 컴포넌트 19개·옛 뷰 7개·shadcn 4개 삭제.
+- [x] **Task 3 — 주간 장** (`7d25dbb`). `Row`·`RowPanel`·`EntryRow`·`useImport`·`Week`.
+- [x] **Task 4 — 연말·명부·설정** (`b2e0c3a`).
+- [x] **Task 5 — 검증 도구 3개** (`ef91706`). `data-mj` 계약으로 재작성 + `docs/ops.md` 갱신.
+- [x] **Task 6 — 통합 검사** (`eb6dfe4`). 전부 통과 — pytest 44 · 타입 0 · Vitest 20 · 빌드 · verify_site 0(8108, 8123 폴백) · verify_funnel 0 · site_shots 0(9장).
+- [ ] **사용자 승인 대기** — 8108 을 직접 보고 「좋다」가 나와야 다음으로 간다.
+- [ ] **공개 배포** — 승인 뒤에만. `git push && git subtree push --prefix site origin gh-pages`.
+
+### 구현 중에 계획과 다르게 간 곳 (전부 커밋 메시지에 적혀 있다)
+
+1. **정적 두 장 모두 CSS 인라인**, `site/assets/app.css` 폐기 — 「인스턴스에 의존하지 않는다」 규칙.
+2. **앱 GNB 는 흰색** — 계획 서술은 어두운 `--g900` 이었지만 승인된 시안이 흰 GNB 다. 어두운 GNB 는 랜딩 것.
+3. **랜딩 GNB 의 찾기 아이콘 제거** — 사이트 검색 기능이 없어 눌러도 아무 일이 없었다. 앱의 찾기는 실제로 줄을 거르므로 그대로 둔다.
+4. **시안 버그 둘을 고쳤다** — `.links h3` 가 검은 배경에 검은 글씨(시안 파일에도 반영) · 스티키 GNB 아래로 앵커가 숨던 것(`scroll-padding-top:64px`).
+5. **봉투 저장 요청 형태** — 계획의 `{rows:[…]}` 가 아니라 실제 API 인 `{week,date,lines:[…],counted_total}`.
+6. **겉모습을 Tailwind 유틸이 아니라 `ui/src/ui/app.css` 의 이름 있는 클래스로** 썼다 — 시안 CSS 를 옮기는 쪽이 어긋날 자리가 없다. 그 결과 `ui/src/components/ui/{button,input,collapsible}.tsx` 와 `lib/utils.ts` 는 **아무도 쓰지 않는 파일이 됐다**(번들에도 안 들어간다). 계획이 「손대지 않는 것」으로 묶어 둬서 지우지 않았다 — **사용자가 지우라면 지운다.**
+7. **`site_shots.cjs` 산출물이 7장 → 9장**으로 바뀌었다. 옛 파일명(02-queue 등)은 없어진 화면이라 지웠다.
+
 
 ## 계획 (전문)
 
-**계획 정본은 `docs/superpowers/plans/2026-09-21-pytorch-tds-implementation.md` 다. 그 파일을 읽고 그대로 실행하면 된다.** 과제 6개 요약:
+**계획 정본은 `docs/superpowers/plans/2026-09-21-pytorch-tds-implementation.md` 다. Step 39개가 전부 체크돼 있다(Task 6 Step 3 의 승인 요청만 열려 있다).** 과제 6개 요약:
 
 1. **Task 1 — 정적 사이트 세 장**: `site/index.html` 을 랜딩 시안으로 전면 교체, `site/install/index.html` 신설, `site/download/`·`site/phone/` 폐지, `tests/test_web.py:124` 페이지 목록 한 줄, `NOTICE` 정리.
-2. **Task 2 — 앱 껍데기**: TDS 토큰, 어두운 GNB + 장 4개(`Shell.tsx`), 옛 컴포넌트 18개·옛 뷰 7개 파일째 삭제, `labels.ts` 의 `ROUTES` 를 `["week","year","roster","settings"]` 로, `route.ts` 기본값 `week`.
+2. **Task 2 — 앱 껍데기**: TDS 토큰, 흰 GNB + 장 4개(`Shell.tsx`) — 계획엔 어두운 GNB 로 적혀 있었지만 시안이 흰 GNB 다, 옛 컴포넌트 18개·옛 뷰 7개 파일째 삭제, `labels.ts` 의 `ROUTES` 를 `["week","year","roster","settings"]` 로, `route.ts` 기본값 `week`.
 3. **Task 3 — 주간 장**: 리스트 + 맨 위 고정 봉투 입력 줄 + 그 자리 펼침 + 바닥 합계.
 4. **Task 4 — 연말·명부·설정**: 옛 대시보드·확인 큐·불러오기·기기·기록 화면을 이 셋으로 흡수.
 5. **Task 5 — 검증 도구 3개**를 새 DOM 계약(`data-mj="..."`)으로 재작성.
@@ -33,22 +46,7 @@
 
 계획 문서 안에 **DOM 계약 표**가 있다(`data-mj="gnb"|"tab"|"ledger"|"row"|"panel"|"cand"|"entry"|"total"|"hero"|"matrix"|"opt"|"out"`). 검증 도구가 클래스 이름에 묶이지 않도록 일부러 `data-*` 로 고정했다. 화면과 도구가 같이 지켜야 한다.
 
-### 계획 수정이 필요한 곳 (착수 전 반드시 반영)
-
-**계획 Task 1 Step 1~2 가 저장소의 기존 규칙과 충돌한다.** 계획은 「시안의 `<style>` 을 떼어 `site/assets/app.css` 로 옮기고 두 정적 페이지가 공유한다」고 썼지만, 현재 `site/index.html:13-15` 에 명시된 규칙은 그 반대다:
-
-> 랜딩은 「파일 하나」 규칙 — 체험 인스턴스가 죽어도 이 링크는 살아야 하므로 CSS를 `<link>` 대신 인라인으로 품는다.
-
-이 규칙은 `docs/superpowers/specs/2026-09-21-ui-toss-redesign-design.md:131` 에서 **「인스턴스에 의존하지 않는다」**로 더 정확히 정의돼 있다 — 같은 출처(Pages)의 폰트 파일 링크는 허용한다.
-
-**그래서 Task 1 을 이렇게 바꿔서 실행한다:**
-- `site/index.html` 과 `site/install/index.html` **둘 다 CSS 를 인라인으로 품는다.** 약 10KB 중복이지만 규칙을 지킨다. 폰트만 `<link rel="stylesheet" href="assets/fonts/pretendard/pretendardvariable-dynamic-subset.css">`(install 은 `../assets/...`).
-- **`site/assets/app.css` 는 아예 지운다.** 확인해 보니 이제 아무도 쓰지 않는다 — 참조처는 `NOTICE:8` 과 `README.md:86` 두 문서뿐이고, React 앱(`site/try/`)은 자기 CSS 를 따로 갖는다.
-- 따라서 **`README.md:86` 도 같이 고쳐야 한다.** 그 줄은 나비에서 가져온 것 목록에 「디자인 시스템(`site/assets/app.css`)」과 「앱 화면 골격」을 적고 있는데, 둘 다 이번에 버려진다. `NOTICE:8` 의 `site/assets/app.css 디자인 시스템, site/try/index.html 화면 골격.` 줄과 짝을 맞춰 지운다. **파이썬 유래 항목(`web/server.py`·`web/demo.py`·`engine/model.py`·`engine/store.py`)은 그대로 남긴다** — 그 코드는 계속 쓴다.
-- `site/assets/dashboard.jpg` 도 지운다. 확인 결과 문서 외에는 참조처가 없다.
-- **`site/index.html` 의 `og:` 메타 태그 3개(`og:title`·`og:description`·`og:type`)는 살려서 새 문구로 옮긴다.** 시안에는 없다.
-
-이 네 가지는 계획 파일에 아직 반영돼 있지 않다. 착수할 때 계획 파일도 같이 고쳐 두면 좋다.
+*(이 자리에 있던 「계획 수정이 필요한 곳」 네 가지는 2026-09-21 밤 구현에서 전부 반영됐다. 결과는 위 「계획과 다르게 간 곳」 1·2 번에 있다.)*
 
 ## 결정사항과 이유
 
@@ -75,7 +73,9 @@
 
 ## 핵심 파일·명령
 
-- **계획 정본**: `docs/superpowers/plans/2026-09-21-pytorch-tds-implementation.md` ← **다음 세션이 제일 먼저 읽을 파일**
+- **계획 정본**: `docs/superpowers/plans/2026-09-21-pytorch-tds-implementation.md`(전부 체크됨)
+- **지금 화면의 정본**: `site/index.html` · `site/install/index.html` · `ui/src/ui/app.css`(겉모습) · `ui/src/views/{Week,Year,Roster,Settings}.tsx`
+- **화면 스크린샷 9장**: `docs/shots/`(2026-09-21 밤 8108 에서 찍음)
 - **결정 정본**: `docs/superpowers/specs/2026-09-21-ledger-redesign-decisions.md`(결정 16개 + 개정 2절)
 - **시안**: `docs/mockups/2026-09-21-landing.html` · `docs/mockups/2026-09-21-weekly-ledger.html` · `docs/mockups/assets/ledger.png`(랜딩 히어로에 쓰는 주간 장 스크린샷)
 - **TDS 규격 정본**: `~/Projects/00-research/2026-09/w4/2026-09-21-toss-tdk/FINDINGS.md` — 2절 토큰 실측표, 3절 컴포넌트 규격, 6절 「쓸 것·버릴 것」, 7절 모르는 것
@@ -85,29 +85,27 @@
 - **API 15개(불변)**: `web/server.py` 의 `_r_health`·`_r_state`·`_r_import`·`_r_rematch`·`_r_confirm`·`_r_hold`·`_r_exclude`·`_r_undo`·`_r_envelope`·`_r_export`·`_r_roster`·`_r_reset`·`_r_job`·`_r_events`
 
 ```bash
-# 시안 열기
-xdg-open docs/mockups/2026-09-21-landing.html
-
-# 화면 찍기 (콘솔 에러가 있으면 exit 1). --mobile 은 390×844
-NODE_PATH=~/workspace/02-sandbox/mvp-agent/node_modules \
-  node tools/dev_shot.cjs "file://$PWD/docs/mockups/2026-09-21-landing.html" /tmp/x.png
-
-# 정적 검증 서버 / 실제 인스턴스
-python3 -m http.server 8123 -d site
+# 지금 화면 보기 — 8108 은 작업 트리의 site/ 를 그대로 서빙한다
 systemctl --user status matjangbu-llama matjangbu-web
-curl -s 127.0.0.1:8108/api/health        # 8108 은 작업 트리의 site/ 를 그대로 서빙한다
+xdg-open http://127.0.0.1:8108/          # 랜딩 · /install/ · /try/
 
-# 검사
-.venv/bin/python -m pytest -q             # 44개, 모델 서버 불필요
-cd ui && npm run typecheck && npx vitest run && npm run build   # 빌드 산출물 → site/try/
+# 검사 (전부 exit 0 이어야 한다)
+.venv/bin/python -m pytest -q                                   # 44개, 모델 서버 불필요
+cd ui && npm run typecheck && npx vitest run && npm run build && cd ..   # 산출물 → site/try/
+export NODE_PATH=~/workspace/02-sandbox/mvp-agent/node_modules
+node tools/verify_site.cjs   --base http://127.0.0.1:8108       # ✓ 23개
+node tools/verify_funnel.cjs --base http://127.0.0.1:8108       # ✓ 9개
+node tools/site_shots.cjs docs/shots --base http://127.0.0.1:8108   # 9장
 
-# 모바일 가로 넘침 재기
-NODE_PATH=~/workspace/02-sandbox/mvp-agent/node_modules node -e "
-const {chromium}=require('playwright');(async()=>{const b=await chromium.launch();
-const p=await b.newPage({viewport:{width:390,height:844}});
-await p.goto('file://'+process.cwd()+'/docs/mockups/2026-09-21-landing.html',{waitUntil:'networkidle'});
-console.log(await p.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth));
-await b.close()})()"
+# 폴백(미리 잰 기록) 확인 — 정적 서버에는 API 가 없다
+python3 -m http.server 8123 -d site &
+node tools/verify_site.cjs --base http://127.0.0.1:8123 --expect-recorded --allow https://omarchy.tailb0e058.ts.net/
+
+# 화면 한 장만 빠르게 (콘솔 에러가 있으면 exit 1). --mobile 은 390×844
+node tools/dev_shot.cjs "http://127.0.0.1:8108/try/#/week" /tmp/x.png
+
+# 승인 뒤에만
+git push && git subtree push --prefix site origin gh-pages
 ```
 
 **실측 숫자 출처**: `bench/results/*.md` · 현재 `site/index.html` 의 `#measured` 절. 화면에 쓴 값 — 샘플 4주 86줄 중 규칙 77·모델 9, 줄당 노트북 14.7초(12.7~21.3)·A31 111.5초(97.3~135.6), 1순위 정답 노트북 13/25·A31 12/25, 2013년 이전 PC 측정 예정.
@@ -115,12 +113,13 @@ await b.close()})()"
 ## 다음 액션
 
 <!-- NEXT-ACTIONS -->
-- [ ] `docs/superpowers/plans/2026-09-21-pytorch-tds-implementation.md` 를 읽고, 그 안의 Task 1 을 위 「계획 수정이 필요한 곳」 네 가지(CSS 인라인 유지 · `site/assets/app.css` 삭제 · `README.md:86` 수정 · `og:` 메타 보존)로 고친 뒤 Task 1 을 실행한다
-- [ ] Task 2~4 — `ui/` 화면 계층 재작성. 순수 모듈과 `web/`·`engine/` 은 건드리지 않는다
-- [ ] Task 5 — `tools/verify_site.cjs`·`verify_funnel.cjs`·`site_shots.cjs` 를 `data-mj` 계약으로 재작성
-- [ ] Task 6 — pytest 44 + 타입 + Vitest 20 + 빌드 + 8108 검증을 모두 통과시킨 뒤, 사용자에게 8108 을 직접 열어 보라고 요청한다. **승인 전에 `git subtree push` 금지**
+- [ ] **사용자에게 보인다** — `http://127.0.0.1:8108/`(랜딩) · `/install/` · `/try/`(장부 4장). 8108 은 작업 트리의 `site/` 를 그대로 서빙하므로 지금 상태가 그대로 뜬다.
+- [ ] 승인이 나면 배포: `git push && git subtree push --prefix site origin gh-pages` → 1~2분 뒤 `curl -sI https://stoporder.github.io/matjangbu/`
+- [ ] 배포 뒤 공개 주소로 검증 한 번 더: `node tools/verify_site.cjs --base https://stoporder.github.io/matjangbu --allow https://<Funnel 주소> --resolve <호스트>=<공개 IP>` · `verify_funnel.cjs` 같은 인자
+- [ ] (사용자 판단) 안 쓰는 `ui/src/components/ui/{button,input,collapsible}.tsx`·`lib/utils.ts` 와 `package.json` 의 radix-ui·lucide-react·cva 정리
 - [x] 시안 2장 사용자 승인 (2026-09-21)
 - [x] 구현 계획 작성·커밋 (2026-09-21, `56ceb78`)
+- [x] 구현 Task 1~6 실행·커밋 (2026-09-21, `db5dac1`~`eb6dfe4`)
 <!-- /NEXT-ACTIONS -->
 
 ## 추천 스킬·도구
