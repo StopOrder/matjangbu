@@ -157,8 +157,7 @@ kbd{display:inline-block;min-width:20px;height:20px;padding:0 5px;margin:0 1px;b
 .kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:9px 20px;font-size:14px;margin:0}
 .kv dt{color:var(--g500);white-space:nowrap}
 .kv dd{margin:0;color:var(--g800);font-variant-numeric:tabular-nums;min-width:0;overflow-wrap:anywhere}
-/* 작은 리스트(명부·별칭) */
-.mini{max-height:60vh;overflow:auto}
+/* 작은 리스트(명부·별칭) — 안에서 따로 구르게 하지 않는다. 페이지가 그대로 구른다 */
 .mrow{display:flex;align-items:center;gap:12px;padding:11px 24px;position:relative;font-size:14px}
 .mrow+.mrow::before{content:"";position:absolute;top:0;left:24px;right:0;height:1px;background:var(--hair)}
 .mrow .nm{font-weight:600;color:var(--g900)}
