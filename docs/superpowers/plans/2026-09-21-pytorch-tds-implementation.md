@@ -510,7 +510,7 @@ NODE_PATH=~/workspace/02-sandbox/mvp-agent/node_modules node tools/site_shots.cj
 
 Expected: 전부 exit 0. 8108 은 작업 트리의 `site/` 를 그대로 서빙하므로 빌드 산출물이 바로 반영된다.
 
-- [~] **Step 3: 커밋하고 사용자에게 보인다** — 커밋 완료, 사용자 승인 대기
+- [x] **Step 3: 커밋하고 사용자에게 보인다** — 사용자가 「배포 해줘」로 답해 2026-09-21 밤 배포했다(`gh-pages` `cbdc8f7..2ac2ff9`). 공개 주소 검증도 통과.
 
 ```bash
 git add -A

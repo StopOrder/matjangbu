@@ -1,4 +1,4 @@
-# HANDOFF — 구현 Task 1~6 완료, 사용자 승인·배포만 남음 (updated 2026-09-21 밤)
+# HANDOFF — 재설계 배포 완료 (updated 2026-09-21 밤)
 
 ## 목표
 
@@ -6,7 +6,7 @@
 
 **완료 판정**: 새 화면이 로컬 8108 에서 돌고, 사용자가 그 화면을 직접 보고 승인하고, 검증 도구·pytest 가 통과한 뒤 공개 배포까지 끝난 상태.
 
-**지금 위치**: 계획 Task 1~6 을 **전부 실행하고 커밋했다.** 검사도 전부 통과했다(아래). 남은 것은 둘뿐 — ① 사용자가 `http://127.0.0.1:8108/try/` 와 `http://127.0.0.1:8108/` 를 직접 보고 승인, ② 승인 뒤 `git push && git subtree push --prefix site origin gh-pages`. **승인 전 배포 금지.**
+**지금 위치**: 계획 Task 1~6 을 전부 실행하고, 안 쓰는 shadcn 을 정리하고, **사용자 지시로 공개 배포까지 끝냈다.** <https://stoporder.github.io/matjangbu/> 가 새 화면이고 `/try/` 는 Funnel 인스턴스에 붙어 실제로 동작한다(공개 주소 검증 통과). 이 재설계 건은 닫혔다.
 
 ## 현재 상태
 
@@ -19,8 +19,8 @@
 - [x] **Task 4 — 연말·명부·설정** (`b2e0c3a`).
 - [x] **Task 5 — 검증 도구 3개** (`ef91706`). `data-mj` 계약으로 재작성 + `docs/ops.md` 갱신.
 - [x] **Task 6 — 통합 검사** (`eb6dfe4`). 전부 통과 — pytest 44 · 타입 0 · Vitest 20 · 빌드 · verify_site 0(8108, 8123 폴백) · verify_funnel 0 · site_shots 0(9장).
-- [ ] **사용자 승인 대기** — 8108 을 직접 보고 「좋다」가 나와야 다음으로 간다.
-- [ ] **공개 배포** — 승인 뒤에만. `git push && git subtree push --prefix site origin gh-pages`.
+- [x] **사용자 지시로 배포** (2026-09-21 밤) — `main` `cb5ae47..ab0f964` · `gh-pages` `cbdc8f7..2ac2ff9`.
+- [x] **공개 주소 검증 통과** — `verify_site` 0(✓23) · `verify_funnel` 0(✓9, `docs/shots/10-public-funnel.png`). `/try/` 가 `https://omarchy.tailb0e058.ts.net/` 에 붙어 후보 확정까지 실제로 돈다.
 
 ### 구현 중에 계획과 다르게 간 곳 (전부 커밋 메시지에 적혀 있다)
 
@@ -75,7 +75,7 @@
 
 - **계획 정본**: `docs/superpowers/plans/2026-09-21-pytorch-tds-implementation.md`(전부 체크됨)
 - **지금 화면의 정본**: `site/index.html` · `site/install/index.html` · `ui/src/ui/app.css`(겉모습) · `ui/src/views/{Week,Year,Roster,Settings}.tsx`
-- **화면 스크린샷 9장**: `docs/shots/`(2026-09-21 밤 8108 에서 찍음)
+- **화면 스크린샷**: `docs/shots/` — 01~09 는 8108 에서, `10-public-funnel.png` 는 공개 주소에서 찍었다(2026-09-21 밤)
 - **결정 정본**: `docs/superpowers/specs/2026-09-21-ledger-redesign-decisions.md`(결정 16개 + 개정 2절)
 - **시안**: `docs/mockups/2026-09-21-landing.html` · `docs/mockups/2026-09-21-weekly-ledger.html` · `docs/mockups/assets/ledger.png`(랜딩 히어로에 쓰는 주간 장 스크린샷)
 - **TDS 규격 정본**: `~/Projects/00-research/2026-09/w4/2026-09-21-toss-tdk/FINDINGS.md` — 2절 토큰 실측표, 3절 컴포넌트 규격, 6절 「쓸 것·버릴 것」, 7절 모르는 것
@@ -113,13 +113,17 @@ git push && git subtree push --prefix site origin gh-pages
 ## 다음 액션
 
 <!-- NEXT-ACTIONS -->
-- [ ] **사용자에게 보인다** — `http://127.0.0.1:8108/`(랜딩) · `/install/` · `/try/`(장부 4장). 8108 은 작업 트리의 `site/` 를 그대로 서빙하므로 지금 상태가 그대로 뜬다.
-- [ ] 승인이 나면 배포: `git push && git subtree push --prefix site origin gh-pages` → 1~2분 뒤 `curl -sI https://stoporder.github.io/matjangbu/`
-- [ ] 배포 뒤 공개 주소로 검증 한 번 더: `node tools/verify_site.cjs --base https://stoporder.github.io/matjangbu --allow https://<Funnel 주소> --resolve <호스트>=<공개 IP>` · `verify_funnel.cjs` 같은 인자
-- [x] 안 쓰는 shadcn 정리 (2026-09-21, 사용자 지시) — 파일 5개 + 의존 6개 + 락파일 5,114줄. 빌드 CSS 27.6→19.9KB
+**이 재설계 건은 끝났다.** 다음에 할 일은 새로 정한다. 손대지 않고 남겨 둔 것:
+
+- [ ] 랜딩 「우리 PC 로 되나요」의 고르기 판은 아직 **정적**이다 — 칸을 눌러도 값이 바뀌지 않는다(시안 그대로). 2013년 이전 PC 를 재면 그 값을 넣으면서 같이 살아나게 하는 것이 자연스럽다.
+- [ ] 설치 프로그램·zip 과 자동 백업은 「준비 중」으로 적혀 있다. 만들면 `site/install/index.html` 의 그 자리에 그대로 들어간다.
+- [ ] 해요체가 이 사용자층(교회 재정 담당 장로)에 맞는지 아직 사용자가 명시적으로 답하지 않았다.
+- [ ] `ui/` 에 Tailwind 유틸리티를 쓰는 곳이 한 군데도 없다. 지금은 리셋(preflight)만 쓰는 셈이고, 빼면 빌드 CSS 19.89→14.23KB. 5.66KB 라 그냥 뒀다.
 - [x] 시안 2장 사용자 승인 (2026-09-21)
 - [x] 구현 계획 작성·커밋 (2026-09-21, `56ceb78`)
 - [x] 구현 Task 1~6 실행·커밋 (2026-09-21, `db5dac1`~`eb6dfe4`)
+- [x] 안 쓰는 shadcn 정리 (2026-09-21, `ab0f964`)
+- [x] 공개 배포 + 공개 주소 검증 (2026-09-21)
 <!-- /NEXT-ACTIONS -->
 
 ## 추천 스킬·도구
