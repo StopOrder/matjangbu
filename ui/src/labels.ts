@@ -1,9 +1,9 @@
 import type { LineState } from "./types"
 
-export const ROUTES = ["dashboard", "import", "envelope", "queue", "records", "roster", "device"] as const
+export const ROUTES = ["week", "year", "roster", "settings"] as const
 export type Route = (typeof ROUTES)[number]
 export const TITLES: Record<Route, string> = {
-  dashboard: "대시보드", import: "불러오기", envelope: "봉투 입력", queue: "확인 큐", records: "기록", roster: "명부·별칭", device: "기기",
+  week: "이번 주", year: "연말", roster: "명부", settings: "설정",
 }
 export const STATE: Record<LineState, string> = { auto: "자동 확정", held: "확인 필요", confirmed: "확정", excluded: "제외" }
 export const REASON: Record<string, string> = {

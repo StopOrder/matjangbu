@@ -1,0 +1,17 @@
+/* 토스 TDS 색 토큰 — @toss/tds-colors SCSS 원본과 toss.im·tossbank.com 프로덕션 CSS 실측.
+   정본은 ~/Projects/00-research/2026-09/w4/2026-09-21-toss-tdk/FINDINGS.md 2절.
+   시안 docs/mockups/2026-09-21-weekly-ledger.html 의 :root 와 같은 값이다 — 한쪽을 바꾸면 양쪽을 맞춘다. */
+:root{
+  --blue:#3182f6; --blue-hover:#2272eb; --blue-weak:#e8f3ff; --blue-text:#1b64da;
+  --g900:#191f28; --g800:#333d4b; --g700:#4e5968; --g600:#6b7684; --g500:#8b95a1;
+  --g400:#b0b8c1; --g300:#d1d6db; --g200:#e5e8eb; --g100:#f2f4f6; --g50:#f9fafb;
+  --screen:#f6f7f9;
+  --hair:rgba(0,0,33,.07);           /* 리스트 행 구분 1px */
+  --border:rgba(0,27,55,.1);         /* greyOpacity200 */
+  --line5:rgba(2,32,71,.05);         /* greyOpacity100 — GNB·카드 테두리 */
+  --green:#03b26c; --green-weak:rgba(2,162,98,.16); --green-text:#029359;
+  --amber-weak:rgba(255,179,49,.16); --amber-text:#dd7d02;
+  --model-weak:rgba(123,97,255,.16); --model-text:#5b3fd6;   /* 모델 보라 */
+  --human-weak:rgba(140,148,64,.2);  --human-text:#646b25;   /* 사람 올리브 */
+  --red:#f04452; --red-weak:rgba(240,68,82,.14); --red-text:#d13a46;
+}

@@ -2,10 +2,11 @@ import { expect, test } from "vitest"
 import { parseHash } from "../src/route"
 
 test("parseHash", () => {
-  expect(parseHash("")).toBe("dashboard")
-  expect(parseHash("#/")).toBe("dashboard")
-  expect(parseHash("#/queue")).toBe("queue")
-  expect(parseHash("#queue")).toBe("queue")
-  expect(parseHash("#/records/week")).toBe("records")
-  expect(parseHash("#/nope")).toBe("dashboard")
+  expect(parseHash("")).toBe("week")
+  expect(parseHash("#/")).toBe("week")
+  expect(parseHash("#/year")).toBe("year")
+  expect(parseHash("#roster")).toBe("roster")
+  expect(parseHash("#/settings/x")).toBe("settings")
+  expect(parseHash("#/dashboard")).toBe("week")
+  expect(parseHash("#/nope")).toBe("week")
 })

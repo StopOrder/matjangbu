@@ -1,32 +1,32 @@
 import { useEffect } from "react"
-import { Layout } from "@/components/Layout"
-import { Skeleton } from "@/components/ui/skeleton"
+import { Shell } from "@/components/Shell"
 import { useHashRoute } from "@/route"
 import { AppProvider, useApp } from "@/store"
 import { VIEWS } from "@/views"
 
-function LoadingSkeleton() {
+function Skeleton() {
   return (
-    <div className="grid gap-4">
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">{[0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-24 rounded-2xl" />)}</div>
-      <div className="grid gap-4 lg:grid-cols-2"><Skeleton className="h-56 rounded-2xl" /><Skeleton className="h-56 rounded-2xl" /></div>
-    </div>
+    <>
+      <div className="skel" style={{ height: 34, width: 260, marginBottom: 20 }} />
+      <div className="skel" style={{ height: 56, borderRadius: 20, marginBottom: 12 }} />
+      <div className="skel" style={{ height: 320, borderRadius: 20 }} />
+    </>
   )
 }
 
-function Shell() {
+function Screen() {
   const { s, load, dispatch } = useApp()
   const route = useHashRoute()
   useEffect(() => { void load() }, [load])
   useEffect(() => { dispatch({ type: "select", id: null }) }, [route, dispatch])
   const View = VIEWS[route]
   return (
-    <Layout route={route}>
-      {s.data ? <View /> : s.error ? <div className="empty text-muted-foreground">화면을 시작하지 못했습니다: {s.error}</div> : <LoadingSkeleton />}
-    </Layout>
+    <Shell route={route}>
+      {s.data ? <View /> : s.error ? <div className="empty">화면을 시작하지 못했습니다: {s.error}</div> : <Skeleton />}
+    </Shell>
   )
 }
 
 export default function App() {
-  return <AppProvider><Shell /></AppProvider>
+  return <AppProvider><Screen /></AppProvider>
 }
