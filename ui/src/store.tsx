@@ -89,7 +89,7 @@ export function useData(): AppData {
   return s.data
 }
 
-/** 확인 큐·줄 상세가 쓰는 액션. 확정·보류·제외 토스트에 「되돌리기」(POST /undo). */
+/** 장부의 채울 줄(그 자리 펼침)이 쓰는 액션. 확정·보류·제외 토스트에 「되돌리기」(POST /undo). */
 export function useLineActions() {
   const { s, client, load, toast, fail } = useApp()
   const week = s.data?.week

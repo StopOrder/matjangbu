@@ -11,20 +11,20 @@
 ## 무엇을 하나
 
 ```
-은행 CSV · 봉투 입력 → [규칙 2단] → [모델 3단] → [확인 큐] → 사람 확정 → [기록] 주간·개인별·연말
+은행 CSV · 봉투 입력 → [규칙 2단] → [모델 3단] → [장부의 채울 줄] → 사람 확정 → [기록] 주간·개인별·연말
                         결정론        후보만        사람        별칭 학습     결정론 · CSV
 ```
 
 - **규칙 2단**: 별칭 사전 · 완전 일치 · 띄어쓰기 · 한자 성씨 · 헌금 종류 분리(「박민수십일조」) · 옛 이름 · 세대주 이름 · 자모 유사도(임계 0.85).
-- **모델 3단**: 규칙이 못 푼 줄만. 상위 후보 5명·같은 세대·과거 확정 이력을 주고 후보 순서·근거·사유(가족/회사/오타/개명/모름)를 JSON 스키마로 받는다. **결과는 항상 확인 큐**. 동명이인은 모델을 거치지 않고 곧장 사람에게 간다.
-- **확인 큐**: 후보 버튼 · 명부에서 직접 고르기 · 새 이름 등록 · 보류 · 제외 · 되돌리기 · 「지금 다시 재기」(실제 모델).
+- **모델 3단**: 규칙이 못 푼 줄만. 상위 후보 5명·같은 세대·과거 확정 이력을 주고 후보 순서·근거·사유(가족/회사/오타/개명/모름)를 JSON 스키마로 받는다. **결과는 항상 사람에게 간다**. 동명이인은 모델을 거치지 않고 곧장 사람에게 간다.
+- **채울 줄**: 못 맞춘 줄을 장부에서 누르면 그 줄 자리에서 후보가 펼쳐진다 — 후보 버튼(숫자 키) · 명부에서 직접 고르기 · 새 이름 등록 · 보류 · 제외 · 되돌리기 · 「모델로 다시 재기」(실제 모델). 드로어도 팝업도 없다.
 - **기록**: 주간 명단(사람 손이 닿은 줄부터) · 개인별 누적 · 연말 합산(미확정 따로) · UTF-8 BOM CSV.
 
 | 폴더 | 무엇 |
 |---|---|
 | `engine/` | 엔진 — 명부·별칭·은행 CSV·3단 대조·확인 큐·기록·CLI. 파이썬 표준 라이브러리만 |
 | `web/` | 로컬 웹 UI 서버 — 정적 + API + SSE, 체험 샌드박스, 기록 생성기(`web.record`) |
-| `ui/` | `/try` 앱 화면의 React + shadcn 소스 — `npm run build` 가 `site/try/` 로 낸다. 실행 시점 의존은 없다(빌드 도구) |
+| `ui/` | `/try` 장부 화면의 React 소스 — 장 4개(이번 주·연말·명부·설정). `npm run build` 가 `site/try/` 로 낸다. 실행 시점 의존은 없다(빌드 도구) |
 | `site/` | 제품 사이트 — 정적 HTML, 외부 자원 0. `try/`는 인스턴스 → `recorded.json` 삼중 폴백 |
 | `bench/` | 3단 실측(30건) — 노트북·갤럭시 A31 결과는 `bench/results/` |
 | `samples/` | 가공 명부 60명·입금 4주·봉투·벤치 줄 30건·정답 — `tools/make_samples.py`가 만든다 |
@@ -43,7 +43,7 @@ python3 -m engine serve --model ~/models/qwen1.5b.gguf --run          # llama-se
 # 1) 작업공간 — 명부 CSV(id,이름,구역,세대,옛이름)
 python3 -m engine init ~/맞장부 --roster samples/roster.csv
 
-# 2) 은행 CSV 를 맞춘다 — 남은 줄은 확인 큐에
+# 2) 은행 CSV 를 맞춘다 — 못 맞춘 줄은 「확인 필요」로 남는다
 python3 -m engine import ~/맞장부 samples/weeks/2026-W10.csv --week 2026-W10
 python3 -m engine list ~/맞장부 --held
 python3 -m engine confirm ~/맞장부 <줄id> --person p19               # 별칭 사전에 쌓인다
@@ -90,4 +90,4 @@ python3 -m web.record --device "…" --model-name "…" --threads 4       # 체�
 코드·문서·샘플은 **Apache License 2.0** — `LICENSE`. Copyright 2026 정지명 (Jimyeong Jeong).
 모델 가중치는 저장소에 없으며 각 모델의 라이선스를 따른다(Qwen2.5-1.5B-Instruct: Apache-2.0). llama.cpp 는 MIT.
 
-Pretendard 글꼴은 SIL OFL-1.1(`site/assets/fonts/pretendard/LICENSE.txt`). `/try` 화면의 React·radix-ui·lucide-react·Tailwind 는 MIT — 빌드 산출물에 함께 들어간다.
+Pretendard 글꼴은 SIL OFL-1.1(`site/assets/fonts/pretendard/LICENSE.txt`). `/try` 화면의 React 와 Tailwind 는 MIT — 빌드 산출물에 함께 들어간다. (`ui/src/components/ui/` 의 shadcn 컴포넌트 셋은 2026-09-21 재설계 뒤 화면이 쓰지 않아 산출물에 들어가지 않는다.)

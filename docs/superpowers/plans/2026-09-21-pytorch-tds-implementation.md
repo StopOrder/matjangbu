@@ -114,7 +114,7 @@
 
 > **개정(착수 전 확인)** — 원안은 CSS 를 `site/assets/app.css` 로 빼서 두 장이 공유하게 했으나, 저장소 규칙(`site/index.html:13`, `docs/superpowers/specs/2026-09-21-ui-toss-redesign-design.md:131`)은 **「인스턴스에 의존하지 않는다」** — 랜딩은 CSS 를 인라인으로 품는다. 그래서 두 장 모두 인라인으로 가고 `app.css` 는 지운다(참조처는 `NOTICE:8`·`README.md:86` 두 문서뿐). 폰트만 같은 출처에서 `<link>` 한다.
 
-- [ ] **Step 1: `site/index.html` 을 시안으로 전면 교체한다 (CSS 인라인)**
+- [x] **Step 1: `site/index.html` 을 시안으로 전면 교체한다 (CSS 인라인)**
 
 `docs/mockups/2026-09-21-landing.html` 의 `<style>` 전문을 그대로 `<style>` 안에 둔 채 옮긴다. `<head>` 는 아래로 시작하고 **옛 `og:` 메타 3개를 새 문구로 살려 옮긴다**(시안에는 없다).
 
@@ -134,7 +134,7 @@
 </head>
 ```
 
-- [ ] **Step 2: 링크와 `data-mj` 를 채운다**
+- [x] **Step 2: 링크와 `data-mj` 를 채운다**
 
 CTA 링크 치환 규칙:
 - 「체험하기」 · 「장부 열기」 · 「장부 열어 보기」 · 공지 띠 링크 → `href="try/"`
@@ -144,27 +144,27 @@ CTA 링크 치환 규칙:
 
 `data-mj` 를 넣는 자리: 히어로 `<section class="hero">` → `data-mj="hero"`, GNB `<header class="gnb">` → `data-mj="gnb"`, `.matrix` → `data-mj="matrix"`, 각 `.opt` → `data-mj="opt"`(켜진 칸은 `data-on="1"`), `.outbox` → `data-mj="out"`.
 
-- [ ] **Step 3: 히어로 그림을 사이트로 복사한다**
+- [x] **Step 3: 히어로 그림을 사이트로 복사한다**
 
 ```bash
 cp docs/mockups/assets/ledger.png site/assets/ledger.png
 ```
 
-- [ ] **Step 4: `site/install/index.html` 을 만든다**
+- [x] **Step 4: `site/install/index.html` 을 만든다**
 
 CSS 는 랜딩과 같은 것을 **인라인으로 다시 품는다**(약 10KB 중복). 폰트만 `../assets/fonts/pretendard/pretendardvariable-dynamic-subset.css` 로 건다. 구조는 랜딩과 같은 문법(공지 띠 → 어두운 GNB → 파랑 히어로 띠 → 검은 띠 → 절들 → 어두운 링크 띠 → 푸터), 내용은 셋:
 1. **설치** — 단체 PC 에 올리는 순서. 아직 설치 파일이 없으므로 「준비 중입니다」를 그대로 적고, 지금 할 수 있는 것(저장소를 내려받아 파이썬으로 실행)만 쓴다. **없는 명령을 지어내지 않는다.**
 2. **백업** — 작업공간 폴더 하나를 복사. 자동 백업은 준비 중.
 3. **인수인계** — 담당자 교체 때 넘기는 것 목록(폴더·별칭 사전·명부).
 
-- [ ] **Step 5: 옛 두 장을 지운다**
+- [x] **Step 5: 옛 두 장을 지운다**
 
 ```bash
 git rm -r site/download site/phone
 git rm site/assets/dashboard.jpg site/assets/app.css
 ```
 
-- [ ] **Step 6: pytest 페이지 목록을 고친다**
+- [x] **Step 6: pytest 페이지 목록을 고친다**
 
 `tests/test_web.py:124` 한 줄만:
 
@@ -172,13 +172,13 @@ git rm site/assets/dashboard.jpg site/assets/app.css
     for path in ("/", "/try/", "/install/"):
 ```
 
-- [ ] **Step 7: NOTICE 와 README 에서 두 항목을 뺀다**
+- [x] **Step 7: NOTICE 와 README 에서 두 항목을 뺀다**
 
 `NOTICE:8` 의 `site/assets/app.css 디자인 시스템, site/try/index.html 화면 골격.` 줄을 지운다.
 `README.md:86` 의 나비 유래 목록에서도 「디자인 시스템(`site/assets/app.css`)」과 「앱 화면 골격」을 뺀다 — 둘 다 이번에 버려진다.
 **파이썬 유래 항목(`web/server.py`·`web/demo.py`·`engine/model.py`·`engine/store.py`)은 그대로 남긴다** — 그 코드는 계속 쓴다.
 
-- [ ] **Step 8: 검증**
+- [x] **Step 8: 검증**
 
 ```bash
 .venv/bin/python -m pytest -q tests/test_web.py
@@ -189,7 +189,7 @@ NODE_PATH=~/workspace/02-sandbox/mvp-agent/node_modules node tools/dev_shot.cjs 
 
 Expected: pytest PASS · 두 스크린샷 모두 콘솔 에러 0(`dev_shot.cjs` 가 에러 시 exit 1) · 모바일 390px 가로 넘침 0.
 
-- [ ] **Step 9: 커밋**
+- [x] **Step 9: 커밋**
 
 ```bash
 git add -A
@@ -214,7 +214,7 @@ git commit -m "site: 랜딩을 PyTorch 배치+TDS 로 교체 · /install/ 신설
   - `export function Toasts(): JSX.Element`
 - Consumes: `useApp()`·`useData()`(`store.tsx`, 그대로) · `howOf`·`counts`·`matches`(`lines.ts`, 그대로)
 
-- [ ] **Step 1: 라우트 테스트를 먼저 고쳐 실패를 만든다**
+- [x] **Step 1: 라우트 테스트를 먼저 고쳐 실패를 만든다**
 
 `ui/test/route.test.ts` 의 기존 기대값을 새 목록으로 바꾼다.
 
@@ -234,12 +234,12 @@ describe("parseHash", () => {
 })
 ```
 
-- [ ] **Step 2: 실패를 확인한다**
+- [x] **Step 2: 실패를 확인한다**
 
 Run: `cd ui && npx vitest run test/route.test.ts`
 Expected: FAIL — `parseHash("")` 가 `"dashboard"` 를 돌려준다.
 
-- [ ] **Step 3: `labels.ts` 와 `route.ts` 를 고친다**
+- [x] **Step 3: `labels.ts` 와 `route.ts` 를 고친다**
 
 ```ts
 // ui/src/labels.ts
@@ -267,12 +267,12 @@ export function parseHash(hash: string): Route {
 // useHashRoute 의 getServerSnapshot 도 () => "week"
 ```
 
-- [ ] **Step 4: 테스트 통과를 확인한다**
+- [x] **Step 4: 테스트 통과를 확인한다**
 
 Run: `cd ui && npx vitest run test/route.test.ts`
 Expected: PASS
 
-- [ ] **Step 5: 옛 화면 파일을 지운다**
+- [x] **Step 5: 옛 화면 파일을 지운다**
 
 ```bash
 cd ui/src
@@ -289,11 +289,11 @@ git rm components/Banner.tsx components/CandidatePicker.tsx components/CsvTable.
 
 `components/Toasts.tsx` 는 지우고 같은 이름으로 새로 쓴다.
 
-- [ ] **Step 6: `ui/src/ui/tokens.css` 에 토큰을 넣는다**
+- [x] **Step 6: `ui/src/ui/tokens.css` 에 토큰을 넣는다**
 
 Global Constraints 의 TDS 토큰 전부를 `:root` 에 선언한다. 시안 `docs/mockups/2026-09-21-weekly-ledger.html` 의 `:root` 블록이 그대로 정답이다.
 
-- [ ] **Step 7: `index.css` 를 다시 쓴다**
+- [x] **Step 7: `index.css` 를 다시 쓴다**
 
 ```css
 @import "tailwindcss";
@@ -312,15 +312,15 @@ body{
 
 폰트 경로는 Vite 가 번들에 넣을 수 있게 `ui/public/fonts/` 로 복사해 쓰는 쪽이 안전하다. 빌드 뒤 `site/try/` 에서 폰트 404 가 나지 않는지 Step 10 에서 확인한다.
 
-- [ ] **Step 8: `Shell.tsx` 를 쓴다**
+- [x] **Step 8: `Shell.tsx` 를 쓴다**
 
 어두운 GNB(배경 `--g900`) + 로고 + 탭 4개(`data-mj="tab" data-route=...`) + 찾기 입력 + 상태 칩, 그 아래 `<main>`. 켜진 탭은 배경 `--blue-weak`, 글자 `--blue-deep`. **사이드바를 만들지 않는다.** 루트에 `data-mj="gnb"`.
 
-- [ ] **Step 9: `Badge.tsx`·`Toasts.tsx`·`App.tsx`·`views/index.tsx` 를 쓴다**
+- [x] **Step 9: `Badge.tsx`·`Toasts.tsx`·`App.tsx`·`views/index.tsx` 를 쓴다**
 
 `Badge` 는 DOM 계약의 tone 5종. `Toasts` 는 화면 아래 가운데, 되돌리기 버튼 포함. `App.tsx` 는 `Layout` 대신 `Shell`, 스켈레톤은 회색 블록 세 줄. `views/index.tsx` 는 새 4개를 매핑한다(Task 3·4 에서 채운다. 이 단계에서는 각 뷰가 제목만 렌더하는 최소 구현이어도 된다).
 
-- [ ] **Step 10: 타입·테스트·빌드를 확인한다**
+- [x] **Step 10: 타입·테스트·빌드를 확인한다**
 
 ```bash
 cd ui && npm run typecheck && npx vitest run && npm run build
@@ -328,7 +328,7 @@ cd ui && npm run typecheck && npx vitest run && npm run build
 
 Expected: 타입 0 오류 · Vitest 20개 PASS · 빌드 성공 · `site/try/assets/` 갱신.
 
-- [ ] **Step 11: 커밋**
+- [x] **Step 11: 커밋**
 
 ```bash
 git add -A
@@ -351,7 +351,7 @@ git commit -m "ui: 앱 껍데기를 TDS 로 — 어두운 GNB·장 4개·토큰,
   - `export function RowPanel({ line }: { line: Line }): JSX.Element`
   - `export function EntryRow(): JSX.Element`
 
-- [ ] **Step 1: `Row.tsx` — 줄 하나**
+- [x] **Step 1: `Row.tsx` — 줄 하나**
 
 시안의 `.row` 를 그대로 옮긴다. 3슬롯:
 - 좌 `.av` 44×44 radius 14 — 통장이면 카드 아이콘, 봉투면 봉투 아이콘. 빈 줄이면 배경 `--amber-weak`, 글자 `--amber-text`.
@@ -360,19 +360,19 @@ git commit -m "ui: 앱 껍데기를 TDS 로 — 어두운 GNB·장 4개·토큰,
 
 루트에 `data-mj="row"`, 빈 줄이면 `data-blank="1"`. 줄 사이 구분은 `::before` 로 좌 24px 들여쓴 1px `--hair`.
 
-- [ ] **Step 2: `RowPanel.tsx` — 그 자리 펼침**
+- [x] **Step 2: `RowPanel.tsx` — 그 자리 펼침**
 
 배경 `rgba(255,179,49,.1)`, 왼쪽 84px 들여씀. 안에: 한 줄 설명 → 후보 버튼들(`data-mj="cand"`, 흰 카드 radius 14, 숫자 키 칩) → 직접 고르기 입력 + 「새 이름으로 등록」 → 바닥에 보류·제외·모델로 다시 재기 + 단축키 안내. 루트에 `data-mj="panel"`.
 
 동작은 `useLineActions()` 의 `pick`·`addNew`·`hold`·`exclude`·`rematch` 를 그대로 부른다. **드로어·모달을 만들지 않는다.** `line.allow_new` 가 거짓이면(동명이인) 「새 이름으로 등록」을 숨긴다.
 
-- [ ] **Step 3: `EntryRow.tsx` — 맨 위 고정 입력 줄**
+- [x] **Step 3: `EntryRow.tsx` — 맨 위 고정 입력 줄**
 
 `position:sticky; top:64px`. 이름(명부 자동 완성 `<datalist>`) · 종류(`<select>`, `data.kinds`) · 금액 · 「넣기」 파란 버튼 · 안내 문구. Enter 로 확정하면 `POST /envelope` 를 부르고 입력을 비운 뒤 이름 칸에 포커스를 돌린다. 루트에 `data-mj="entry"`.
 
 기존 `Envelope.tsx` 가 쓰던 요청 형태를 그대로 쓴다 — `client.post("/envelope", { rows: [{ name, kind, amount }] })`.
 
-- [ ] **Step 4: `Week.tsx` — 장 한 장**
+- [x] **Step 4: `Week.tsx` — 장 한 장**
 
 머리: 주차 넘기기 화살표 + 날짜 제목 + 「채울 줄만 보기」 토글 + 「줄 넣기」(CSV) + 「내보내기」 + 「되돌리기」(`data.can_undo` 일 때만 활성).
 요약 한 줄: 전체 줄 수 · 자동 · 채울 줄 · 합계. 체험 모드일 때만 정답 대조 배지(`data.answers` 로 계산).
@@ -381,7 +381,7 @@ git commit -m "ui: 앱 껍데기를 TDS 로 — 어두운 GNB·장 4개·토큰,
 
 한 번에 하나만 펼친다 — `s.selected` 를 그대로 쓴다.
 
-- [ ] **Step 5: 확인**
+- [x] **Step 5: 확인**
 
 ```bash
 cd ui && npm run typecheck && npx vitest run && npm run build
@@ -391,7 +391,7 @@ NODE_PATH=~/workspace/02-sandbox/mvp-agent/node_modules node tools/dev_shot.cjs 
 
 Expected: 콘솔 에러 0. 오프라인 폴백(`recorded.json`)으로 36줄이 뜨고 빈 줄 6개가 앰버로 보인다.
 
-- [ ] **Step 6: 커밋**
+- [x] **Step 6: 커밋**
 
 ```bash
 git add -A
@@ -410,19 +410,19 @@ git commit -m "ui: 주간 장을 TDS 리스트로 — 맨 위 입력 줄·그 �
 - Consumes: Task 2·3 의 `Shell`·`Badge`·`Row` · `useData()`·`useApp()`
 - Produces: `VIEWS` 4개 완성
 
-- [ ] **Step 1: `Year.tsx`**
+- [x] **Step 1: `Year.tsx`**
 
 사람별 누적 리스트(같은 `Row` 문법, 좌 아바타는 사람 아이콘). 머리에 연도 넘기기 + 「CSV 로 내보내기」(`/export/year`). 미확정 줄은 따로 세어 앰버 줄로 맨 위에 요약 한 줄.
 
-- [ ] **Step 2: `Roster.tsx`**
+- [x] **Step 2: `Roster.tsx`**
 
 명부 리스트(이름·구역·세대) + 별칭 사전 리스트 둘로 나눈 탭. 기존 `Roster.tsx` 의 `POST /roster` 교체 기능을 그대로 유지한다.
 
-- [ ] **Step 3: `Settings.tsx`**
+- [x] **Step 3: `Settings.tsx`**
 
 기기·모델 상태(`/health`), 인스턴스 주소(`window.matjangbuApiBase`), 읽기 전용 여부, 「샘플 주차 넣기」·CSV 불러오기(`POST /import` + SSE 진행), 내보내기 링크들, 초기화(`POST /reset`). 옛 `Device.tsx`·`Import.tsx`·`Records.tsx` 가 하던 일을 여기로 모은다.
 
-- [ ] **Step 4: 확인**
+- [x] **Step 4: 확인**
 
 ```bash
 cd ui && npm run typecheck && npx vitest run && npm run build
@@ -430,7 +430,7 @@ cd ui && npm run typecheck && npx vitest run && npm run build
 
 각 해시(`#/week`·`#/year`·`#/roster`·`#/settings`)를 `dev_shot.cjs` 로 찍어 콘솔 에러 0 을 확인한다.
 
-- [ ] **Step 5: 커밋**
+- [x] **Step 5: 커밋**
 
 ```bash
 git add -A
@@ -448,7 +448,7 @@ git commit -m "ui: 연말·명부·설정 화면 — 대시보드·확인 큐·�
 - Consumes: 위 「DOM 계약」 표의 `data-mj` 선택자
 - Produces: 없음(도구)
 
-- [ ] **Step 1: `verify_site.cjs`**
+- [x] **Step 1: `verify_site.cjs`**
 
 페이지 목록을 `["/", "/install/", "/try/"]` 로 바꾸고, 각 페이지에서 확인할 것:
 - `/` — `[data-mj="hero"]` 1개, `[data-mj="matrix"]` 1개, `[data-mj="opt"][data-on="1"]` 5개 이상, `[data-mj="out"]` 1개, 콘솔 에러 0, 모바일 390px 가로 넘침 0
@@ -456,15 +456,15 @@ git commit -m "ui: 연말·명부·설정 화면 — 대시보드·확인 큐·�
 - `/try/` — `[data-mj="ledger"]` 1개, `[data-mj="tab"]` 4개, 콘솔 에러 0
 - 외부 자원 0 — 모든 요청 URL 이 같은 origin 인지 확인
 
-- [ ] **Step 2: `verify_funnel.cjs`**
+- [x] **Step 2: `verify_funnel.cjs`**
 
 깔때기를 새 동선으로: `/` 히어로의 「체험하기」 → `/try/` → `[data-mj="row"][data-blank="1"]` 첫 줄 클릭 → `[data-mj="panel"]` 이 열림 → `[data-mj="cand"]` 첫 후보 클릭 → 그 줄의 `data-blank` 가 사라짐. 읽기 전용(폴백) 모드에서는 후보 클릭이 막히므로, 그때는 판이 열리는 데까지만 확인한다.
 
-- [ ] **Step 3: `site_shots.cjs`**
+- [x] **Step 3: `site_shots.cjs`**
 
 찍을 목록을 `/`(데스크톱·모바일) · `/install/` · `/try/#/week` · `/try/#/year` · `/try/#/roster` · `/try/#/settings` 로 바꾼다.
 
-- [ ] **Step 4: 확인**
+- [x] **Step 4: 확인**
 
 ```bash
 python3 -m http.server 8123 -d site &
@@ -474,7 +474,7 @@ NODE_PATH=~/workspace/02-sandbox/mvp-agent/node_modules node tools/verify_funnel
 
 Expected: 둘 다 exit 0.
 
-- [ ] **Step 5: 커밋**
+- [x] **Step 5: 커밋**
 
 ```bash
 git add -A
@@ -487,7 +487,7 @@ git commit -m "tools: 검증 도구 3개를 새 DOM 계약(data-mj)으로 다시
 
 **Files:** 없음(확인만)
 
-- [ ] **Step 1: 전체 검사**
+- [x] **Step 1: 전체 검사**
 
 ```bash
 .venv/bin/python -m pytest -q
@@ -496,7 +496,7 @@ cd ui && npm run typecheck && npx vitest run && npm run build && cd ..
 
 Expected: pytest 44개 PASS · 타입 0 · Vitest 20개 PASS · 빌드 성공
 
-- [ ] **Step 2: 인스턴스에서 확인**
+- [x] **Step 2: 인스턴스에서 확인**
 
 ```bash
 systemctl --user status matjangbu-web --no-pager | head -5
@@ -508,7 +508,7 @@ NODE_PATH=~/workspace/02-sandbox/mvp-agent/node_modules node tools/site_shots.cj
 
 Expected: 전부 exit 0. 8108 은 작업 트리의 `site/` 를 그대로 서빙하므로 빌드 산출물이 바로 반영된다.
 
-- [ ] **Step 3: 커밋하고 사용자에게 보인다**
+- [~] **Step 3: 커밋하고 사용자에게 보인다** — 커밋 완료, 사용자 승인 대기
 
 ```bash
 git add -A
