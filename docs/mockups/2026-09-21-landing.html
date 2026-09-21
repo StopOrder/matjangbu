@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>맞장부 — 랜딩 시안 (ollama 결)</title>
+<link rel="stylesheet" href="../../site/assets/fonts/pretendard/pretendardvariable-dynamic-subset.css">
+<style>
+/* ── 랜딩 시안. ollama.com 의 결: 흰 바탕 · 검정 글자 · 회색 보조 · 왼쪽 정렬 좁은 단
+      · 큰 여백 · 알약 버튼 · 얇은 1px 선 · 숫자 블록에 출처 한 줄. 색은 초록 하나만. ── */
+:root{
+  --ink:#111110; --ink-2:#3d3b37; --muted:#77736b; --faint:#a6a199;
+  --line:#e7e4de; --line-2:#d5d1c9; --paper:#fff; --tint:#faf9f7;
+  --green:#0F7D71; --green-2:#0b6359; --green-bg:#e9f4f1;
+  --amber:#9a5a08; --amber-bg:#fdf3e2;
+  --sans:"Pretendard Variable",Pretendard,"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;
+     letter-spacing:-.011em;word-break:keep-all;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+h1,h2,h3{margin:0;font-weight:700;letter-spacing:-.03em;line-height:1.18}
+p{margin:0}
+.num{font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+svg.i{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+
+/* ── 버튼 ── */
+.pill{display:inline-flex;align-items:center;gap:7px;height:46px;padding:0 22px;border-radius:999px;
+      background:var(--green);color:#fff;font-weight:600;font-size:16px;border:0}
+.pill:hover{background:var(--green-2)}
+.pill.sm{height:38px;padding:0 17px;font-size:15px}
+.pill.ghost{background:transparent;color:var(--ink);border:1px solid var(--line-2)}
+.pill.ghost:hover{background:var(--tint)}
+.arrow{color:var(--green);font-weight:600;display:inline-flex;align-items:center;gap:5px}
+.arrow:hover{text-decoration:underline;text-underline-offset:3px}
+
+/* ── 상단 ── */
+.nav{height:64px;display:flex;align-items:center;gap:26px}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:17px;letter-spacing:-.03em}
+.logo .mark{width:24px;height:24px;color:var(--green)}
+.logo .tag{font-size:11px;font-weight:600;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 7px}
+.nav .links{display:flex;gap:20px;font-size:15px;color:var(--ink-2)}
+.nav .links a:hover{color:var(--ink)}
+.nav .grow{flex:1}
+.nav .right{display:flex;align-items:center;gap:14px;font-size:15px}
+
+/* ── 히어로 ── */
+.hero{display:grid;grid-template-columns:minmax(360px,44%) 1fr;gap:56px;align-items:center;padding:78px 0 64px}
+.hero h1{font-size:57px;line-height:1.1;letter-spacing:-.04em}
+.hero .sub{margin-top:22px;color:var(--muted);font-size:17px;max-width:440px}
+.hero .cta{margin-top:32px;display:flex;align-items:center;gap:18px}
+.shot{border-radius:12px;overflow:hidden;border:1px solid var(--line);
+      box-shadow:0 24px 60px rgba(17,17,16,.13),0 4px 12px rgba(17,17,16,.05)}
+.shot img{display:block;width:100%;height:auto}
+
+/* ── 사실 띠 ── */
+.strip{padding:22px 0 76px;text-align:center}
+.strip .t{font-size:13px;color:var(--faint);margin-bottom:16px}
+.strip ul{list-style:none;display:flex;justify-content:center;flex-wrap:wrap;gap:0 40px;margin:0;padding:0;
+          font-size:15px;color:var(--muted)}
+
+/* ── 본문: 왼쪽 목차 + 오른쪽 단 ── */
+.body{display:grid;grid-template-columns:230px minmax(0,1fr);gap:64px;padding-bottom:40px}
+.toc{position:sticky;top:26px;align-self:start;font-size:14px}
+.toc a{display:block;padding:12px 0;border-bottom:1px solid var(--line);color:var(--faint)}
+.toc a.on{color:var(--ink);font-weight:600}
+.toc a:hover{color:var(--ink-2)}
+.col{max-width:620px}
+section.blk{padding:0 0 108px;scroll-margin-top:24px}
+section.blk h2{font-size:27px}
+section.blk .lead{margin-top:12px;color:var(--muted)}
+.src{margin-top:16px;font-size:12.5px;color:var(--faint);line-height:1.55}
+.more{margin-top:22px;font-size:15px}
+
+/* ── 숫자 블록(막대) ── */
+.chart{margin-top:30px}
+.chart .head{display:flex;font-size:12px;color:var(--faint);padding-bottom:8px}
+.chart .head .r{margin-left:auto}
+.row{display:grid;grid-template-columns:150px 1fr 92px;align-items:center;gap:14px;height:34px;font-size:14px}
+.row .lb{color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .bar{height:9px;background:#efece7;border-radius:2px;overflow:hidden}
+.row .bar i{display:block;height:100%;background:var(--ink);border-radius:2px}
+.row .bar i.g{background:var(--green)}
+.row .bar i.a{background:var(--amber)}
+.row .bar i.q{background:#ddd9d2}
+.row .v{text-align:right;color:var(--ink);font-weight:600}
+.row .v.f{color:var(--faint);font-weight:500}
+.split{display:flex;height:11px;border-radius:2px;overflow:hidden;margin-top:6px}
+.split i{display:block;height:100%}
+.legend{display:flex;gap:22px;margin-top:11px;font-size:13.5px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.legend i{width:9px;height:9px;border-radius:2px;display:inline-block}
+.legend b{color:var(--ink);font-weight:700}
+
+/* ── 사슬 ── */
+.chain{margin-top:28px;border-top:1px solid var(--line)}
+.chain .s{display:grid;grid-template-columns:26px 1fr auto;align-items:center;gap:14px;
+          padding:13px 2px;border-bottom:1px solid var(--line);font-size:15px}
+.chain .s .n{color:var(--faint);font-size:12.5px}
+.chain .s .hand{font-size:13px;font-weight:600;color:var(--amber);background:var(--amber-bg);
+                border-radius:999px;padding:2px 10px}
+.chain .s.on{background:#fffdf8}
+.chain .s .auto{font-size:13px;color:var(--faint)}
+
+/* ── 카드 격자 ── */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:28px}
+.card{border:1px solid var(--line);border-radius:10px;padding:16px 17px}
+.card .t{display:flex;align-items:center;gap:9px;font-weight:600;font-size:15px}
+.card .t svg{color:var(--green)}
+.card p{margin-top:7px;font-size:14px;color:var(--muted);line-height:1.55}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:26px 34px;margin-top:28px}
+.facts .t{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px}
+.facts .t svg{color:var(--ink-2)}
+.facts p{margin-top:6px;font-size:14px;color:var(--muted);line-height:1.55}
+
+/* ── 요금 ── */
+.plan{border:1px solid var(--line);border-radius:12px;margin-top:28px;overflow:hidden}
+.plan .r{display:flex;align-items:baseline;gap:12px;padding:18px 20px}
+.plan .r + .r{border-top:1px solid var(--line)}
+.plan .r .n{font-weight:700;font-size:16px}
+.plan .r .d{color:var(--muted);font-size:14px}
+.plan .r .p{margin-left:auto;font-weight:700;font-size:16px}
+.plan .r .p.f{color:var(--faint);font-weight:600;font-size:14px}
+.plan ul{margin:0;padding:0 20px 18px 38px;color:var(--muted);font-size:14px;line-height:1.75}
+
+/* ── FAQ ── */
+.faq{margin-top:26px;border-top:1px solid var(--line)}
+.faq .q{border-bottom:1px solid var(--line);padding:16px 2px}
+.faq .q b{display:block;font-size:15.5px;font-weight:600}
+.faq .q p{margin-top:6px;color:var(--muted);font-size:14.5px}
+
+/* ── 마무리 ── */
+.end{text-align:center;padding:96px 0 104px;border-top:1px solid var(--line)}
+.end h2{font-size:38px;letter-spacing:-.035em}
+.end .sub{margin-top:14px;color:var(--muted)}
+.end .cta{margin-top:30px;display:flex;justify-content:center;gap:14px}
+footer{border-top:1px solid var(--line);padding:26px 0 44px;font-size:13px;color:var(--faint);
+       display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+footer .grow{flex:1}
+footer a:hover{color:var(--ink-2)}
+
+@media (max-width:1040px){
+  .hero{grid-template-columns:1fr;gap:38px;padding:44px 0 40px}
+  .hero h1{font-size:40px}
+  .body{grid-template-columns:1fr;gap:0}
+  .toc{display:none}
+  .nav .links{display:none}
+  .grid2,.facts{grid-template-columns:1fr}
+  .row{grid-template-columns:110px 1fr 84px}
+  .end h2{font-size:28px}
+  .wrap{padding:0 20px}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v17H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="m9 9 2 2 4-4"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+  <symbol id="i-stack" viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M4 2v20l3-2 3 2 3-2 3 2 3-2V2l-3 2-3-2-3 2-3-2z"/><path d="M8 9h8M8 13h6"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 21a6.5 6.5 0 0 1 13 0"/><path d="M17 8.2a3.2 3.2 0 0 1 0 6"/><path d="M18.5 15.5A6 6 0 0 1 22 21"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2 8.8a17 17 0 0 1 20 0"/><path d="M5 12.6a12 12 0 0 1 14 0"/><path d="M8.5 16.3a7 7 0 0 1 7 0"/><circle cx="12" cy="20" r="1"/><path d="m3 3 18 18"/></symbol>
+  <symbol id="i-chip" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M9 3v4M15 3v4M9 17v4M15 17v4M3 9h4M3 15h4M17 9h4M17 15h4"/></symbol>
+</svg>
+
+<div class="wrap">
+  <header class="nav">
+    <a class="logo" href="#"><svg class="mark i" style="width:24px;height:24px"><use href="#i-book"/></svg>맞장부 <span class="tag">잠정명</span></a>
+    <nav class="links">
+      <a href="#work">작동 방식</a><a href="#pc">실측</a><a href="#ai">AI</a><a href="#price">요금</a>
+    </nav>
+    <div class="grow"></div>
+    <div class="right">
+      <a href="#" class="muted">설치 안내</a>
+      <a class="pill sm" href="#">체험하기</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <h1>봉투와 통장의 이름,<br>명부와 맞춥니다.</h1>
+      <p class="sub">단체 PC 한 대 안에서 끝납니다. 규칙이 대부분을 맞추고, 남은 몇 줄만 사람이 고릅니다. 고른 답은 다음 주부터 자동이 됩니다.</p>
+      <div class="cta">
+        <a class="pill" href="#">체험하기</a>
+        <a class="arrow" href="#">설치 안내 →</a>
+      </div>
+    </div>
+    <div class="shot"><img src="assets/ledger.png" alt="이번 주 장부 화면"></div>
+  </section>
+
+  <section class="strip">
+    <p class="t">이 사이트의 숫자는 전부 직접 잰 값입니다</p>
+    <ul>
+      <li>인터넷 없이 동작</li><li>GPU 없음</li><li>공개 코어 Apache-2.0</li><li>체험은 예시 데이터만</li>
+    </ul>
+  </section>
+
+  <div class="body">
+    <nav class="toc">
+      <a class="on" href="#work">매주 하는 일</a>
+      <a href="#ledger">장부 한 장</a>
+      <a href="#pc">우리 PC로 되나</a>
+      <a href="#keep">고장 나면, 후임자는</a>
+      <a href="#ai">AI 는 한 칸</a>
+      <a href="#price">요금</a>
+    </nav>
+
+    <div class="col">
+
+      <section class="blk" id="work">
+        <h2>매주 하는 일 그대로</h2>
+        <p class="lead">헌금은 주일마다 수거하고, 세고, 이름을 맞추고, 적고, 연말에 합산합니다. 다섯 칸 중 둘이 사람 손에 걸립니다.</p>
+        <div class="chain">
+          <div class="s"><span class="n">1</span><span>수거</span><span class="auto">사람이 합니다</span></div>
+          <div class="s"><span class="n">2</span><span>계수</span><span class="auto">사람이 합니다</span></div>
+          <div class="s on"><span class="n">3</span><span>이름 맞춤 — 가족 명의, 회사 이름, 띄어쓰기, 「홍길동십일조」</span><span class="hand">손에 걸림</span></div>
+          <div class="s on"><span class="n">4</span><span>기록 — 봉투를 한 장씩 치고 엑셀에 누적</span><span class="hand">손에 걸림</span></div>
+          <div class="s"><span class="n">5</span><span>연말 기부금영수증 합산</span><span class="auto">3·4가 맞으면 따라옵니다</span></div>
+        </div>
+        <p class="src">2026년 9월 16일 재정 담당자 인터뷰(등록 300명, 봉투만 받는 교회) — 봉투를 잘못 꺼내 남의 이름으로 적힌 일이 거의 매주 한 번, 수기 영수증에서 특별헌금이 빠진 일이 서너 번. 인터뷰는 아직 한 건입니다.</p>
+      </section>
+
+      <section class="blk" id="ledger">
+        <h2>장부 한 장이 합니다</h2>
+        <p class="lead">화면은 주차마다 한 장입니다. 통장 줄과 봉투 줄이 같은 장부에 들어가고, 못 맞춘 줄만 비어 있습니다.</p>
+        <div class="grid2">
+          <div class="card">
+            <div class="t"><svg class="i"><use href="#i-plus"/></svg>줄 넣기</div>
+            <p>은행 CSV 를 고르면 줄이 들어옵니다. 봉투는 표 맨 아래에 이름·종류·금액을 치면 됩니다. 이름은 명부에서 자동 완성됩니다.</p>
+          </div>
+          <div class="card">
+            <div class="t"><svg class="i"><use href="#i-pen"/></svg>빈 줄 채우기</div>
+            <p>못 맞춘 줄을 누르면 그 자리에서 후보가 펼쳐집니다. 고르면 다음 빈 줄이 열립니다. 고른 답은 별칭 사전에 쌓입니다.</p>
+          </div>
+          <div class="card">
+            <div class="t"><svg class="i"><use href="#i-stack"/></svg>누적</div>
+            <p>주간 명단과 개인별 누적이 장부 위에서 그대로 만들어집니다. 되돌리기도 기록으로 남고 지워지지 않습니다.</p>
+          </div>
+          <div class="card">
+            <div class="t"><svg class="i"><use href="#i-receipt"/></svg>연말 합산</div>
+            <p>한 해를 사람별로 합산하고 미확정 줄은 따로 셉니다. 엑셀에서 바로 열리는 CSV 로 내보냅니다.</p>
+          </div>
+        </div>
+        <p class="more"><a class="arrow" href="#">예시 데이터로 열어 보기 →</a></p>
+      </section>
+
+      <section class="blk" id="pc">
+        <h2>우리 PC 로 되나</h2>
+        <p class="lead">대부분의 줄은 규칙이 풉니다. 모델은 규칙이 못 푼 줄만 보기 때문에, 느린 기기에서도 한 주 분량이 몇 분입니다.</p>
+
+        <div class="chart">
+          <div class="head"><span>샘플 4주 86줄</span><span class="r">줄</span></div>
+          <div class="split">
+            <i class="g" style="width:89.5%;background:var(--green)"></i><i style="width:10.5%;background:var(--amber)"></i>
+          </div>
+          <div class="legend">
+            <span><i style="background:var(--green)"></i>규칙이 바로 맞춤 <b>77</b></span>
+            <span><i style="background:var(--amber)"></i>모델이 본 줄 <b>9</b></span>
+          </div>
+        </div>
+
+        <div class="chart">
+          <div class="head"><span>모델이 한 줄에 쓰는 시간</span><span class="r">초</span></div>
+          <div class="row"><span class="lb">노트북 i7-10750H</span><span class="bar"><i style="width:13%"></i></span><span class="v num">14.7</span></div>
+          <div class="row"><span class="lb">갤럭시 A31 (4GB)</span><span class="bar"><i style="width:100%"></i></span><span class="v num">111.5</span></div>
+          <div class="row"><span class="lb">2013년 이전 PC</span><span class="bar"><i class="q" style="width:0"></i></span><span class="v f">측정 예정</span></div>
+        </div>
+        <p class="src">Qwen2.5-1.5B-Instruct Q4_K_M · 노트북 4스레드(12.7~21.3초) · A31 8스레드(97.3~135.6초) · 2026-09-20 측정 · 규칙이 못 푼 줄 30건을 같은 스크립트로 잰 값입니다. 위 4주 평균처럼 한 주에 모델이 두세 줄을 본다면 노트북은 1분 남짓, 폐폰은 5분 안팎입니다(잰 값에서 곱한 값). 조건은 하나, CPU 가 있을 것.</p>
+        <p class="more"><a class="arrow" href="#">설치 안내 보기 →</a></p>
+      </section>
+
+      <section class="blk" id="keep">
+        <h2>고장 나면, 후임자는</h2>
+        <p class="lead">인터뷰에서 가장 먼저 나온 두 질문입니다. 프로그램을 10년째 못 들인 이유이기도 했습니다.</p>
+        <div class="facts">
+          <div>
+            <div class="t"><svg class="i"><use href="#i-file"/></svg>엑셀로 열리는 파일</div>
+            <p>명부·별칭 사전·대장·기록이 전부 CSV 와 JSON 입니다. 폴더 하나를 복사해 두면 새 PC 에서 그대로 이어갑니다.</p>
+          </div>
+          <div>
+            <div class="t"><svg class="i"><use href="#i-lock"/></svg>암호화 백업</div>
+            <p>USB 나 단체 드라이브로 자동 백업하는 기능은 준비 중입니다. 지금은 폴더를 직접 복사합니다.</p>
+          </div>
+          <div>
+            <div class="t"><svg class="i"><use href="#i-users"/></svg>후임자가 이어받음</div>
+            <p>별칭 사전이 사람 머릿속이 아니라 파일에 쌓입니다. 화면에서 배울 것은 「이 사람이 맞습니까」 하나입니다.</p>
+          </div>
+          <div>
+            <div class="t"><svg class="i"><use href="#i-wifi"/></svg>인터넷 없음</div>
+            <p>금액과 이름은 단체 PC 밖으로 나가지 않습니다. 인터넷에 있는 것은 이 사이트의 체험뿐이고 거기엔 가공 자료만 있습니다.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="blk" id="ai">
+        <h2>AI 는 한 칸입니다</h2>
+        <p class="lead">규칙 2단이 못 푼 줄 하나를 보고 후보 순서와 근거를 냅니다. 그것뿐입니다. 확정은 언제나 사람이 합니다.</p>
+
+        <div class="chart">
+          <div class="head"><span>모델이 낸 1순위 후보가 정답이었나 (30건 중 25건 채점)</span><span class="r">건</span></div>
+          <div class="row"><span class="lb">노트북 i7-10750H</span><span class="bar"><i style="width:52%"></i></span><span class="v num">13 / 25</span></div>
+          <div class="row"><span class="lb">갤럭시 A31 (4GB)</span><span class="bar"><i style="width:48%"></i></span><span class="v num">12 / 25</span></div>
+        </div>
+        <p class="src">1.5B 모델이 절반쯤 맞힙니다. 낮은 숫자를 그대로 적는 이유는, 이 숫자가 낮아도 장부가 틀리지 않도록 설계했기 때문입니다 — 모델 결과는 전부 사람에게 오고, 동명이인은 모델을 거치지 않고 곧장 사람에게 갑니다. 지어낸 헌금 종류는 원문에 그 글자가 없으면 버립니다. JSON 스키마 강제 · 온도 0 · 자모 유사도 임계 0.85.</p>
+      </section>
+
+      <section class="blk" id="price">
+        <h2>요금</h2>
+        <p class="lead">맞추기 코어와 장부는 공개합니다. 돈은 단체가 혼자 하기 번거로운 것에서 받습니다.</p>
+        <div class="plan">
+          <div class="r">
+            <span class="n">공개 코어</span><span class="d">Apache-2.0 · 직접 설치</span><span class="p">무료</span>
+          </div>
+          <ul>
+            <li>3단 대조 · 장부 · 별칭 사전 · 기록 3종</li>
+            <li>은행 CSV · 봉투 입력 · 엑셀로 열리는 내보내기</li>
+          </ul>
+          <div class="r">
+            <span class="n">구독</span><span class="d">준비 중</span><span class="p f">가격 미정</span>
+          </div>
+          <ul>
+            <li>별칭 사전·기록의 암호화 백업과 복구</li>
+            <li>이표기·헌금 종류 규칙팩 갱신 · 명부 내보내기 형식 대응</li>
+            <li>담당자 교체 때 인수인계 · 지원</li>
+          </ul>
+        </div>
+        <p class="src">가격은 다섯 곳 이상 인터뷰한 뒤에 정하고, 그 전에는 적지 않습니다. 지금은 아무것도 받지 않습니다.</p>
+
+        <h2 style="margin-top:64px;font-size:22px">자주 묻는 것</h2>
+        <div class="faq">
+          <div class="q"><b>그 컴퓨터가 고장 나면 자료는 어떻게 되나요?</b>
+            <p>작업공간 폴더 하나에 전부 들어 있고 엑셀로 열립니다. USB 나 단체 드라이브에 복사해 두면 새 PC 에서 그대로 이어갑니다.</p></div>
+          <div class="q"><b>실제 헌금 자료를 올려서 시험해 볼 수 있나요?</b>
+            <p>아니요. 체험은 가공 샘플만 받습니다. 헌금 내역은 종교 관련 민감정보라 인터넷에 올리지 않는 것이 이 제품의 출발점입니다.</p></div>
+          <div class="q"><b>동명이인은 어떻게 하나요?</b>
+            <p>자동으로 채우지 않습니다. 명부에 같은 이름이 둘 이상이면 모델도 거치지 않고 곧장 사람에게 가며, 새 이름 등록 없이 후보 중에서만 고릅니다.</p></div>
+          <div class="q"><b>기존 교회 프로그램과 무엇이 다른가요?</b>
+            <p>자료를 인터넷에 올리지 않습니다. 그리고 봉투를 치는 손을 줄이는 쪽에 초점이 있습니다. 은행 자동 연동은 약속하지 않고 CSV 내려받기만 전제합니다.</p></div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<div class="end">
+  <div class="wrap">
+    <h2>예시 데이터 4주가 열려 있습니다</h2>
+    <p class="sub">설치 없이 지금 열어 보고, 빈 줄 몇 개를 직접 채워 보세요.</p>
+    <div class="cta">
+      <a class="pill" href="#">체험하기</a>
+      <a class="pill ghost" href="#">설치 안내</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <footer>
+    <span>© 2026 맞장부 · 잠정명</span>
+    <span class="grow"></span>
+    <a href="#">저장소</a><a href="#">설치 안내</a><a href="#">라이선스</a><a href="#">Qwen2.5 · llama.cpp</a>
+  </footer>
+</div>
+
+<script>
+/* 시안용: 왼쪽 목차가 지금 보고 있는 절을 따라간다(ollama 와 같은 동작) */
+(function(){
+  var links=[].slice.call(document.querySelectorAll('.toc a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+  function spy(){
+    var y=window.scrollY+160,cur=0;
+    secs.forEach(function(s,i){ if(s&&s.offsetTop<=y) cur=i; });
+    links.forEach(function(a,i){ a.classList.toggle('on',i===cur) });
+  }
+  addEventListener('scroll',spy,{passive:true}); spy();
+})();
+</script>
+</body>
+</html>

@@ -1,65 +1,108 @@
-# HANDOFF — 웹 UI 재설계(토스 TDS · 그라데이션 · `/try` React) 배포 완료 · 다음은 사용자 결정 대기 (updated 2026-09-21 03:45)
+# HANDOFF — UX/UI 전면 재작성(나비 결별 · 장부형) · 시안 2장 검수 대기 (updated 2026-09-21)
 
 ## 목표
-「맞장부(matjangbu)」 사이트 네 장의 룩을 한 체계로 바꾸고, `/try` 체험 앱을 React + shadcn 으로 다시 짓는 일. 사용자 결정(2026-09-21): 색은 첨부 이미지(그라데이션 알약 3개)의 실측값, 주색 청록→초록, 폰트 Pretendard, 아이콘 Lucide, 토스 TDS 원칙·패턴 참고, **C안(React 전면 재작성)을 `/try` 한 장에만**, 데스크톱 우선·모바일은 무너지지 않게, 목업 없이 진행.
-**2026-09-21 03:41 에 공개 배포까지 끝났다.** 정본 스펙 `docs/superpowers/specs/2026-09-21-ui-toss-redesign-design.md`, 계획 `docs/superpowers/plans/2026-09-21-ui-toss-redesign.md`(과제 14개, 코드 전문 포함 — 실제 구현은 이 계획의 코드 블록을 awk 로 추출해 그대로 썼다).
-이 문서는 다음 세션이 **무엇을 이어서 할지 사용자에게 물어야 하는 상태**임을 알리기 위한 것이다. 스스로 다음 기능을 시작하지 않는다.
+
+맞장부 사이트와 앱의 **사용자 눈에 보이는 전부**를 다시 만든다. 이유는 하나다 — 사용자가 2026-09-21 낮에 「나비랑 너무 똑같다」고 판정했다. 실제로 사이트 지도(네 장)·랜딩 섹션 순서와 소제목 5개·앱 골격(사이드바+대시보드+카드 큐+우측 드로어)이 나비(nabi-core, `~/workspace/02-sandbox/nabi-core`)와 같았고, 모두의창업 신청서에 나비가 팀의 전작으로 적혀 있어 심사위원이 둘을 나란히 볼 수 있다.
+
+완료 판정: 새 장부형 UI가 로컬 8108 에서 돌고, 사용자가 그 화면을 직접 보고 승인하고, 검증 도구·pytest 가 통과한 뒤 공개 배포까지 끝난 상태.
+
+**지금은 그 앞 단계다.** 정적 HTML 시안 2장을 만들어 놓았고 사용자 검수를 기다린다. 구현은 아직 한 줄도 시작하지 않았다.
 
 ## 현재 상태
-- [x] `ui/` — Vite 8 · React 19 · TypeScript 6 · Tailwind 4 · shadcn 4(radix-nova) · lucide-react · Vitest 5(테스트 20개: 폴백·CSV·주차·API SSE 파서·라우트·삼중 폴백·줄 도우미). `npm run build` → `site/try/`(index.html + `assets/index-*.js|css`, gzip JS 113KB · CSS 10KB). 산출물 커밋. `npm run dev` = 127.0.0.1:5173(`/api`·recorded.json·sample-envelopes.json·`/assets/fonts` 를 8108 로 프록시).
-- [x] 화면 7 전부 옮김 — 대시보드(타일 큰 숫자 그라데이션 글자, 모델 카드 보라 선) · 불러오기(SSE 그라데이션 진행 막대 + 실시간 표, 모바일 하단 고정 「맞추기」) · 봉투 입력(계수 검산 「일치」/「차이」 배지, 하단 고정 「저장」) · 확인 큐(**한 화면 한 일**: 후보 버튼만 보이고 「다른 방법 ▾」 아래 직접 고르기·새 이름 등록, 확정하면 카드 200ms 접힘, 토스트에 「되돌리기」) · 기록(알약 탭·스켈레톤·CSV 내보내기) · 명부·별칭(검색이 두 표 다 거름) · 기기. 줄 상세는 데스크톱 = 본문을 밀어내는 우측 패널 420px, 모바일(<1100px) = 바텀시트. 사이드바 → 모바일 하단 탭바 7칸.
-- [x] 삼중 폴백·`X-Matjangbu-Session`·`window.matjangbuApiBase`·해시 라우팅 그대로. 파이썬은 한 줄도 안 바꿈. pytest 44 통과(`/try/` 정적 HTML 에 `<h1` 이 있어야 해서 `<noscript><h1>` 을 둠).
-- [x] 정적 3장(`/`·`/download/`·`/phone/`): `site/assets/app.css`·랜딩 인라인 CSS 토큰 교체(주색 `--brand #17A896`·`--brand-ink #0F7D71`·`--brand-bg`, 그라데이션 토큰 4개, 모서리 16/12px, Pretendard 스택; `--green*` 은 별칭으로 남김) · 로고 마크 그라데이션 · 주 버튼 그라데이션 면 · 히어로 pill 점 · h1 「맞추고」 그라데이션 글자 · 파이프라인 AI 칸 보라 테두리·사람 칸 점.
-- [x] Pretendard Variable 1.3.9 자체 호스팅 `site/assets/fonts/pretendard/`(OFL, CSS 1 + woff2 92 + LICENSE, 3.1MB, 다이내믹 서브셋). 네 장 `<link>`. 외부 요청 0 유지.
-- [x] 검증 전부 0: `verify_site.cjs`(8108 배너 없음 · 8123 `--expect-banner --allow …` 폴백 · 공개 `--resolve`) · `site_shots.cjs`(8108, 7장, 콘솔 에러 0) · `verify_funnel.cjs`(공개, 11개 ✓, `docs/shots/08-public-funnel-w11.png`) · pytest 44. 검증 도구 두 개에 `[data-more]` 클릭 한 줄 추가.
-- [x] 배포: main 푸시 + `git subtree push --prefix site origin gh-pages`(03:41, Pages `built`). 공개 `/try/` 가 새 빌드(`assets/index-C_vx4uQ1.js`)를 서빙하고 Funnel 인스턴스에 붙는다.
-- [x] 문서: README(`ui/` 행·빌드 명령·npm 은 빌드 도구·라이선스 한 줄) · `docs/ops.md`(재배포 앞에 빌드, `[data-more]` 메모) · `docs/design-notes.md`(결정 2행) · 옛 스펙 §6 링크 · 스크린샷 `docs/shots/`(01~08, landing/download/phone, 모바일 m-queue·m-import·m-dashboard).
-- [x] 메모리 `~/.claude/projects/-home-stoporder/memory/matjangbu-public-deploy.md` 갱신.
-- [ ] **사용자 검수 미완**: 새 룩을 사용자가 아직 못 봤다(세션 중 화면은 스크린샷으로만 확인). 사이트 문구·낮은 정확도 수치(후보 1위 약 50%·relation 약 40%)를 그대로 둘지도 여전히 미결.
-- [ ] 폰 정리: A31 의 `~/matjangbu-bench/`·모델 2개(약 2GB) 그대로. 사용자 결정.
+
+- [x] **결정 16개 확정** — grilling 스킬로 한 문항씩 합의. 정본 `docs/superpowers/specs/2026-09-21-ledger-redesign-decisions.md`(표 전문). 미커밋 아님, 이 세션에서 커밋함.
+- [x] **주간 장 시안** `docs/mockups/2026-09-21-weekly-ledger.html` — 데스크톱, 샘플 W10(통장 24줄 + 봉투 12장), 빈 줄 6개 중 첫 줄(장동철) 펼쳐진 상태. 데이터는 `site/try/recorded.json`·`site/try/sample-envelopes.json`의 실제 값을 옮겨 적은 것이다.
+- [x] **랜딩 시안** `docs/mockups/2026-09-21-landing.html` — 사용자 지시로 **ollama.com 결**을 따랐다. 히어로 그림은 주간 장 시안 스크린샷(`docs/mockups/assets/ledger.png`). 왼쪽 고정 목차 + 스크롤 추종(시안용 JS 10줄). 모바일 390px 가로 넘침 0 확인.
+- [ ] **사용자 검수 미완** — 두 시안 다 사용자가 「좋다/고쳐라」를 아직 말하지 않았다. 이것이 지금 막힌 지점이다.
+- [ ] 나머지 화면 시안 없음 — 연말(누적 장)·명부·설정, `/install/` 페이지.
+- [ ] 스펙·계획·구현 전부 미착수. `ui/`는 어제 새벽에 만든 토스풍 React 그대로이고 손대지 않았다.
+- [ ] 공개 사이트는 **어제 새벽 배포본(토스풍)이 그대로** 떠 있다. 이번 재설계는 아직 배포하지 않았다.
 
 ## 계획 (전문)
-새 작업은 없다. 다음 세션은 사용자에게 아래 중 무엇을 할지 묻는다.
-1. 새 UI 검수 피드백 반영(색 강도·문구·간격 등 — `ui/src/index.css` 토큰과 각 view) 2. 사이트 문구·정확도 수치 검수 3. 암호화 백업 4. 설치 zip 5. 실제 은행 CSV 양식 6. A31 발열·장시간 실측 7. 구형 PC 실측 8. 정확도 개선(프롬프트·후보 제시) 9. 다크 모드(이번 재설계 범위 밖으로 둠).
+
+### 확정된 설계 — 요약. 전문은 `docs/superpowers/specs/2026-09-21-ledger-redesign-decisions.md`
+
+- **제품의 모양은 「장부 한 권」.** 장 4개 = 이번 주(주간 장) · 연말(누적 장) · 명부 · 설정. **대시보드·우측 드로어·카드 큐·확인 사유 분포·최근 활동은 없앤다.** 샘플 정답 대조만 체험 모드 장부 머리에 한 줄로 남긴다.
+- **주간 장**: 주차를 넘기는 표 한 장에 통장 줄과 봉투 줄이 섞여 들어간다. 빈 줄(확인 필요)은 앰버로 강조되고 누르면 **표 안에서 아래로 펼쳐져** 후보·직접 고르기·새 이름·보류·제외·다시 재기가 나온다. 고르면 접히고 다음 빈 줄이 열린다. 되돌리기는 줄 끝과 토스트 둘 다. 「채울 줄만 보기」 필터가 확인 큐를 대신한다. 봉투는 표 맨 아래 빈 입력 줄에 엑셀처럼 직접 친다(명부 자동 완성·Enter로 다음 줄). CSV는 「줄 넣기」로 같은 표에 추가되고 진행은 표 머리에서 돈다. 계수 검산은 바닥 합계 줄.
+- **사이트는 세 장**: `/`(랜딩) · `/try/`(장부 체험, URL 유지) · `/install/`(설치·백업·인수인계 안내). `/download/`·`/phone/`은 없애고 실측은 랜딩 표 하나로 줄인다.
+- **랜딩 서사**: 히어로 → 매주 하는 일 그대로 → 장부 한 장이 하는 일 → 담당자의 세 질문(우리 PC로 되나·고장 나면·후임자) → AI는 한 칸 → 요금·FAQ → 푸터. 앞에 내세우는 숫자는 규칙 쪽, 모델의 낮은 정확도는 AI 절에 그대로 적는다.
+- **룩**: Pretendard·Lucide·세 경로 색 의미(초록·보라·올리브)·앰버는 남기고 **그라데이션·둥근 카드 타일·16px 모서리는 버린다.** 흰 종이 + 가는 괘선 + `tabular-nums` + 단색 초록 하나, 모서리 6~8px, 엑셀처럼 읽히는 밀도. 랜딩은 ollama.com 결(흰 바탕·검정 글자·회색 보조·왼쪽 정렬 좁은 단·큰 여백·알약 버튼·왼쪽 고정 목차·숫자 블록마다 출처 한 줄, 막대는 먹색).
+- **기술**: `ui/` 배관과 순수 모듈(`api.ts`·`load.ts`·`fallback.ts`·`route.ts`·`lines.ts`·`types.ts`, Vitest 20개)은 **유지**. `ui/src/components/`·`ui/src/views/`·`ui/src/index.css`·shadcn 대부분은 **파일째 삭제 후 새로 짓는다**(옛 컴포넌트를 고쳐 쓰지 않기 위해 지운다). shadcn 은 표 중심이라 button·input·popover·collapsible 정도만 남긴다.
+- **기기**: 랜딩·설치 안내는 모바일 완전 대응. 장부는 데스크톱 우선, 1100px 미만은 줄 카드로 접혀 읽기와 빈 줄 채우기까지만.
+- **불변**: 엔진·서버·API·데이터·파이썬 코드는 한 줄도 바꾸지 않는다. 외부 자원 0 · 삼중 폴백 · `X-Matjangbu-Session` · `window.matjangbuApiBase` · 해시 라우팅 유지.
+
+### 남은 순서
+
+1. **사용자 검수** — 두 시안을 보이고 색 강도·표 밀도·글자 크기·문구·절 순서 피드백을 받아 1~2회 고친다.
+2. 필요하면 나머지 장(연말·명부·설정)과 `/install/` 시안을 같은 결로 추가한다.
+3. 시안이 확정되면 **스펙**(`docs/superpowers/specs/`)을 쓴다. 어제 방식대로 **계획에 코드 전문을 넣고 awk로 추출해 그대로 쓰는 방식**이 잘 맞았다.
+4. **계획**(`docs/superpowers/plans/`) → 구현.
+5. 검증 도구 3개(`tools/verify_site.cjs`·`tools/verify_funnel.cjs`·`tools/site_shots.cjs`)를 새 DOM에 맞춰 다시 쓴다. pytest 는 페이지 목록 한 줄(`tests/test_web.py:124`의 `("/", "/try/", "/download/", "/phone/")`)만 고친다. `NOTICE`에서 `site/assets/app.css`·`site/try/index.html` 골격 항목을 뺀다(파이썬 유래 항목은 남긴다).
+6. 로컬 8108에서 사용자가 직접 보고 승인 → 그때만 `git push && git subtree push --prefix site origin gh-pages`.
 
 ## 결정사항과 이유
-- **C안(React)을 `/try` 에만, 정적 3장은 토큰만** — 상호작용이 있는 장이 하나뿐이고 랜딩은 인스턴스가 죽어도 살아야 한다. 「파일 하나」 규칙은 「인스턴스에 의존하지 않는다」로 정확히 했고 같은 출처 폰트 파일은 `dashboard.jpg` 처럼 허용.
-- **그라데이션 3종 = 규칙·모델·사람 세 경로**(청록→초록 주색 / 파랑→보라 / 초록→노랑). 5종류 요소(주 버튼 면·활성 메뉴 표시·로고·큰 숫자 글자·진행 막대/경로 점)에만, 면에는 금지. 「확인 필요」는 앰버 단색(초록→노랑과 헷갈림 방지). 흰 글자 면은 눌린 stop(`--grad-brand-deep`)으로 대비 보완.
-- **토스트 자체 구현·react-router 없음·상태 라이브러리 없음** — 검증 도구 DOM 계약(`#toasts .toast.err`) 유지, 해시 라우트 7개에 라이브러리는 과함.
-- **네이티브 `<select>` 유지**(주차·샘플 주차·직접 고르기) — Playwright `selectOption` 계약. shadcn 은 button·badge·card·input·sheet·collapsible·skeleton 만.
-- **빌드 산출물 커밋** — 파이썬 서버·Pages·subtree push 절차를 안 바꾼다. Vite 파일명 해시는 서버 `_NO_CACHE`(.js/.css) 덕에 어느 쪽이든 안전.
-- 데스크톱 패널은 본문을 **밀어내는** 동작 유지(패널 열어 둔 채 다른 줄로 옮겨 가는 확인 작업 흐름). Tailwind `lg` 경계를 1100px 로 맞춤(`--breakpoint-lg`).
-- 공개 배포까지 이 세션에서 진행 — 사용자가 「이대로 승인·진행」했고 되돌리기는 revert + subtree push 로 가능.
+
+- **왜 장부인가** — 담당자(인터뷰한 교회는 재정부장 장로님)는 이미 한글 파일에 봉투를 치고 엑셀에 누적한다. 「표를 열고 빈칸을 채운다」는 동작을 새로 배울 필요가 없다. 이름이 맞장부라 화면이 장부이면 이름과 물건이 같아진다. 그리고 나비는 「서류 라벨링 큐」라 카드 큐가 본체인데, 장부 표가 본체가 되면 화면·용어·동선이 근본에서 갈라진다.
+- **왜 범위가 「보이는 전부」인가** — 닮음이 섹션 소제목 문장 수준에서 시작한다. 화면만 바꾸면 「색 다른 나비」가 또 나온다. 반면 파이썬은 사용자가 보지 않으므로 범위에서 뺐다.
+- **왜 시안 먼저인가** — 어제 새벽에는 글 스펙만으로 바로 구현·배포했고, 사용자가 결과를 보기도 전에 전면 재작성이 결정됐다. 같은 실수를 되풀이하지 않기 위해 눈으로 볼 수 있는 것을 먼저 만든다.
+- **왜 배포를 미루나** — 지금 공개본은 「색 다른 나비」라도 동작은 멀쩡하다. 급히 갈아 끼울 이유가 없고, 시안·8108 두 번 눈으로 본 뒤 배포하는 것이 재작성을 또 되풀이하지 않는 유일한 장치다. 사용자 결정.
+- **왜 ollama 결인가** — 사용자 지시(2026-09-21). ollama의 「숫자 블록 + 출처 한 줄」 문법이 이 제품의 「재지 않은 숫자는 적지 않는다」 원칙과 정확히 같아서 잘 맞는다.
+- **모델 정확도 수치는 그대로 적는다** — 후보 1위 정답이 노트북 13/25·A31 12/25 로 낮지만, 그 숫자가 낮아도 장부가 틀리지 않게 설계했다는 것이 이 제품의 논지다. 신청서도 나비의 정확도 하락(93→57%)을 그대로 적은 것을 강점으로 썼다.
+- **버튼은 검정 아닌 초록** — ollama 는 검정 알약이지만 초록 하나만 쓰기로 한 결정을 지켰다. 사용자가 검정을 원하면 바꾼다(미결).
 
 ## 시도했지만 안 된 것
-- `<svg hidden>` 스프라이트 안에 `<linearGradient>` 를 두면 Chromium 이 그리지 않아 로고가 빈 자리로 나왔다 → 스프라이트를 `width="0" height="0" style="position:absolute"` 로.
-- Vite 8 개발 서버는 기본이 `[::1]` 이라 `127.0.0.1:5173` 이 안 닿았다 → `server.host: "127.0.0.1"`.
-- 스캐폴드의 `@types/node@20` 과 vitest 5 가 ERESOLVE 충돌 → `@types/node@^26`. `tsc --noEmit` 은 솔루션 tsconfig(`files: []`)에서 아무것도 검사하지 않는다 → `typecheck` 는 `tsc -b`.
-- Tailwind 의 `sticky` 유틸과 이름이 겹쳐 하단 고정 띠 클래스를 `cta-fixed` 로. shadcn 의 `muted`(면)/`muted-foreground`(글자) 의미를 지키느라 회색 글자는 전부 `text-muted-foreground`.
-- 모바일에서 토스트가 하단 고정 CTA 의 설명 문구와 겹쳤다 → 고정 띠에서는 설명을 숨기고 토스트를 `tabbar + 84px` 위로.
-- pytest 가 `/try/` 정적 HTML 에 `<h1` 을 요구해 실패 → `<noscript><h1>`(JS 없는 브라우저에도 의미가 맞다).
-- `pkill -f 'vite --port 5173'` 은 자기 셸을 죽인다(exit 144) → pid 로 kill, 서버는 `setsid` 로 띄움.
+
+- **글 스펙만으로 바로 구현**(2026-09-21 새벽, 토스풍 재설계) → 사용자가 결과를 처음 본 순간 전면 재작성이 결정됐다. 그 작업물은 `docs/handoffs/HANDOFF-1.md`와 `docs/superpowers/specs/2026-09-21-ui-toss-redesign-design.md`에 남아 있다. **되살려 쓰지 말 것** — 골격이 나비 것이라 버리기로 한 대상이다.
+- 랜딩 시안 첫 판에서 근거 막대를 앰버·보라로 칠했더니 ollama 의 절제에서 벗어나 갈색이 화면을 덮었다 → 막대는 먹색, 뜻이 필요한 막대 하나(규칙 대 모델)만 초록·앰버.
+- 주간 장 시안 첫 판은 `td.raw`에 폭을 안 줘서 열 폭이 내용에 따라 흔들렸다 → `width:34%` 고정.
+- 주간 장 시안에 토스트를 그려 넣었더니 스크린샷에서 실제 동작으로 오해될 소지가 있어 뺐다.
+- `~/Projects/02-hackathon/modoo-startup-2026/application-draft.md` 는 없는 경로다. 실제는 `docs/application-draft.md`(같은 저장소 안).
 
 ## 핵심 파일·명령
-- `ui/` — `src/{store,load,api,fallback,route,lines,labels,format,types}.ts(x)` · `src/components/`(Layout·Sidebar·Topbar·TabBar·Banner·Toasts·LinePanel·CandidatePicker·LineTable·CsvTable·StateBadge·HowBadge·GradientNumber·StatTile·ProgressBar·SectionHead·Foot·EmptyState·`ui/` shadcn) · `src/views/`(7) · `src/index.css`(토큰·골격·컴포넌트 클래스) · `test/`.
-- 빌드·테스트: `cd ui && npm ci && npm run build`(→ `site/try/`) · `npm test` · `npm run typecheck`(= `tsc -b`) · `npm run dev`(5173).
-- 검증(`NODE_PATH=~/workspace/02-sandbox/mvp-agent/node_modules`): `node tools/verify_site.cjs --base http://127.0.0.1:8108` · `… --base http://127.0.0.1:8123 --expect-banner --allow https://omarchy.tailb0e058.ts.net` · 공개 `… --base https://stoporder.github.io/matjangbu --allow https://omarchy.tailb0e058.ts.net --resolve omarchy.tailb0e058.ts.net=103.84.155.217` · `node tools/verify_funnel.cjs --base … --api https://omarchy.tailb0e058.ts.net/ --resolve … --out docs/shots/08-public-funnel-w11.png` · `node tools/site_shots.cjs docs/shots --base http://127.0.0.1:8108` · `node tools/dev_shot.cjs <url> <png> [--mobile]`.
-- 인스턴스: `systemctl --user status matjangbu-llama matjangbu-web` · `curl -s 127.0.0.1:8108/api/health`. **8108 은 작업 트리의 `site/` 를 그대로 서빙한다** — `site/try/` 를 빌드하면 Funnel 의 `/try/` 도 즉시 바뀐다(공개 Pages 는 subtree push 전까지 그대로).
-- 재배포: `git push && git subtree push --prefix site origin gh-pages`(1~2분). 정적 검증 서버 8123 은 `python3 -m http.server 8123 -d site`.
-- 메모리: `~/.claude/projects/-home-stoporder/memory/matjangbu-public-deploy.md`.
+
+- **시안**: `docs/mockups/2026-09-21-weekly-ledger.html`(주간 장) · `docs/mockups/2026-09-21-landing.html`(랜딩) · `docs/mockups/assets/ledger.png`(랜딩 히어로에 쓰는 주간 장 스크린샷).
+- **결정 정본**: `docs/superpowers/specs/2026-09-21-ledger-redesign-decisions.md`.
+- **옛 설계(버리기로 한 것, 참고만)**: `docs/superpowers/specs/2026-09-21-ui-toss-redesign-design.md` · `docs/superpowers/plans/2026-09-21-ui-toss-redesign.md` · `docs/handoffs/HANDOFF-1.md`.
+- **제품 설계 정본(엔진·API — 여전히 유효)**: `docs/superpowers/specs/2026-09-20-matjangbu-design.md` · `docs/design-notes.md`.
+- **시안 열기**: `xdg-open docs/mockups/2026-09-21-landing.html`
+- **시안 찍기**(콘솔 에러 나면 exit 1):
+  ```bash
+  NODE_PATH=~/workspace/02-sandbox/mvp-agent/node_modules \
+    node tools/dev_shot.cjs "file://$PWD/docs/mockups/2026-09-21-landing.html" /tmp/x.png [--mobile]
+  ```
+- **ollama 결을 다시 보려면**(저장소에 안 넣었다. 필요하면 다시 찍는다):
+  ```bash
+  NODE_PATH=~/workspace/02-sandbox/mvp-agent/node_modules node -e "
+  const {chromium}=require('playwright');(async()=>{const b=await chromium.launch();
+  const p=await b.newPage({viewport:{width:1400,height:950}});
+  await p.goto('https://ollama.com/',{waitUntil:'networkidle'});
+  await p.screenshot({path:'/tmp/ollama.png',fullPage:true});await b.close()})()"
+  ```
+- **나비 원본(닮음 판정용)**: `~/workspace/02-sandbox/nabi-core` — `site/index.html`·`site/try/index.html`·`site/assets/app.css`.
+- **실측 숫자 출처**: `bench/results/*.md` · 현재 `site/index.html`의 `#measured` 절. 랜딩 시안에 쓴 값 — 샘플 4주 86줄 중 규칙 77·모델 9, 줄당 노트북 14.7초(12.7~21.3)·A31 111.5초(97.3~135.6), 1순위 정답 노트북 13/25·A31 12/25, 구형 PC 측정 예정.
+- **인스턴스·검증**: `systemctl --user status matjangbu-llama matjangbu-web` · `curl -s 127.0.0.1:8108/api/health` · 8108 은 작업 트리의 `site/`를 그대로 서빙한다. 정적 검증 서버는 `python3 -m http.server 8123 -d site`.
+- **pytest**: `.venv/bin/python -m pytest -q` (44개, 모델 서버 불필요).
 
 ## 다음 액션
+
 <!-- NEXT-ACTIONS -->
-- [ ] 사용자에게 새 룩을 보게 하고(공개 `https://stoporder.github.io/matjangbu/` · `/try/`) 검수 피드백을 받기 — 고칠 곳은 `ui/src/index.css` 토큰·해당 view, 고친 뒤 빌드→검증→커밋→subtree push
-- [ ] 사용자에게 묻기: 문구·정확도 수치를 그대로 둘지, 「계획」 1~9 중 무엇을 이어갈지, 폰의 벤치 폴더·모델을 지울지. 스스로 시작하지 않는다
+- [ ] 사용자에게 시안 두 장의 피드백을 받는다 — `xdg-open docs/mockups/2026-09-21-weekly-ledger.html` 과 `docs/mockups/2026-09-21-landing.html`. 미결로 남은 질문 셋: ①주간 장에서 빈 줄을 표 맨 위에 모을지 시간순으로 둘지 ②근거 칸의 색 칩(초록·보라·올리브)을 글자만으로 줄일지 ③랜딩 주 버튼을 초록으로 둘지 ollama 처럼 검정으로 할지
+- [ ] 피드백을 시안 파일에 반영하고 다시 찍어 보인다(`tools/dev_shot.cjs`)
+- [ ] 시안이 확정되면 나머지 장(연말·명부·설정)과 `/install/` 시안이 필요한지 사용자에게 묻고, 그다음 스펙 → 계획 → 구현으로 간다. **스스로 구현을 시작하지 않는다**
 <!-- /NEXT-ACTIONS -->
 
 ## 추천 스킬·도구
-- 이어갈 기능이 정해지면 brainstorming → writing-plans(이번처럼 계획에 코드 전문을 넣고 awk 로 추출하는 방식이 잘 맞았다). 화면 확인은 `tools/dev_shot.cjs`(개발 서버) → `site_shots.cjs`(빌드 뒤).
+
+- 시안 수정은 스킬 없이 바로. 시안 확정 뒤 구현으로 넘어갈 때 `writing-plans`(계획에 코드 전문을 넣고 awk 로 추출하는 방식이 이 저장소에서 잘 맞았다).
+- 화면 확인은 `tools/dev_shot.cjs`(개발·시안) → 구현 뒤 `tools/site_shots.cjs`(8108).
+- 사용자가 웹디자인 스킬을 부르면 `/web-design`. 부르지 않으면 쓰지 않는다.
 
 ## 주의사항
-- `/try` 를 고치면 **반드시 `npm run build`** 하고 산출물을 커밋한다. `ui/node_modules/` 는 커밋하지 않는다.
-- 실제 단체 자료를 저장소·인스턴스에 넣지 않는다. 사이트에 재지 않은 숫자·가격·고객 수를 적지 않는다.
-- 그라데이션은 5종류 요소에만. 면(카드·배경·표 머리)에 쓰지 않는다. 「확인 필요」는 앰버 단색.
-- 검증·흐름 스크립트를 폴백 검증(인스턴스 내림)과 동시에 돌리지 않는다. `pkill -f`·`pgrep -f` 로 vite·llama·bench 를 판정하지 않는다.
-- 커밋 메시지 끝: `Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>`.
+
+- **공개 배포 금지** — 사용자가 로컬 8108 에서 새 화면을 직접 보고 승인하기 전에는 `git subtree push --prefix site origin gh-pages` 를 하지 않는다. 사용자 결정(2026-09-21).
+- **스스로 구현을 시작하지 않는다.** 이 단계의 산출물은 시안과 사용자 결정이다.
+- 파이썬(`engine/`·`web/`)은 한 줄도 바꾸지 않는다. `tests/test_web.py`의 페이지 목록 한 줄만 예외이고, 그것도 구현 단계에서 한다.
+- 재지 않은 숫자·가격·고객 수를 화면에 적지 않는다. 계산으로 얻은 값은 계산값이라고 밝힌다.
+- 실제 단체 자료를 저장소·인스턴스에 넣지 않는다. 체험은 가공 샘플만.
+- `/try` 를 고치면 반드시 `cd ui && npm run build`(→ `site/try/`) 하고 산출물을 커밋한다. `ui/node_modules/` 는 커밋하지 않는다.
+- 커밋 메시지 끝: `Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>`.
