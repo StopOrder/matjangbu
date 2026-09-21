@@ -6,7 +6,7 @@
 > **시제품**이다(모두의창업 시즌2 도전 과제 I-009). 사이트·문서의 숫자는 전부 직접 잰 값이다 — 재지 않은 숫자는 적지 않는다.
 > `samples/`는 전부 가공 데이터다. 실제 단체 자료는 들어 있지 않고, 체험 인스턴스는 파일 업로드를 받지 않는다.
 
-사이트: <https://stoporder.github.io/matjangbu/> — `/` 랜딩 · `/try/` 앱 화면(체험) · `/download/` 설치 · `/phone/` 폐폰 실측
+사이트: <https://stoporder.github.io/matjangbu/> — `/` 랜딩(실측 숫자 포함) · `/try/` 장부 체험 · `/install/` 설치·백업·인수인계
 
 ## 무엇을 하나
 
@@ -83,7 +83,7 @@ python3 -m web.record --device "…" --model-name "…" --threads 4       # 체�
 
 ## 나비에서 가져온 것
 
-이 저장소는 [나비(nabi-core)](https://github.com/kingcheee/nabi-core)(Apache-2.0, Copyright 2026 Kim Jiwoo)의 구조를 따른다. 웹서버의 HTTP·세션·SSE·정적 서빙 뼈대, 체험 샌드박스, llama-server 호출 방식, append-only 대장, 디자인 시스템(`site/assets/app.css`), 앱 화면 골격을 가져왔다. 출처는 `NOTICE`에.
+이 저장소는 [나비(nabi-core)](https://github.com/kingcheee/nabi-core)(Apache-2.0, Copyright 2026 Kim Jiwoo)의 구조를 따른다. 웹서버의 HTTP·세션·SSE·정적 서빙 뼈대, 체험 샌드박스, llama-server 호출 방식, append-only 대장을 가져왔다. 화면(정적 페이지와 `/try` 앱)은 2026-09-21 에 전부 다시 만들어 나비와 공유하지 않는다. 출처는 `NOTICE`에.
 
 ## 라이선스
 

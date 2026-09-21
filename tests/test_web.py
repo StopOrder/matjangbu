@@ -121,7 +121,7 @@ def test_rematch_streams_and_rejects_auto(srv):
 
 def test_static_cors_and_demo_forbids_upload(srv):
     port = srv.server_address[1]
-    for path in ("/", "/try/", "/download/", "/phone/"):
+    for path in ("/", "/try/", "/install/"):
         r = urllib.request.urlopen(f"http://127.0.0.1:{port}{path}", timeout=5)
         assert r.status == 200 and b"<h1" in r.read()
     with pytest.raises(urllib.error.HTTPError) as e:

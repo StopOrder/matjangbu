@@ -4,7 +4,7 @@
 
 **Goal:** 확정된 시안 두 장(`docs/mockups/2026-09-21-landing.html`, `docs/mockups/2026-09-21-weekly-ledger.html`)을 실제 사이트(`site/`)와 앱(`ui/` → `site/try/`)에 그대로 반영하고, 사이트 지도를 세 장으로 줄이고, 검증 도구·pytest·NOTICE 를 새 DOM 에 맞춘다.
 
-**Architecture:** 파이썬(`engine/`·`web/`)과 HTTP API 는 한 줄도 바꾸지 않는다. `ui/` 의 순수 모듈(`api.ts`·`load.ts`·`fallback.ts`·`route.ts`·`lines.ts`·`types.ts`·`store.tsx`)도 유지한다. 바뀌는 것은 **화면 계층뿐**이다 — `ui/src/components/`·`ui/src/views/`·`ui/src/index.css` 는 파일째 지우고 새로 짓고, `ui/src/labels.ts` 의 라우트 목록은 7개에서 4개로 줄인다. 정적 페이지는 `site/index.html`·`site/install/index.html` 두 장이 `site/assets/app.css` 하나를 공유한다.
+**Architecture:** 파이썬(`engine/`·`web/`)과 HTTP API 는 한 줄도 바꾸지 않는다. `ui/` 의 순수 모듈(`api.ts`·`load.ts`·`fallback.ts`·`route.ts`·`lines.ts`·`types.ts`·`store.tsx`)도 유지한다. 바뀌는 것은 **화면 계층뿐**이다 — `ui/src/components/`·`ui/src/views/`·`ui/src/index.css` 는 파일째 지우고 새로 짓고, `ui/src/labels.ts` 의 라우트 목록은 7개에서 4개로 줄인다. 정적 페이지는 `site/index.html`·`site/install/index.html` 두 장이며 **각자 CSS 를 인라인으로 품는다** — 체험 인스턴스가 죽어도 살아야 하므로 같은 출처의 폰트 파일 외에는 아무것도 `<link>` 하지 않는다(`docs/superpowers/specs/2026-09-21-ui-toss-redesign-design.md:131`). 약 10KB 중복은 감수한다. 쓰이지 않게 된 `site/assets/app.css` 는 지운다.
 
 **Tech Stack:** React 19 + Vite + TypeScript + Tailwind v4 + shadcn(button·input·collapsible 만) · Vitest · 순수 정적 HTML/CSS · Playwright(검증 도구) · pytest
 
@@ -36,7 +36,7 @@
 ### 새로 만드는 것
 | 파일 | 책임 |
 |---|---|
-| `site/install/index.html` | 설치·백업·인수인계 안내 한 장. `/download/`·`/phone/` 가 하던 일을 흡수 |
+| `site/install/index.html` | 설치·백업·인수인계 안내 한 장. `/download/`·`/phone/` 가 하던 일을 흡수. **CSS 인라인** |
 | `ui/src/ui/tokens.css` | TDS 토큰 한 곳. `index.css` 가 import |
 | `ui/src/components/Shell.tsx` | 어두운 GNB(로고·탭 4개·찾기·상태) + 페이지 뼈대 |
 | `ui/src/components/Row.tsx` | 리스트 한 줄(3슬롯). 채워진 줄·빈 줄 둘 다 |
@@ -52,8 +52,8 @@
 ### 고치는 것
 | 파일 | 무엇을 |
 |---|---|
-| `site/index.html` | 시안의 랜딩으로 전면 교체. `<style>` 을 `assets/app.css` 로 뺀다 |
-| `site/assets/app.css` | TDS 토큰 + 정적 두 페이지가 쓰는 클래스 전부. 옛 내용 폐기 |
+| `site/index.html` | 시안의 랜딩으로 전면 교체. **CSS 는 인라인 유지**(「인스턴스에 의존하지 않는다」 규칙) |
+| `README.md:86` | 나비 유래 목록에서 `site/assets/app.css`·「앱 화면 골격」 삭제 |
 | `ui/src/index.css` | Tailwind v4 + `tokens.css` import + 앱 전역 기본값만 |
 | `ui/src/labels.ts` | `ROUTES` 를 `["week","year","roster","settings"]` 로, `TITLES` 동기화 |
 | `ui/src/route.ts` | 기본 라우트를 `dashboard` → `week` 로 |
@@ -67,7 +67,7 @@
 | `NOTICE` | `app.css`·`try/index.html` 골격 항목 삭제 |
 
 ### 지우는 것
-`site/download/` · `site/phone/` · `site/assets/dashboard.jpg` ·
+`site/download/` · `site/phone/` · `site/assets/dashboard.jpg` · **`site/assets/app.css`**(참조처가 문서 둘뿐이라 함께 폐기) ·
 `ui/src/components/` 의 옛 파일 전부(Banner·CandidatePicker·CsvTable·EmptyState·Foot·GradientNumber·HowBadge·InstanceStatus·Layout·LinePanel·LineTable·ProgressBar·SectionHead·Sidebar·StateBadge·StatTile·TabBar·Topbar) ·
 `ui/src/components/ui/` 에서 `badge.tsx`·`card.tsx`·`sheet.tsx`·`skeleton.tsx` ·
 `ui/src/views/` 의 옛 파일 전부(Dashboard·Device·Envelope·Import·Queue·Records·Roster)
@@ -102,29 +102,21 @@
 ## Task 1: 정적 사이트 세 장 — 랜딩 교체 · `/install/` 신설 · 옛 두 장 폐지
 
 **Files:**
-- Modify: `site/index.html` (전면 교체)
-- Modify: `site/assets/app.css` (전면 교체)
-- Create: `site/install/index.html`
-- Delete: `site/download/index.html`, `site/phone/index.html`, `site/assets/dashboard.jpg`
+- Modify: `site/index.html` (전면 교체, CSS 인라인)
+- Create: `site/install/index.html` (CSS 인라인)
+- Delete: `site/download/index.html`, `site/phone/index.html`, `site/assets/dashboard.jpg`, `site/assets/app.css`
 - Modify: `tests/test_web.py:124`
-- Modify: `NOTICE`
+- Modify: `NOTICE`, `README.md:86`
 
 **Interfaces:**
-- Produces: `site/assets/app.css` 의 토큰과 클래스를 `site/install/index.html` 이 그대로 쓴다. `data-mj="hero"`·`"matrix"`·`"opt"`·`"out"`·`"gnb"` 를 `tools/verify_site.cjs`(Task 5)가 본다.
+- Produces: `data-mj="hero"`·`"matrix"`·`"opt"`·`"out"`·`"gnb"` 를 `tools/verify_site.cjs`(Task 5)가 본다.
 - Consumes: 없음.
 
-- [ ] **Step 1: 시안에서 CSS 를 떼어 `site/assets/app.css` 로 옮긴다**
+> **개정(착수 전 확인)** — 원안은 CSS 를 `site/assets/app.css` 로 빼서 두 장이 공유하게 했으나, 저장소 규칙(`site/index.html:13`, `docs/superpowers/specs/2026-09-21-ui-toss-redesign-design.md:131`)은 **「인스턴스에 의존하지 않는다」** — 랜딩은 CSS 를 인라인으로 품는다. 그래서 두 장 모두 인라인으로 가고 `app.css` 는 지운다(참조처는 `NOTICE:8`·`README.md:86` 두 문서뿐). 폰트만 같은 출처에서 `<link>` 한다.
 
-`docs/mockups/2026-09-21-landing.html` 의 `<style>` 블록 전문을 `site/assets/app.css` 로 옮기고, 맨 위에 폰트 import 를 넣는다. 시안은 `../../site/assets/fonts/...` 로 걸었지만 사이트에서는 경로가 다르다.
+- [ ] **Step 1: `site/index.html` 을 시안으로 전면 교체한다 (CSS 인라인)**
 
-```css
-@import url("fonts/pretendard/pretendardvariable-dynamic-subset.css");
-/* 아래에 시안 <style> 전문 */
-```
-
-- [ ] **Step 2: `site/index.html` 을 시안 본문으로 교체한다**
-
-`<head>` 는 아래로 시작하고, `<body>` 는 시안의 `<body>` 전문을 쓰되 **경로 두 곳**을 고친다 — 히어로 그림 `assets/ledger.png` → `assets/ledger.png` 를 `site/assets/` 로 복사해 쓰고, 링크 `href="#"` 중 CTA 는 `/try/`·`/install/` 로 바꾼다.
+`docs/mockups/2026-09-21-landing.html` 의 `<style>` 전문을 그대로 `<style>` 안에 둔 채 옮긴다. `<head>` 는 아래로 시작하고 **옛 `og:` 메타 3개를 새 문구로 살려 옮긴다**(시안에는 없다).
 
 ```html
 <!doctype html>
@@ -134,14 +126,23 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>맞장부 — 봉투와 통장의 이름을 명부와 맞춰요</title>
 <meta name="description" content="봉투와 통장에 찍힌 이름을 명부와 맞춰 주는 장부. 단체 PC 한 대 안에서 끝나고, 인터넷이 없어도 켜집니다.">
-<link rel="stylesheet" href="assets/app.css">
+<meta property="og:title" content="맞장부 — 봉투와 통장의 이름을 명부와 맞춰요">
+<meta property="og:description" content="단체 PC 한 대 안에서 끝나는 헌금 장부. 규칙이 대부분을 맞추고, 남은 몇 줄만 사람이 고릅니다. 외부 API 호출 0.">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="assets/fonts/pretendard/pretendardvariable-dynamic-subset.css">
+<style>/* 시안 <style> 전문. 인스턴스가 죽어도 이 링크는 살아야 하므로 인라인이다. */</style>
 </head>
 ```
 
+- [ ] **Step 2: 링크와 `data-mj` 를 채운다**
+
 CTA 링크 치환 규칙:
-- 「체험하기」 · 「장부 열기」 · 「예시 데이터로 열어 보기」 · 공지 띠 링크 → `href="try/"`
+- 「체험하기」 · 「장부 열기」 · 「장부 열어 보기」 · 공지 띠 링크 → `href="try/"`
 - 「설치 안내」 · 「인수인계 안내」 · 「설치 안내 보기」 → `href="install/"`
-- 「저장소 보기」 · 푸터 「저장소」 → `href="https://github.com/"` 로 두되 실제 주소가 정해지면 바꾼다는 주석을 남긴다
+- 「저장소 보기」 · 푸터 「저장소」 → `href="https://github.com/StopOrder/matjangbu"` (저장소 주소는 이미 정해져 있다 — `README.md:86` 등에서 확인)
+- 절 안 앵커(`#work`·`#pick`·`#ai`·`#measured`·`#price`)는 그대로
+
+`data-mj` 를 넣는 자리: 히어로 `<section class="hero">` → `data-mj="hero"`, GNB `<header class="gnb">` → `data-mj="gnb"`, `.matrix` → `data-mj="matrix"`, 각 `.opt` → `data-mj="opt"`(켜진 칸은 `data-on="1"`), `.outbox` → `data-mj="out"`.
 
 - [ ] **Step 3: 히어로 그림을 사이트로 복사한다**
 
@@ -151,7 +152,7 @@ cp docs/mockups/assets/ledger.png site/assets/ledger.png
 
 - [ ] **Step 4: `site/install/index.html` 을 만든다**
 
-같은 `assets/app.css` 를 쓰고, 상대 경로가 한 단계 깊으므로 `../assets/app.css` 로 건다. 구조는 랜딩과 같은 문법(공지 띠 → 어두운 GNB → 파랑 히어로 띠 → 검은 띠 → 절들 → 어두운 링크 띠 → 푸터), 내용은 셋:
+CSS 는 랜딩과 같은 것을 **인라인으로 다시 품는다**(약 10KB 중복). 폰트만 `../assets/fonts/pretendard/pretendardvariable-dynamic-subset.css` 로 건다. 구조는 랜딩과 같은 문법(공지 띠 → 어두운 GNB → 파랑 히어로 띠 → 검은 띠 → 절들 → 어두운 링크 띠 → 푸터), 내용은 셋:
 1. **설치** — 단체 PC 에 올리는 순서. 아직 설치 파일이 없으므로 「준비 중입니다」를 그대로 적고, 지금 할 수 있는 것(저장소를 내려받아 파이썬으로 실행)만 쓴다. **없는 명령을 지어내지 않는다.**
 2. **백업** — 작업공간 폴더 하나를 복사. 자동 백업은 준비 중.
 3. **인수인계** — 담당자 교체 때 넘기는 것 목록(폴더·별칭 사전·명부).
@@ -160,7 +161,7 @@ cp docs/mockups/assets/ledger.png site/assets/ledger.png
 
 ```bash
 git rm -r site/download site/phone
-git rm site/assets/dashboard.jpg
+git rm site/assets/dashboard.jpg site/assets/app.css
 ```
 
 - [ ] **Step 6: pytest 페이지 목록을 고친다**
@@ -171,9 +172,11 @@ git rm site/assets/dashboard.jpg
     for path in ("/", "/try/", "/install/"):
 ```
 
-- [ ] **Step 7: NOTICE 에서 두 항목을 뺀다**
+- [ ] **Step 7: NOTICE 와 README 에서 두 항목을 뺀다**
 
-`NOTICE:8` 의 `site/assets/app.css 디자인 시스템, site/try/index.html 화면 골격.` 줄을 지운다. 파이썬 유래 항목은 남긴다.
+`NOTICE:8` 의 `site/assets/app.css 디자인 시스템, site/try/index.html 화면 골격.` 줄을 지운다.
+`README.md:86` 의 나비 유래 목록에서도 「디자인 시스템(`site/assets/app.css`)」과 「앱 화면 골격」을 뺀다 — 둘 다 이번에 버려진다.
+**파이썬 유래 항목(`web/server.py`·`web/demo.py`·`engine/model.py`·`engine/store.py`)은 그대로 남긴다** — 그 코드는 계속 쓴다.
 
 - [ ] **Step 8: 검증**
 
