@@ -115,7 +115,7 @@
 .cn .n{font-size:15px;font-weight:700;color:var(--g900)}
 .cn .w{font-size:13px;color:var(--g500)}
 .cand .g{font-size:13px;font-weight:600;color:var(--g500);margin-left:auto;padding-left:8px}
-.find{display:flex;align-items:center;gap:8px;height:48px;padding:0 14px;border-radius:14px;background:#fff;border:1px solid var(--border);color:var(--g500);min-width:340px}
+.find{display:flex;align-items:center;gap:8px;height:48px;padding:0 14px;border-radius:14px;background:#fff;border:1px solid var(--border);color:var(--g500);flex:1 1 340px;min-width:280px;max-width:520px}
 .find .inp.bare{flex:1;min-width:0;height:auto;padding:0;background:transparent;box-shadow:none}
 .pfoot{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
 .hint{font-size:13px;color:var(--g500)}
