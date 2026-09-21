@@ -32,14 +32,16 @@ tailscale funnel status                  # https://<이 노트북>.<테일넷>.t
 ```
 
 주소가 나오면 `site/try/index.html`의 `<meta name="matjangbu-api" content="https://…/">`에 넣고 재배포한다(아래).
-공개 사이트가 인스턴스에 붙는지: `node tools/verify_site.cjs --base https://stoporder.github.io/matjangbu --allow https://<주소> --resolve <호스트>=<공개 IP>` (배너 없음 = 0).
+공개 사이트가 인스턴스에 붙는지: `node tools/verify_site.cjs --base https://stoporder.github.io/matjangbu --allow https://<주소> --resolve <호스트>=<공개 IP>` (0 = 통과).
+- 세 경로(`/`·`/install/`·`/try/`)의 DOM 계약(`data-mj=…`)·외부 요청 0·콘솔 에러 0·정적 4xx 0·390px 가로 넘침 0 을 한 번에 본다.
 - `--resolve`가 필요한 이유: 테일넷에 들어 있는 머신에서는 Funnel 호스트가 MagicDNS 로 100.x 로 풀리고, Chromium 은 공개 사이트가 「local 주소 공간」에 fetch 하는 것을 막는다(헤드리스는 그냥 거부, 일반 브라우저는 「로컬 네트워크 접근」 허용을 묻는다). 공개 IP 는 `curl -s 'https://dns.google/resolve?name=<호스트>&type=A'`로 본다(2026-09-20 현재 103.84.155.217 · 103.84.155.153).
-- 같은 이유로 **Tailscale 이 켜진 자기 기기**에서 공개 `/try/`를 열면 브라우저가 로컬 네트워크 접근 허용을 한 번 묻는다. 허용하지 않으면 읽기 전용 폴백(앰버 배너)으로 떨어진다. 외부 방문자·Tailscale 을 끈 기기는 해당 없음.
+- 같은 이유로 **Tailscale 이 켜진 자기 기기**에서 공개 `/try/`를 열면 브라우저가 로컬 네트워크 접근 허용을 한 번 묻는다. 허용하지 않으면 읽기 전용 폴백(GNB 에 「미리 잰 기록」 칩)으로 떨어진다. 외부 방문자·Tailscale 을 끈 기기는 해당 없음.
 
-끝까지 동작하는지(확인 큐 확정 → W11 불러오기에서 별칭 자동): `node tools/verify_funnel.cjs --base https://stoporder.github.io/matjangbu --api https://<주소>/ --resolve <호스트>=<공개 IP> --out docs/shots/08-public-funnel-w11.png` (0 = 통과, 최종 화면을 찍는다).
-- 이 스크립트의 대기는 전부 조건 대기다. 공개 인그레스 경유는 요청당 0.5~3초라 고정 시간 대기는 실패한다. `#imp-progress`의 「끝」과 토스트는 일시 표시(불러오기 뒤 `load()`가 화면을 다시 그림)라 기준으로 쓰지 않는다 — `tools/site_shots.cjs`는 아직 「끝」을 기다리므로 느린 경로에서는 시간 초과가 날 수 있다(로컬 8108 전용으로 둔다).
+끝까지 동작하는지(랜딩 「체험하기」 → 장부 → 빈 줄 펼침 → 후보 확정): `node tools/verify_funnel.cjs --base https://stoporder.github.io/matjangbu --api https://<주소>/ --resolve <호스트>=<공개 IP> --out docs/shots/10-public-funnel.png` (0 = 통과, `--out` 을 주면 최종 화면을 찍는다).
+- 이 스크립트의 대기는 전부 조건 대기다. 공개 인그레스 경유는 요청당 0.5~3초라 고정 시간 대기는 실패한다. 토스트는 3.2초 뒤 사라지는 일시 표시라 기준으로 쓰지 않는다 — 「채울 줄 수가 하나 줄었다」를 기다린다.
+- 읽기 전용(미리 잰 기록)으로 떨어진 경우에는 고르기가 막히므로 판이 열리는 데까지만 단언하고 통과시킨다.
 
-폴백 확인: `systemctl --user stop matjangbu-web` → 위 `verify_site.cjs` 명령에 `--expect-banner`를 붙여 0 → `systemctl --user start matjangbu-web`.
+폴백 확인: `systemctl --user stop matjangbu-web` → 위 `verify_site.cjs` 명령에 `--expect-recorded`를 붙여 0 → `systemctl --user start matjangbu-web`. (옛 이름 `--expect-banner` 도 아직 받는다.)
 
 ## 사이트 재배포
 
@@ -52,7 +54,9 @@ git subtree push --prefix site origin gh-pages          # 1~2분 뒤 반영
 curl -sI https://stoporder.github.io/matjangbu/ | head -1
 ```
 
-확인 큐 카드의 직접 고르기 select 는 「다른 방법 ▾」(`[data-more]`)를 눌러야 보인다 — 검증 도구(`site_shots.cjs`·`verify_funnel.cjs`)는 이미 그렇게 한다.
+화면과 검증 도구가 같이 지키는 것은 `data-mj` 속성뿐이다 — `gnb`·`tab`·`ledger`·`row`(+`data-blank`)·`panel`·`cand`·`entry`·`total`·`hero`·`matrix`·`opt`(+`data-on`)·`out`. 클래스 이름은 바꿔도 되지만 이 속성은 화면과 도구를 함께 고쳐야 한다(계약표: `docs/superpowers/plans/2026-09-21-pytorch-tds-implementation.md`).
+
+화면 다시 찍기: `node tools/site_shots.cjs docs/shots --base http://127.0.0.1:8108` (9장, 콘솔 에러가 있으면 1 로 끝난다).
 
 ## 기록(recorded.json) 다시 만들기
 

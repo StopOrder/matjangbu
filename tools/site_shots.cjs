@@ -1,32 +1,48 @@
 #!/usr/bin/env node
 // NODE_PATH=~/workspace/02-sandbox/mvp-agent/node_modules node tools/site_shots.cjs <출력폴더> [--base http://127.0.0.1:8108]
-// 확인 카드는 「다른 방법 ▾」([data-more])를 펼쳐야 직접 고르기 select 가 보인다(2026-09-21 React 화면).
-// 1600×900 — 01-landing · 02-queue(확인 큐) · 03-import-done(W11 맞추기 뒤) · 04-records · 05-dashboard · 06-drawer(줄 상세)
+// 1400×900(데스크톱)·390×844(모바일) — 01-landing · 02-landing-mobile · 03-install ·
+// 04-week · 05-week-panel(빈 줄을 펼친 상태) · 06-year · 07-roster · 08-settings · 09-week-mobile
 const { chromium } = require('playwright');
 const fs = require('fs'); const path = require('path');
 const args = process.argv.slice(2); const out = args[0] || 'docs/shots';
 const base = (args[args.indexOf('--base') + 1] || 'http://127.0.0.1:8108').replace(/\/$/, '');
 fs.mkdirSync(out, { recursive: true });
+const BLANK = '[data-mj="row"][data-blank="1"]';
+
 (async () => {
   const browser = await chromium.launch();
-  const page = await browser.newPage({ viewport: { width: 1600, height: 900 } });
-  const errors = []; page.on('pageerror', e => errors.push(String(e))); page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+  const errors = [];
+  const watch = p => { p.on('pageerror', e => errors.push(String(e))); p.on('console', m => { if (m.type() === 'error' && !/Failed to load resource/.test(m.text())) errors.push(m.text()); }); };
+  const page = await browser.newPage({ viewport: { width: 1400, height: 900 } });
+  watch(page);
   const shot = n => page.screenshot({ path: path.join(out, n + '.png') });
+  // 장부가 다 뜰 때까지 기다린다 — 삼중 폴백이 끝나야 줄이 생긴다
+  const ledger = async hash => {
+    await page.goto(base + '/try/#/' + hash, { waitUntil: 'networkidle' });
+    await page.waitForFunction(() => window.matjangbuApiBase !== undefined, null, { timeout: 60000 }).catch(() => {});
+    await page.waitForTimeout(700);
+  };
+
   await page.goto(base + '/', { waitUntil: 'networkidle' }); await shot('01-landing');
-  await page.goto(base + '/try/#/queue', { waitUntil: 'networkidle' }); await page.waitForTimeout(800); await shot('02-queue');
-  // 확인 큐에서 우리상사 → 김태섭 확정(후보에 없으면 새 이름 폼 대신 첫 후보)
-  const card = page.locator('.qcard', { hasText: '우리상사' });
-  if (await card.count()) { await card.locator('[data-more]').click(); await card.locator('select[data-any]').selectOption({ label: '김태섭 (4구역)' }); await card.locator('[data-pick-any]').click(); await page.waitForTimeout(800); }
-  await page.goto(base + '/try/#/import', { waitUntil: 'networkidle' }); await page.waitForTimeout(500);
-  const run = page.locator('#imp-run');
-  if (await run.count() && await run.isEnabled()) { await run.click(); await page.waitForFunction(() => /끝|실패/.test((document.querySelector('#imp-progress') || {}).textContent || ''), null, { timeout: 120000 }); await page.waitForTimeout(600); }
-  await shot('03-import-done');
-  await page.goto(base + '/try/#/records', { waitUntil: 'networkidle' }); await page.waitForTimeout(800); await shot('04-records');
-  await page.goto(base + '/try/#/dashboard', { waitUntil: 'networkidle' }); await page.waitForTimeout(500); await shot('05-dashboard');
-  await page.goto(base + '/try/#/import', { waitUntil: 'networkidle' }); await page.waitForTimeout(500);
-  const row = page.locator('tr.row').first(); if (await row.count()) { await row.click(); await page.waitForTimeout(400); } await shot('06-drawer');
-  await page.goto(base + '/try/#/envelope', { waitUntil: 'networkidle' }); await page.waitForTimeout(400); await shot('07-envelope');
+  await page.goto(base + '/install/', { waitUntil: 'networkidle' }); await shot('03-install');
+  await ledger('week'); await shot('04-week');
+  const blank = page.locator(BLANK).first();
+  if (await blank.count()) { await blank.click(); await page.locator('[data-mj="panel"]').first().waitFor({ state: 'visible', timeout: 30000 }).catch(() => {}); await page.waitForTimeout(300); }
+  await shot('05-week-panel');
+  await ledger('year'); await shot('06-year');
+  await ledger('roster'); await shot('07-roster');
+  await ledger('settings'); await shot('08-settings');
+  await page.close();
+
+  const m = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  watch(m);
+  await m.goto(base + '/', { waitUntil: 'networkidle' }); await m.screenshot({ path: path.join(out, '02-landing-mobile.png') });
+  await m.goto(base + '/try/#/week', { waitUntil: 'networkidle' });
+  await m.waitForFunction(() => window.matjangbuApiBase !== undefined, null, { timeout: 60000 }).catch(() => {});
+  await m.waitForTimeout(700);
+  await m.screenshot({ path: path.join(out, '09-week-mobile.png') });
   await browser.close();
-  console.log('찍음:', fs.readdirSync(out).filter(f => f.endsWith('.png')).join(' '));
+
+  console.log('찍음:', fs.readdirSync(out).filter(f => f.endsWith('.png')).sort().join(' '));
   if (errors.length) { console.log('콘솔 에러:', errors); process.exit(1); }
 })().catch(e => { console.error(e); process.exit(2); });
