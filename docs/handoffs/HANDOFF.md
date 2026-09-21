@@ -4,7 +4,7 @@
 
 맞장부의 **사용자 눈에 보이는 전부**를 다시 만든다. 시작은 2026-09-21 낮 사용자의 「나비랑 너무 똑같다」 판정이었다 — 사이트 지도(네 장)·랜딩 섹션 순서와 소제목 5개·앱 골격(사이드바+대시보드+카드 큐+우측 드로어)이 나비(`~/workspace/02-sandbox/nabi-core`)와 같았고, 모두의창업 신청서에 나비가 팀의 전작으로 적혀 있어 심사위원이 둘을 나란히 볼 수 있다.
 
-**완료 판정**: 새 화면이 로컬 8108 에서 돌고, 사용자가 그 화면을 직접 보고 승인하고, 검증 도구·pytest 가 통과한 뒤 공개 배포까지 끝난 상태.
+**완료 판정**: 새 화면이 로컬 8108 에서 돌고, 사용자가 승인하고, 검증 도구·pytest 가 통과한 뒤 공개 배포까지 끝난 상태. → **2026-09-21 밤에 전부 충족됐다.**
 
 **지금 위치**: 계획 Task 1~6 을 전부 실행하고, 안 쓰는 shadcn 을 정리하고, **사용자 지시로 공개 배포까지 끝냈다.** <https://stoporder.github.io/matjangbu/> 가 새 화면이고 `/try/` 는 Funnel 인스턴스에 붙어 실제로 동작한다(공개 주소 검증 통과). 이 재설계 건은 닫혔다.
 
@@ -35,7 +35,7 @@
 
 ## 계획 (전문)
 
-**계획 정본은 `docs/superpowers/plans/2026-09-21-pytorch-tds-implementation.md` 다. Step 39개가 전부 체크돼 있다(Task 6 Step 3 의 승인 요청만 열려 있다).** 과제 6개 요약:
+**계획 정본은 `docs/superpowers/plans/2026-09-21-pytorch-tds-implementation.md` 다. Step 39개가 전부 체크돼 있고 실행이 끝났다 — 읽을 일이 있다면 「왜 이렇게 됐나」를 확인할 때뿐이다.** 과제 6개 요약:
 
 1. **Task 1 — 정적 사이트 세 장**: `site/index.html` 을 랜딩 시안으로 전면 교체, `site/install/index.html` 신설, `site/download/`·`site/phone/` 폐지, `tests/test_web.py:124` 페이지 목록 한 줄, `NOTICE` 정리.
 2. **Task 2 — 앱 껍데기**: TDS 토큰, 흰 GNB + 장 4개(`Shell.tsx`) — 계획엔 어두운 GNB 로 적혀 있었지만 시안이 흰 GNB 다, 옛 컴포넌트 18개·옛 뷰 7개 파일째 삭제, `labels.ts` 의 `ROUTES` 를 `["week","year","roster","settings"]` 로, `route.ts` 기본값 `week`.
@@ -58,13 +58,13 @@
 - **랜딩 「고르기 판」은 설치 명령이 아니라 잰 값을 낸다.** PyTorch 는 같은 자리에서 `pip3 install …` 을 내지만 맞장부는 설치 명령이 아직 확정되지 않았다. 없는 명령을 지어내지 않고, 기기·운영체제·맞추는 방법·모델·그래픽카드를 고르면 **그 조합에서 실제로 잰 시간**을 내보낸다. 재지 않은 조합은 흐린 「측정 안 함」으로 고를 수 없게 뒀다. 설치 명령이 정해지면 그 자리에 그대로 들어간다.
 - **문구를 해요체로 바꿨다** — 토스 UX 라이팅. 다만 **숫자와 출처 문장은 한 글자도 바꾸지 않았다.** 이 사용자층(교회 재정 담당 장로)에 해요체가 맞는지는 아직 사용자가 명시적으로 답하지 않았다.
 - **왜 시안 먼저였나** — 2026-09-21 새벽에는 글 스펙만으로 바로 구현·배포했고, 사용자가 결과를 보기도 전에 전면 재작성이 결정됐다. 눈으로 볼 수 있는 것을 먼저 만드는 방식으로 바꿨고, 이번엔 시안 단계에서 승인이 났다.
-- **왜 배포를 미루나** — 지금 공개본도 동작은 멀쩡하다. 시안·8108 두 번 눈으로 본 뒤 배포하는 것이 재작성을 또 되풀이하지 않는 장치다. 사용자 결정.
+- **배포 게이트는 닫혔다** — 「시안·8108 두 번 눈으로 본 뒤 배포」가 재작성을 되풀이하지 않는 장치였고, 그대로 지켜 2026-09-21 밤에 사용자가 「배포 해줘」로 열었다. **다음 배포부터는 새 게이트를 사용자와 다시 정한다** — 지금은 게이트가 없다.
 
 ## 시도했지만 안 된 것
 
 - **ollama 결 판(표 + 왼쪽 고정 목차)은 통째로 폐기됐다.** git `0b81aaa` 에 있다. 되살려 쓰지 말 것. 그때 배운 것 셋은 지금도 유효하다 — 막대에 색을 많이 쓰면 화면이 탁해진다 / 시안에 토스트를 그려 넣으면 스크린샷에서 실제 동작으로 오해된다 / 원문 칸은 폭을 고정해야 흔들리지 않는다.
 - **토스 결 중앙 정렬 랜딩(1차)** 도 폐기됐다. git `573a37e` 에 있다. PyTorch 배치 지시로 대체됐다.
-- **글 스펙만으로 바로 구현**(2026-09-21 새벽, 토스풍) → 사용자가 결과를 처음 본 순간 전면 재작성이 결정됐다. 그 작업물은 `docs/handoffs/HANDOFF-1.md` 와 `docs/superpowers/specs/2026-09-21-ui-toss-redesign-design.md` 에 있다. **되살려 쓰지 말 것** — 골격이 나비 것이다.
+- **글 스펙만으로 바로 구현**(2026-09-21 새벽, 토스풍) → 사용자가 결과를 처음 본 순간 전면 재작성이 결정됐다. 그 작업물은 `docs/handoffs/HANDOFF-2.md` 와 `docs/superpowers/specs/2026-09-21-ui-toss-redesign-design.md` 에 있다. **되살려 쓰지 말 것** — 골격이 나비 것이다.
 - 리스트 첫 판에서 서브라인에 원문을 늘 적었더니 봉투 줄에서 이름이 두 번 나왔다 → 원문이 맞춘 이름과 같으면 뺀다.
 - 입력 줄 안내에 「쌓입니다」를 쓰니 헤드리스 렌더에서 앞 공백이 사라져 붙어 보였다 → 「아래 줄로 들어갑니다」로 바꿨다. 같은 증상이 또 보이면 문구를 바꾸는 쪽이 빠르다.
 - 리스트 첫 판은 모바일 390px 에서 288px 넘쳤다(입력 줄 고정폭 + GNB 상태 칩) → 1100px 미만 미디어 쿼리를 새로 쓰고 상태 칩을 숨겨 0 으로 만들었다.
@@ -80,9 +80,11 @@
 - **시안**: `docs/mockups/2026-09-21-landing.html` · `docs/mockups/2026-09-21-weekly-ledger.html` · `docs/mockups/assets/ledger.png`(랜딩 히어로에 쓰는 주간 장 스크린샷)
 - **TDS 규격 정본**: `~/Projects/00-research/2026-09/w4/2026-09-21-toss-tdk/FINDINGS.md` — 2절 토큰 실측표, 3절 컴포넌트 규격, 6절 「쓸 것·버릴 것」, 7절 모르는 것
 - **제품 설계 정본(엔진·API — 여전히 유효)**: `docs/superpowers/specs/2026-09-20-matjangbu-design.md` · `docs/design-notes.md`
-- **나비 원본(닮음 판정용)**: `~/workspace/02-sandbox/nabi-core` — `site/index.html`·`site/try/index.html`·`site/assets/app.css`
-- **유지되는 순수 모듈**: `ui/src/{api,load,fallback,route,lines,types,format,hooks,store}.*` · `ui/src/lib/utils.ts` · `ui/src/components/ui/{button,input,collapsible}.tsx` · `ui/test/` 8개
-- **API 15개(불변)**: `web/server.py` 의 `_r_health`·`_r_state`·`_r_import`·`_r_rematch`·`_r_confirm`·`_r_hold`·`_r_exclude`·`_r_undo`·`_r_envelope`·`_r_export`·`_r_roster`·`_r_reset`·`_r_job`·`_r_events`
+- **나비 원본(닮음 판정용)**: `~/workspace/02-sandbox/nabi-core` — 그 저장소 안의 `site/index.html`·`site/try/index.html`·`site/assets/app.css`. **이 저장소 경로가 아니다** — 맞장부의 `site/assets/app.css` 는 지웠다.
+- **순수 모듈(재설계 때 손대지 않은 것)**: `ui/src/{api,load,fallback,route,lines,types,format,hooks,store}.*` · `ui/test/` 8개(테스트 7 + `fixtures.ts`)
+- **화면 계층(2026-09-21 밤에 새로 쓴 것)**: `ui/src/components/{Shell,Row,RowPanel,EntryRow,Badge,Toasts,Icons}.tsx` · `ui/src/views/{Week,Year,Roster,Settings}.tsx` · `ui/src/useImport.ts` · `ui/src/ui/{tokens,app}.css`
+  `ui/src/lib/` 과 `ui/src/components/ui/` 는 **없다** — shadcn 을 걷어내며 지웠다.
+- **API 14개(불변)**: `web/server.py` 의 `_ROUTES` — health · state · import · events · job · confirm · hold · exclude · rematch · envelope · undo · reset · export · roster. (이전 핸드오프가 「15개」라고 적었으나 실측은 14개다.)
 
 ```bash
 # 지금 화면 보기 — 8108 은 작업 트리의 site/ 를 그대로 서빙한다
@@ -104,8 +106,14 @@ node tools/verify_site.cjs --base http://127.0.0.1:8123 --expect-recorded --allo
 # 화면 한 장만 빠르게 (콘솔 에러가 있으면 exit 1). --mobile 은 390×844
 node tools/dev_shot.cjs "http://127.0.0.1:8108/try/#/week" /tmp/x.png
 
-# 승인 뒤에만
+# 다시 배포할 때 (2026-09-21 밤에 한 번 했다 — gh-pages cbdc8f7..2ac2ff9)
 git push && git subtree push --prefix site origin gh-pages
+
+# 배포 뒤 공개 주소 검증. --resolve 가 필요한 이유는 docs/ops.md 에 있다
+node tools/verify_site.cjs   --base https://stoporder.github.io/matjangbu \
+  --allow https://omarchy.tailb0e058.ts.net --resolve omarchy.tailb0e058.ts.net=103.84.155.217
+node tools/verify_funnel.cjs --base https://stoporder.github.io/matjangbu \
+  --api https://omarchy.tailb0e058.ts.net/ --resolve omarchy.tailb0e058.ts.net=103.84.155.217
 ```
 
 **실측 숫자 출처**: `bench/results/*.md` · 현재 `site/index.html` 의 `#measured` 절. 화면에 쓴 값 — 샘플 4주 86줄 중 규칙 77·모델 9, 줄당 노트북 14.7초(12.7~21.3)·A31 111.5초(97.3~135.6), 1순위 정답 노트북 13/25·A31 12/25, 2013년 이전 PC 측정 예정.
@@ -128,16 +136,17 @@ git push && git subtree push --prefix site origin gh-pages
 
 ## 추천 스킬·도구
 
-- 구현은 계획이 이미 있으므로 `superpowers:executing-plans`(같은 세션에서 인라인 실행) 로 간다. `subagent-driven-development` 는 이 사용자의 전역 설정이 서브에이전트 사용을 막고 있으므로 사용자가 먼저 요청할 때만 쓴다.
+- **이 재설계 계획의 실행은 끝났다** — `executing-plans` 를 다시 부를 일은 없다. 새 작업은 `superpowers:brainstorming` → `superpowers:writing-plans` 부터.
+- `subagent-driven-development` 는 이 사용자의 전역 설정이 서브에이전트 사용을 막고 있으므로 사용자가 먼저 요청할 때만 쓴다.
 - 화면 확인은 `tools/dev_shot.cjs`(개발·시안) → 구현 뒤 `tools/site_shots.cjs`(8108).
 - 밖(웹)을 봐야 하는 일이 생기면 `agy-research`. 단, 「한 페이지를 펴면 끝나는」 화면 참조는 직접 찍고 그 사실을 밝힌다(이 세션이 pytorch.org 로 그렇게 했다).
 - 사용자가 부르면 `/web-design`. 부르지 않으면 쓰지 않는다.
 
 ## 주의사항
 
-- **공개 배포 금지** — 사용자가 로컬 8108 에서 새 화면을 직접 보고 승인하기 전에는 `git push && git subtree push --prefix site origin gh-pages` 를 하지 않는다. 사용자 결정(2026-09-21).
-- **파이썬은 한 줄도 바꾸지 않는다.** `engine/`·`web/` 불변. 예외는 `tests/test_web.py:124` 의 페이지 목록 한 줄뿐.
-- **`ui/` 순수 모듈과 Vitest 20개는 유지.** 바꾸는 것은 `components/`·`views/`·`index.css`·`labels.ts`·`route.ts` 뿐이다.
+- **배포는 이미 했다. 지금 걸려 있는 승인 게이트는 없다.** 다만 공개 사이트를 다시 밀 일이 생기면 **무엇을 미는지 사용자에게 먼저 보이고 확인을 받는다** — 2026-09-21 의 두 번(시안·8108) 다 그렇게 해서 재작성을 막았다.
+- **재설계 기간에만 걸려 있던 제약 둘은 풀렸다** — 「파이썬 한 줄도 안 바꾼다」·「`ui/` 에서 `components/`·`views/` 만 건드린다」. 그래도 `engine/`·`web/` 의 HTTP API 14개는 화면·CLI·검증 도구가 같이 물고 있으니 바꿀 때 셋을 함께 본다.
+- **Vitest 20개와 pytest 44개는 통과 상태를 유지한다.**
 - **외부 자원 0 · 삼중 폴백(같은 origin → meta 인스턴스 → `recorded.json`) · `X-Matjangbu-Session` · `window.matjangbuApiBase` · 해시 라우팅** 전부 유지.
 - **재지 않은 숫자·가격·고객 수를 화면에 적지 않는다.** 계산으로 얻은 값은 계산값이라고 밝힌다. 설치 명령처럼 아직 없는 것을 그럴듯하게 지어내지 않는다.
 - **실제 단체 자료를 저장소·인스턴스에 넣지 않는다.** 체험은 가공 샘플만.
